@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:grocery_list_app/pages/home_page.dart';
-import 'package:grocery_list_app/pages/login_page.dart';
+import 'package:grocery_list_app/app.dart';
+
+import 'Style/style.dart';
 
 void main() => runApp(MyApp());
 
@@ -10,10 +11,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: appName,
-      theme: ThemeData(primaryColor: Colors.red),
-
-      home: HomePage(),
+      theme: ThemeData(primaryColor: Style.green),
+      home: App(),
     );
   }
 }
-
