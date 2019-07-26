@@ -30,14 +30,14 @@ class ProductsScreen extends StatelessWidget {
               },
             ),
             floatingActionButton: FloatingActionButton(
+              heroTag: 'newProduct',
               child: Icon(Icons.add),
               onPressed: () {
                 Navigator.push(context,
                     CupertinoPageRoute(builder: (context) => NewProduct()));
               },
             ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.endDocked,
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           );
         });
   }
