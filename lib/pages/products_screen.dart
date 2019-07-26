@@ -36,7 +36,8 @@ class ProductsScreen extends StatelessWidget {
                     CupertinoPageRoute(builder: (context) => NewProduct()));
               },
             ),
-            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.endDocked,
           );
         });
   }
