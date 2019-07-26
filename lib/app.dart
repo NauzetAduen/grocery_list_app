@@ -26,46 +26,17 @@ class _AppState extends State<App> {
       body: [HomePageScreen(), OldListScreen(), ProductsScreen()]
           .elementAt(_currentIndex),
       bottomNavigationBar: CircularBottomNavigation(
-        tabItems,
+        List.of([
+          TabItem(Icons.home, "Home", Colors.blue),
+          TabItem(Icons.list, "Old lists", Colors.orange),
+          TabItem(Icons.layers, "Products", Colors.red),
+        ]),
         controller: _navigationController,
         selectedCallback: (int selectedPos) {
-          setState(() {
-            _navigationController.value = selectedPos;
-            _currentIndex = selectedPos;
-          });
+          setState(
+              () => _currentIndex = _navigationController.value = selectedPos);
         },
       ),
-      // bottomNavigationBar: BottomNavigationBar(
-      //   currentIndex: _currentIndex,
-      //   onTap: (newValue) {
-      //     setState(() {
-      //       _currentIndex = newValue;
-      //     });
-      //   },
-      //   items: <BottomNavigationBarItem>[
-      //     BottomNavigationBarItem(
-      //         icon: Icon(
-      //           Icons.home,
-      //         ),
-      //         title: Text("Home")),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(
-      //           Icons.list,
-      //         ),
-      //         title: Text("Old list")),
-      //     BottomNavigationBarItem(
-      //         icon: Icon(
-      //           Icons.filter_list,
-      //         ),
-      //         title: Text("Products")),
-      //   ],
-      // ),
     );
   }
-
-  List<TabItem> tabItems = List.of([
-    new TabItem(Icons.home, "Home", Colors.blue),
-    new TabItem(Icons.list, "Old lists", Colors.orange),
-    new TabItem(Icons.layers, "Products", Colors.red),
-  ]);
 }
