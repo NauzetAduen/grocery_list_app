@@ -41,24 +41,5 @@ class _AppState extends State<App> {
         },
       ),
     );
-    // bottomNavigationBar: BottomNavyBar(
-    //   selectedIndex: _currentIndex,
-    //   onItemSelected: (int value) {
-    //     setState(() {
-    //       _currentIndex = value;
-    //     });
-    //   },
-    //   items: [
-    //     BottomNavyBarItem(
-    //         title: Text("Home"),
-    //         icon: Icon(Icons.home),
-    //         activeColor: Colors.green),
-    //     BottomNavyBarItem(title: Text("Old lists"), icon: Icon(Icons.list)),
-    //     BottomNavyBarItem(
-    //         title: Text("Products"),
-    //         icon: Icon(Icons.fastfood),
-    //         activeColor: Colors.red),
-    //   ],
-    // ));
   }
 }
