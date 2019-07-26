@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_list_app/components/product_grid_view.dart';
+import 'package:grocery_list_app/pages/new_product.dart';
 
 class ProductsScreen extends StatelessWidget {
   @override
@@ -30,11 +32,11 @@ class ProductsScreen extends StatelessWidget {
             floatingActionButton: FloatingActionButton(
               child: Icon(Icons.add),
               onPressed: () {
-                print("pressed");
+                Navigator.push(context,
+                    CupertinoPageRoute(builder: (context) => NewProduct()));
               },
             ),
-            floatingActionButtonLocation:
-                FloatingActionButtonLocation.centerDocked,
+            floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
           );
         });
   }
