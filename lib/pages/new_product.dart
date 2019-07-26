@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:grocery_list_app/Style/style.dart';
@@ -55,5 +56,18 @@ class _NewProductState extends State<NewProduct> {
         ));
   }
 
-  _validateNewProduct() {}
+  void _validateNewProduct() {
+    print("VALIDATIN");
+    if (_formKey.currentState.validate()) {
+      _formKey.currentState.save();
+      _addProduct();
+      Navigator.pop(context);
+    }
+  }
+
+  void _addProduct() {
+    print("ADDING");
+    //
+    Firestore.instance.collection("products").add({'name': _controller.text});
+  }
 }
