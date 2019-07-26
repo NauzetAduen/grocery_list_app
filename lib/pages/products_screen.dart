@@ -16,17 +16,26 @@ class ProductsScreen extends StatelessWidget {
           QuerySnapshot snap = snapshot.data;
 
           return Scaffold(
-              appBar: AppBar(
-                title: Text("Products screen"),
-              ),
-              body: GridView.builder(
-                itemCount: snap.documents.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 4),
-                itemBuilder: (BuildContext context, int index) {
-                  return ProductGridView(document: snap.documents[index]);
-                },
-              ));
+            appBar: AppBar(
+              title: Text("Products screen"),
+            ),
+            body: GridView.builder(
+              itemCount: snap.documents.length,
+              gridDelegate:
+                  SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 3),
+              itemBuilder: (BuildContext context, int index) {
+                return ProductGridView(document: snap.documents[index]);
+              },
+            ),
+            floatingActionButton: FloatingActionButton(
+              child: Icon(Icons.add),
+              onPressed: () {
+                print("pressed");
+              },
+            ),
+            floatingActionButtonLocation:
+                FloatingActionButtonLocation.centerDocked,
+          );
         });
   }
 }
