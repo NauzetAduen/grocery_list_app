@@ -23,6 +23,9 @@ class ProductGridView extends StatelessWidget {
   }
 
   _showDialog(BuildContext context, String name) {
+    double width = MediaQuery.of(context).size.width / 3;
+    double height = MediaQuery.of(context).size.height / 4;
+
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -32,8 +35,8 @@ class ProductGridView extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             content: Container(
-              width: 300,
-              height: 300,
+              width: width,
+              height: height,
               child: DecoratedBox(
                 decoration: BoxDecoration(
                     image: DecorationImage(
