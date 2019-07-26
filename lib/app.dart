@@ -1,3 +1,4 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_list_app/pages/homepage_screen.dart';
 import 'package:grocery_list_app/pages/old_list_screen.dart';
@@ -13,28 +14,28 @@ class _AppState extends State<App> {
   int _currentIndex = 0;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: [HomePageScreen(), OldListScreen(), ProductsScreen()]
-          .elementAt(_currentIndex),
-      bottomNavigationBar: TitledBottomNavigationBar(
-          // reverse: true,
-          onTap: (index) {
+        body: [HomePageScreen(), OldListScreen(), ProductsScreen()]
+            .elementAt(_currentIndex),
+        bottomNavigationBar: BottomNavyBar(
+          selectedIndex: _currentIndex,
+          onItemSelected: (int value) {
             setState(() {
-              _currentIndex = index;
+              _currentIndex = value;
             });
           },
-          currentIndex: _currentIndex,
           items: [
-            TitledNavigationBarItem(title: "Home", icon: Icons.home),
-            TitledNavigationBarItem(title: "Old lists", icon: Icons.list),
-            TitledNavigationBarItem(title: "Products", icon: Icons.layers)
-          ]),
-    );
+            BottomNavyBarItem(
+                title: Text("Home"),
+                icon: Icon(Icons.home),
+                activeColor: Colors.green),
+            BottomNavyBarItem(title: Text("Old lists"), icon: Icon(Icons.list)),
+            BottomNavyBarItem(
+                title: Text("Products"),
+                icon: Icon(Icons.fastfood),
+                activeColor: Colors.red),
+          ],
+        ));
   }
 }
