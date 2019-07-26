@@ -22,7 +22,7 @@ class ProductsScreen extends StatelessWidget {
               body: GridView.builder(
                 itemCount: snap.documents.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2),
+                    crossAxisCount: 4),
                 itemBuilder: (BuildContext context, int index) {
                   return ProductGridView(document: snap.documents[index]);
                 },
