@@ -10,7 +10,10 @@ class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Object>(
-        stream: Firestore.instance.collection("products").snapshots(),
+        stream: Firestore.instance
+            .collection("products")
+            .orderBy("used", descending: true)
+            .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
             return Center(
