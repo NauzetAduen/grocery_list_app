@@ -30,22 +30,20 @@ class ProductsScreen extends StatelessWidget {
                 return ProductGridView(document: snap.documents[index]);
               },
             ),
-            floatingActionButton: Builder(
-              builder: (context) => FloatingActionButton(
-                heroTag: 'newProduct',
-                child: Icon(Icons.add),
-                onPressed: () async {
-                  var result = await Navigator.push(context,
-                      CupertinoPageRoute(builder: (context) => NewProduct()));
+            floatingActionButton: FloatingActionButton(
+              heroTag: 'newProduct',
+              child: Icon(Icons.add),
+              onPressed: () async {
+                var result = await Navigator.push(context,
+                    CupertinoPageRoute(builder: (context) => NewProduct()));
 
-                  if (result != null) {
-                    Scaffold.of(context).showSnackBar(SnackBar(
-                      content: Text("$result added"),
-                      duration: Duration(milliseconds: 4000),
-                    ));
-                  }
-                },
-              ),
+                if (result != null) {
+                  Scaffold.of(context).showSnackBar(SnackBar(
+                    content: Text("$result added"),
+                    duration: Duration(milliseconds: 4000),
+                  ));
+                }
+              },
             ),
             floatingActionButtonLocation:
                 FloatingActionButtonLocation.miniStartTop,
