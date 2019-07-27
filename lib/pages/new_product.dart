@@ -5,6 +5,7 @@ import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/horizontal_separator.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
+import 'package:provider/provider.dart';
 
 class NewProduct extends StatefulWidget {
   @override
@@ -14,9 +15,11 @@ class NewProduct extends StatefulWidget {
 class _NewProductState extends State<NewProduct> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _controller = TextEditingController();
+  var _scaffoldKey = new GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        key: _scaffoldKey,
         appBar: LeadingAppbar(Text("New product")),
         body: Container(
           child: Form(
@@ -57,17 +60,34 @@ class _NewProductState extends State<NewProduct> {
   }
 
   void _validateNewProduct() {
-    print("VALIDATIN");
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
-      _addProduct();
-      Navigator.pop(context);
+      if (!_doesProductExist()) {
+        _addProduct();
+        Navigator.pop(context, _controller.text.toString());
+      } else
+        _showError();
     }
   }
 
+  void _showError() {
+    _scaffoldKey.currentState.showSnackBar(SnackBar(
+        content: Text("Product already exists"),
+        duration: Duration(milliseconds: 4000)));
+  }
+
   void _addProduct() {
-    print("ADDING");
-    //
     Firestore.instance.collection("products").add({'name': _controller.text});
+  }
+
+  bool _doesProductExist() {
+    String naturalizedNewProductName = _controller.text.toLowerCase();
+    bool found = false;
+    QuerySnapshot a = Provider.of<QuerySnapshot>(context);
+    a.documents.forEach((doc) {
+      String naturalizedName = doc.data['name'].toString().toLowerCase();
+      if (naturalizedName == naturalizedNewProductName) found = true;
+    });
+    return found;
   }
 }
