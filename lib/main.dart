@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return StreamProvider<QuerySnapshot>.value(
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: appName,
         theme: ThemeData(primaryColor: Style.green),
         home: App(),
