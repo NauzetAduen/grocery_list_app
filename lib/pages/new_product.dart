@@ -4,6 +4,7 @@ import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/horizontal_separator.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
+import 'package:grocery_list_app/models/product.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
 import 'package:provider/provider.dart';
 
@@ -74,7 +75,9 @@ class _NewProductState extends State<NewProduct> {
   }
 
   void _addProduct() {
-    Firestore.instance.collection("products").add({'name': _controller.text});
+    Firestore.instance
+        .collection("products")
+        .add(Product(_controller.text, "Nauzet", 1).toJson());
   }
 
   bool _doesProductExist() {
