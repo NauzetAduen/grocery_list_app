@@ -41,15 +41,12 @@ class _NewProductState extends State<NewProduct> {
                       HorizontalSeparator(
                         width: 30,
                       ),
-                      Hero(
-                        tag: 'newProduct',
-                        child: GradientButton(
-                            child: Icon(Icons.check),
-                            callback: () => _validateNewProduct(),
-                            gradient: LinearGradient(
-                              colors: [Colors.green, Style.green],
-                            )),
-                      )
+                      GradientButton(
+                          child: Icon(Icons.check),
+                          callback: () => _validateNewProduct(),
+                          gradient: LinearGradient(
+                            colors: [Colors.green, Style.green],
+                          ))
                     ],
                   ),
                 )
