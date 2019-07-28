@@ -5,6 +5,7 @@ import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/pages/homepage_screen.dart';
 import 'package:grocery_list_app/pages/old_list_screen.dart';
 import 'package:grocery_list_app/pages/products_screen.dart';
+import 'package:grocery_list_app/pages/profile_screen.dart';
 
 class App extends StatefulWidget {
   @override
@@ -18,8 +19,12 @@ class _AppState extends State<App> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: [HomePageScreen(), OldListScreen(), ProductsScreen()]
-          .elementAt(_currentIndex),
+      body: [
+        HomePageScreen(),
+        OldListScreen(),
+        ProductsScreen(),
+        ProfileScreen()
+      ].elementAt(_currentIndex),
       bottomNavigationBar: CurvedNavigationBar(
         height: 50,
         backgroundColor: Colors.transparent,
@@ -27,7 +32,7 @@ class _AppState extends State<App> {
         index: _currentIndex,
         items: <Widget>[
           Icon(
-            FontAwesomeIcons.user,
+            FontAwesomeIcons.layerGroup,
             size: iconSize,
           ),
           Icon(
@@ -36,6 +41,10 @@ class _AppState extends State<App> {
           ),
           Icon(
             Icons.fastfood,
+            size: iconSize,
+          ),
+          Icon(
+            FontAwesomeIcons.userAlt,
             size: iconSize,
           ),
         ],
