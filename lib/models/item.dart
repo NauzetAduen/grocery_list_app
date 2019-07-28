@@ -1,9 +1,7 @@
-import 'package:grocery_list_app/models/product.dart';
-
 class Item {
-  Product product;
+  String productName;
   int quantity;
   String magnitude;
 
-  Item(this.product, this.quantity, this.magnitude);
+  Item(this.productName, this.quantity, this.magnitude);
 }
