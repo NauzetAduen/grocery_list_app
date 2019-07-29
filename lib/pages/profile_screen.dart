@@ -3,6 +3,6 @@ import 'package:flutter/material.dart';
 class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(child: Text("AAAAA"));
+    return Container(child: Center(child: Text("AAAAA")));
   }
 }
