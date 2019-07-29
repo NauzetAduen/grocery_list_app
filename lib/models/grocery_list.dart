@@ -1,10 +1,16 @@
-import 'package:grocery_list_app/models/item.dart';
+import 'package:json_annotation/json_annotation.dart';
 
+part 'grocery_list.g.dart';
+
+@JsonSerializable()
 class GroceryList {
-  String title;
+  int groupId;
   DateTime initDate;
-  List<Item> productList;
+  List<Map<String, dynamic>> productList;
   bool active;
 
-  GroceryList(this.title, this.initDate, this.productList, this.active);
+  GroceryList(this.groupId, this.initDate, this.productList, this.active);
+  factory GroceryList.fromJson(Map<String, dynamic> json) =>
+      _$GroceryListFromJson(json);
+  Map<String, dynamic> toJson() => _$GroceryListToJson(this);
 }
