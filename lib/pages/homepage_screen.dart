@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocery_list_app/components/custom_appbar.dart';
+import 'package:grocery_list_app/components/product_list_view.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -53,7 +54,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       Map<String, dynamic> mapJson = documents[index].data;
                       GroceryList myList = GroceryList.fromJson(
                           json.decode(json.encode(mapJson)));
-                      return ListTile(title: Text("risas $myList"));
+                      return ProductListView(
+                          myList, documents[index].documentID);
                     },
                   ),
                   RaisedButton(
