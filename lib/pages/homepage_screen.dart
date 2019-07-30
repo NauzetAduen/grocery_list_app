@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocery_list_app/components/custom_appbar.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
-import 'package:grocery_list_app/models/item.dart';
 
 class HomePageScreen extends StatefulWidget {
   @override
@@ -20,10 +19,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    String uid = "Nauzet";
     return StreamBuilder<Object>(
         stream: Firestore.instance
             .collection("lists")
-            .where("groupId", isEqualTo: 1)
+            .where("users", arrayContains: uid)
             .where("active", isEqualTo: true)
             .snapshots(),
         builder: (context, snapshot) {
@@ -101,7 +101,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
           Firestore.instance.collection("lists").document(documentID);
       DocumentSnapshot snapshot = await transaction.get(reference);
       GroceryList a = GroceryList(
-          1,
+          ["Nauzet"],
           DateTime.now(),
           [
             {'productName': 'coca', 'productMagnitude': '3 kilos'},
