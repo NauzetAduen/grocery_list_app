@@ -16,6 +16,20 @@ class _ProductListViewState extends State<ProductListView> {
       shrinkWrap: true,
       children: <Widget>[
         Text("List ${widget.myList.initDate}"),
+        ListView.builder(
+          shrinkWrap: true,
+          itemCount: widget.myList.productList.length,
+          itemBuilder: (context, index) {
+            var item = widget.myList.productList[index];
+            // print(item);
+            String pro = item['productName'];
+            String mag = item['productMagnitude'];
+
+            return ListTile(
+              title: Text("$pro : $mag"),
+            );
+          },
+        )
       ],
     );
   }
