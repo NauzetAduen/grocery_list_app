@@ -26,6 +26,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
             .collection("lists")
             .where("users", arrayContains: uid)
             .where("active", isEqualTo: true)
+            //!require an index
+            // .orderBy("initDate", descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
