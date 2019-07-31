@@ -4,6 +4,7 @@ part 'grocery_list.g.dart';
 
 @JsonSerializable()
 class GroceryList {
+  String title;
   List<String> users;
   DateTime initDate;
   List<Map<String, dynamic>> productList;

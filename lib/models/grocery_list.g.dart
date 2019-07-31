@@ -16,11 +16,12 @@ GroceryList _$GroceryListFromJson(Map<String, dynamic> json) {
         ?.map((e) => e as Map<String, dynamic>)
         ?.toList(),
     json['active'] as bool,
-  );
+  )..title = json['title'] as String;
 }
 
 Map<String, dynamic> _$GroceryListToJson(GroceryList instance) =>
     <String, dynamic>{
+      'title': instance.title,
       'users': instance.users,
       'initDate': instance.initDate?.toIso8601String(),
       'productList': instance.productList,
