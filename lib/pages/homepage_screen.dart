@@ -47,9 +47,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
               ),
             ]),
             body: SingleChildScrollView(
+              physics: ScrollPhysics(),
               child: Column(
                 children: <Widget>[
                   ListView.builder(
+                    physics: ScrollPhysics(),
                     shrinkWrap: true,
                     itemCount: documents.length,
                     itemBuilder: (context, index) {
