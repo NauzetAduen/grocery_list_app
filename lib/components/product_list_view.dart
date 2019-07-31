@@ -19,7 +19,8 @@ class _ProductListViewState extends State<ProductListView> {
       shrinkWrap: true,
       children: <Widget>[
         Text(
-          _getStringFromDate(widget.myList.initDate),
+          // _getStringFromDate(widget.myList.initDate),
+          widget.myList.title,
           style: Style.listTitleTextStyle,
           textAlign: TextAlign.center,
         ),
@@ -28,7 +29,6 @@ class _ProductListViewState extends State<ProductListView> {
           itemCount: widget.myList.productList.length,
           itemBuilder: (context, index) {
             var item = widget.myList.productList[index];
-            // print(item);
             String pro = item['productName'];
             String mag = item['productMagnitude'];
             return Padding(
@@ -66,6 +66,7 @@ class _ProductListViewState extends State<ProductListView> {
     Navigator.push(
         context,
         CupertinoPageRoute(
-            builder: (context) => ProductSelector(widget.documentID)));
+            builder: (context) =>
+                ProductSelector(widget.documentID, widget.myList.productList)));
   }
 }
