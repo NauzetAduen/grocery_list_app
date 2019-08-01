@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_list_app/Style/style.dart';
+import 'package:grocery_list_app/components/user_row.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
 import 'package:grocery_list_app/pages/product_selector.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
@@ -27,6 +28,7 @@ class _ProductListViewState extends State<ProductListView> {
   @override
   Widget build(BuildContext context) {
     return ListView(
+      physics: ScrollPhysics(),
       shrinkWrap: true,
       children: <Widget>[
         Text(
@@ -35,7 +37,9 @@ class _ProductListViewState extends State<ProductListView> {
           style: Style.listTitleTextStyle,
           textAlign: TextAlign.center,
         ),
+        UserRow(widget.myList.users),
         ListView.builder(
+          physics: ScrollPhysics(),
           shrinkWrap: true,
           itemCount: widget.myList.productList.length,
           itemBuilder: (context, index) {
