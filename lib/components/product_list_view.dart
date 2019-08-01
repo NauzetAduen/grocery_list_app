@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
 import 'package:grocery_list_app/pages/product_selector.dart';
+import 'package:grocery_list_app/utils/validator_helper.dart';
 
 class ProductListView extends StatefulWidget {
   final GroceryList myList;
@@ -63,13 +64,14 @@ class _ProductListViewState extends State<ProductListView> {
                                       IconButton(
                                         icon: Icon(Icons.edit),
                                         onPressed: () {
-                                          _editMagnitude();
+                                          _editMagnitude(pro, mag);
                                         },
                                       ),
                                       IconButton(
                                         icon: Icon(Icons.delete),
                                         onPressed: () {
-                                          _deleteProductFromList(pro);
+                                          _showDeleteDialog(pro);
+                                          // _deleteProductFromList(pro);
                                         },
                                       ),
                                     ],
@@ -91,14 +93,82 @@ class _ProductListViewState extends State<ProductListView> {
     return "${date.day} - ${date.month} - ${date.year}";
   }
 
-  _editMagnitude() {
-    print("EDDDDDITING");
+  _editMagnitude(String product, String magnitude) {
+    _showEditingDialog(product, magnitude);
+  }
+
+  _showEditingDialog(String product, String magnitude) {
+    TextEditingController _controller = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Editing $magnitude"),
+            content: Form(
+              key: _formKey,
+              child: TextFormField(
+                controller: _controller,
+                validator: ValidatorHelper.editingMagnitudeValidator,
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Cancel"),
+                onPressed: () => Navigator.pop(context),
+              ),
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    _formKey.currentState.save();
+                    _updateMagnitude(product, magnitude, _controller.text);
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  _showDeleteDialog(String product) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text("Do you want to remove $product from this list?"),
+            title: Text("Removing $product"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Cancel"),
+                onPressed: () => Navigator.pop(context),
+              ),
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () {
+                  _deleteProductFromList(product);
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        });
+  }
+
+  _updateMagnitude(String product, String magnitude, String newMagnitude) {
+    Firestore.instance.runTransaction((Transaction transaction) async {
+      DocumentSnapshot snapshot = await transaction.get(reference);
+      List<Map<String, dynamic>> newList = widget.myList.productList;
+      newList.removeWhere((prodc) => prodc.containsValue(product));
+      newList.add(
+          {'productName': '$product', 'productMagnitude': '$newMagnitude'});
+      await transaction.update(snapshot.reference, {"productList": newList});
+    });
   }
 
   _deleteProductFromList(String product) {
-    print("Deleting");
     Firestore.instance.runTransaction((Transaction transaction) async {
-      print("entering transaction");
       DocumentSnapshot snapshot = await transaction.get(reference);
       List<Map<String, dynamic>> newList = widget.myList.productList;
       newList.removeWhere((prodc) => prodc.containsValue(product));
