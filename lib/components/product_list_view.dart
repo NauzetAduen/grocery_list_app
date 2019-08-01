@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_list_app/Style/style.dart';
@@ -13,6 +14,15 @@ class ProductListView extends StatefulWidget {
 }
 
 class _ProductListViewState extends State<ProductListView> {
+  DocumentReference reference;
+
+  @override
+  void initState() {
+    super.initState();
+    reference =
+        Firestore.instance.collection("lists").document(widget.documentID);
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView(
@@ -45,6 +55,25 @@ class _ProductListViewState extends State<ProductListView> {
                         child: Builder(
                             builder: (context) => ListTile(
                                   title: Text("$pro : $mag"),
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: <Widget>[
+                                      IconButton(
+                                        icon: Icon(Icons.edit),
+                                        onPressed: () {
+                                          _editMagnitude();
+                                        },
+                                      ),
+                                      IconButton(
+                                        icon: Icon(Icons.delete),
+                                        onPressed: () {
+                                          _deleteProductFromList(pro);
+                                        },
+                                      ),
+                                    ],
+                                  ),
                                 )))));
           },
         ),
@@ -60,6 +89,31 @@ class _ProductListViewState extends State<ProductListView> {
 
   String _getStringFromDate(DateTime date) {
     return "${date.day} - ${date.month} - ${date.year}";
+  }
+
+  _editMagnitude() {
+    print("EDDDDDITING");
+  }
+
+  _deleteProductFromList(String product) {
+    print("Deleting");
+    Firestore.instance.runTransaction((Transaction transaction) async {
+      print("entering transaction");
+      DocumentSnapshot snapshot = await transaction.get(reference);
+      List<Map<String, dynamic>> newList = widget.myList.productList;
+      newList.removeWhere((prodc) => prodc.containsValue(product));
+      await transaction.update(snapshot.reference, {"productList": newList});
+    });
+  }
+
+  List<Map<String, dynamic>> _getListWithOutProduct(
+      List<Map<String, dynamic>> list, String product) {
+    List<Map<String, dynamic>> newList = [];
+    list.forEach((element) {
+      // if (!element.toString().contains(product))
+      // newList.add(element.toString());
+    });
+    return newList;
   }
 
   _goToProductListView() {
