@@ -64,7 +64,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   ),
                   RaisedButton(
                     onPressed: () {
-                      print("PRESS");
                       // _testUpdate(documents[0].documentID);
                     },
                   )
