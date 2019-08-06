@@ -38,14 +38,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
           List<DocumentSnapshot> documents = data.documents;
 
           return Scaffold(
-            appBar: CustomAppbar(Text("HomePage"), actions: <Widget>[
-              IconButton(
-                onPressed: () {
-                  _checkList();
-                },
-                icon: Icon(FontAwesomeIcons.plus),
-              ),
-            ]),
+            appBar: CustomAppbar(
+              Text("HomePage"),
+            ),
             body: SingleChildScrollView(
               physics: ScrollPhysics(),
               child: Column(
@@ -67,50 +62,5 @@ class _HomePageScreenState extends State<HomePageScreen> {
             ),
           );
         });
-  }
-
-  _checkList() {
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text("List is not empty"),
-            content: Text("Do you wan't to create a new list?"),
-            actions: <Widget>[
-              FlatButton(
-                child: Text("Cancel"),
-                onPressed: () => Navigator.pop(context),
-              ),
-              FlatButton(
-                child: Text("OK"),
-                onPressed: () => _createNewList(),
-              ),
-            ],
-          );
-        });
-  }
-
-  _createNewList() {
-    setState(() {});
-    Navigator.pop(context);
-  }
-
-  _testUpdate(String documentID) {
-    Firestore.instance.runTransaction((Transaction transaction) async {
-      DocumentReference reference =
-          Firestore.instance.collection("lists").document(documentID);
-      DocumentSnapshot snapshot = await transaction.get(reference);
-      GroceryList a = GroceryList(
-          ["Nauzet"],
-          DateTime.now(),
-          [
-            {'productName': 'coca', 'productMagnitude': '3 kilos'},
-            {'productName': 'refresco', 'productMagnitude': '4 latas'},
-            {'productName': 'tomates', 'productMagnitude': '4 kilos'},
-          ],
-          true);
-
-      await transaction.update(snapshot.reference, a.toJson());
-    });
   }
 }
