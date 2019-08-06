@@ -62,11 +62,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           myList, documents[index].documentID);
                     },
                   ),
-                  RaisedButton(
-                    onPressed: () {
-                      // _testUpdate(documents[0].documentID);
-                    },
-                  )
                 ],
               ),
             ),
