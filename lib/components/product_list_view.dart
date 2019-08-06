@@ -75,7 +75,7 @@ class _ProductListViewState extends State<ProductListView> {
                                         icon: Icon(Icons.delete),
                                         onPressed: () {
                                           _showDeleteDialog(pro);
-                                          // _deleteProductFromList(pro);
+                                          _deleteProductFromList(pro);
                                         },
                                       ),
                                     ],
@@ -178,16 +178,6 @@ class _ProductListViewState extends State<ProductListView> {
       newList.removeWhere((prodc) => prodc.containsValue(product));
       await transaction.update(snapshot.reference, {"productList": newList});
     });
-  }
-
-  List<Map<String, dynamic>> _getListWithOutProduct(
-      List<Map<String, dynamic>> list, String product) {
-    List<Map<String, dynamic>> newList = [];
-    list.forEach((element) {
-      // if (!element.toString().contains(product))
-      // newList.add(element.toString());
-    });
-    return newList;
   }
 
   _goToProductListView() {
