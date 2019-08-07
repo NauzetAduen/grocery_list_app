@@ -108,7 +108,7 @@ class _ProductListViewState extends State<ProductListView> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Editing $magnitude"),
+            title: Text("Editing $product $magnitude"),
             content: Form(
               key: _formKey,
               child: TextFormField(
