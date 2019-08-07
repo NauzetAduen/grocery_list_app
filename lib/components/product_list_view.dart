@@ -83,11 +83,14 @@ class _ProductListViewState extends State<ProductListView> {
                                 )))));
           },
         ),
-        CupertinoButton(
-          onPressed: () {
-            _goToProductListView();
-          },
-          child: Text("ADD"),
+        Padding(
+          padding: const EdgeInsets.only(bottom: 15),
+          child: CupertinoButton(
+            onPressed: () {
+              _goToProductListView();
+            },
+            child: Text("ADD"),
+          ),
         ),
       ],
     );
