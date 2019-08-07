@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 class LeadingAppbar extends AppBar {
-  LeadingAppbar(this.title);
+  LeadingAppbar(this.title, {this.actions});
   @override
   final Widget title;
+
+  @override
+  final List<Widget> actions;
 
   @override
   final bool centerTitle = true;

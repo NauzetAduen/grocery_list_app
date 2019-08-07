@@ -1,7 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
 import 'package:grocery_list_app/models/product.dart';
+import 'package:grocery_list_app/pages/new_product.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
 
 class ProductSelector extends StatefulWidget {
@@ -40,7 +43,19 @@ class _ProductSelectorState extends State<ProductSelector> {
           QuerySnapshot snap = snapshot.data;
 
           return Scaffold(
-              appBar: LeadingAppbar(Text("Add products")),
+              appBar: LeadingAppbar(
+                Text("Add products"),
+                actions: <Widget>[
+                  Builder(
+                    builder: (BuildContext context) {
+                      return IconButton(
+                        onPressed: () => _onPress(context),
+                        icon: Icon(FontAwesomeIcons.plus),
+                      );
+                    },
+                  ),
+                ],
+              ),
               body: GridView.builder(
                 itemCount: snap.documents.length,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -66,6 +81,18 @@ class _ProductSelectorState extends State<ProductSelector> {
                 },
               ));
         });
+  }
+
+  _onPress(BuildContext context) async {
+    var result = await Navigator.push(
+        context, CupertinoPageRoute(builder: (context) => NewProduct()));
+
+    if (result != null) {
+      Scaffold.of(context).showSnackBar(SnackBar(
+        content: Text("$result added"),
+        duration: Duration(milliseconds: 4000),
+      ));
+    }
   }
 
   Color _getColor(List<Map<String, dynamic>> list, String productName) {
