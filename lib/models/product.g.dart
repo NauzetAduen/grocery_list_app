@@ -11,6 +11,7 @@ Product _$ProductFromJson(Map<String, dynamic> json) {
     json['name'] as String,
     json['addedBy'] as String,
     json['used'] as int,
+    json['category'] as String,
   );
 }
 
@@ -18,4 +19,5 @@ Map<String, dynamic> _$ProductToJson(Product instance) => <String, dynamic>{
       'name': instance.name,
       'addedBy': instance.addedBy,
       'used': instance.used,
+      'category': instance.category,
     };
