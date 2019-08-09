@@ -8,7 +8,7 @@ class IconSelectorHelper {
     _buildDropDown("Fast Food", IconFixedSize(Icons.fastfood)),
     _buildDropDown("Medicine", IconFixedSize(Icons.local_hospital)),
     _buildDropDown("Bread", IconFixedSize(FontAwesomeIcons.breadSlice)),
-    _buildDropDown("Cheese", IconFixedSize(FontAwesomeIcons.cheese)),
+    _buildDropDown("Vegetables", IconFixedSize(FontAwesomeIcons.pepperHot)),
     _buildDropDown("Pet", IconFixedSize(FontAwesomeIcons.dog)),
     _buildDropDown("Fish", IconFixedSize(FontAwesomeIcons.fish)),
     _buildDropDown("Fruits", IconFixedSize(FontAwesomeIcons.solidLemon)),
