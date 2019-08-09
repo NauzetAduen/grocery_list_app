@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:grocery_list_app/Style/style.dart';
-import 'package:grocery_list_app/components/horizontal_separator.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
 import 'package:grocery_list_app/models/product.dart';
+import 'package:grocery_list_app/utils/icon_selector_helper.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
 import 'package:provider/provider.dart';
 
@@ -18,15 +18,16 @@ class _NewProductState extends State<NewProduct> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _controller = TextEditingController();
   var _scaffoldKey = new GlobalKey<ScaffoldState>();
-  String _icon;
+  String _category;
   @override
   void initState() {
     super.initState();
-    _icon = "Fruit";
+    _category = "Default";
   }
 
   @override
   Widget build(BuildContext context) {
+    print(_category);
     return Scaffold(
         key: _scaffoldKey,
         appBar: LeadingAppbar(Text("New product")),
@@ -55,26 +56,13 @@ class _NewProductState extends State<NewProduct> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50),
                   child: DropdownButtonFormField<String>(
-                    value: _icon,
-                    onChanged: (newValue) {
-                      setState(() {
-                        _icon = newValue;
-                      });
-                    },
-                    items: <DropdownMenuItem<String>>[
-                      DropdownMenuItem(
-                          value: "Fruit",
-                          child: Align(
-                            alignment: Alignment.center,
-                            child: Icon(FontAwesomeIcons.cloudMeatball),
-                          )),
-                      // DropdownMenuItem(
-                      //     value: "apple",
-                      //     child: Icon(FontAwesomeIcons.whatsappSquare)),
-                      // DropdownMenuItem(
-                      //     value: "fastfood", child: Icon(Icons.fastfood)),
-                    ],
-                  ),
+                      value: _category,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _category = newValue;
+                        });
+                      },
+                      items: IconSelectorHelper.list),
                 ),
                 GradientButton(
                     child: Icon(Icons.check),
@@ -82,7 +70,6 @@ class _NewProductState extends State<NewProduct> {
                     gradient: LinearGradient(
                       colors: [Colors.green, Style.green],
                     )),
-                Text("$_icon")
               ],
             ),
           ),
@@ -109,7 +96,7 @@ class _NewProductState extends State<NewProduct> {
   void _addProduct() {
     Firestore.instance
         .collection("products")
-        .add(Product(_controller.text, "Nauzet", 1).toJson());
+        .add(Product(_controller.text, "Nauzet", 1, _category).toJson());
   }
 
   bool _doesProductExist() {
