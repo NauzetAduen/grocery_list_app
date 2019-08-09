@@ -21,7 +21,10 @@ class ProductGridView extends StatelessWidget {
             IconSelectorHelper.getIcon(product.category),
             Text(
               product.name,
-              style: TextStyle(fontSize: 22),
+              style: TextStyle(
+                fontSize: 19,
+              ),
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),

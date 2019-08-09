@@ -78,6 +78,7 @@ class _ProductSelectorState extends State<ProductSelector> {
                           Text(
                             product.name,
                             style: TextStyle(fontSize: 22),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ],
                       ),
