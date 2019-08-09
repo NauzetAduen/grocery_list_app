@@ -5,6 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
 import 'package:grocery_list_app/models/product.dart';
 import 'package:grocery_list_app/pages/new_product.dart';
+import 'package:grocery_list_app/utils/icon_selector_helper.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
 
 class ProductSelector extends StatefulWidget {
@@ -70,11 +71,15 @@ class _ProductSelectorState extends State<ProductSelector> {
                     },
                     child: Card(
                       color: isAdded ? Colors.grey : Colors.red,
-                      child: Center(
-                        child: Text(
-                          product.name,
-                          style: TextStyle(fontSize: 22),
-                        ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          IconSelectorHelper.getIcon(product.category),
+                          Text(
+                            product.name,
+                            style: TextStyle(fontSize: 22),
+                          ),
+                        ],
                       ),
                     ),
                   );
