@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
