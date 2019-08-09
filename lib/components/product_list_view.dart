@@ -38,6 +38,12 @@ class _ProductListViewState extends State<ProductListView> {
           textAlign: TextAlign.center,
         ),
         UserRow(widget.myList.users),
+        CupertinoButton(
+          onPressed: () {
+            _goToProductListView();
+          },
+          child: Text("ADD"),
+        ),
         ListView.builder(
           physics: ScrollPhysics(),
           shrinkWrap: true,
@@ -51,7 +57,7 @@ class _ProductListViewState extends State<ProductListView> {
                     const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                 child: Material(
                     borderRadius: BorderRadius.circular(15),
-                    color: Colors.purpleAccent,
+                    color: Style.green,
                     elevation: 10,
                     child: Container(
                         decoration: BoxDecoration(
@@ -82,15 +88,6 @@ class _ProductListViewState extends State<ProductListView> {
                                   ),
                                 )))));
           },
-        ),
-        Padding(
-          padding: const EdgeInsets.only(bottom: 15),
-          child: CupertinoButton(
-            onPressed: () {
-              _goToProductListView();
-            },
-            child: Text("ADD"),
-          ),
         ),
       ],
     );
