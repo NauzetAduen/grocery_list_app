@@ -15,6 +15,32 @@ class IconSelectorHelper {
     _buildDropDown("Water", IconFixedSize(FontAwesomeIcons.wineBottle)),
   ];
 
+  static Icon getIcon(String category) {
+    switch (category) {
+      case "Cake":
+        return IconBiggerFixedSize(Icons.cake);
+      case "Fast Food":
+        return IconBiggerFixedSize(Icons.fastfood);
+      case "Medicine":
+        return IconBiggerFixedSize(Icons.local_hospital);
+      case "Bread":
+        return IconBiggerFixedSize(FontAwesomeIcons.breadSlice);
+      case "Vegetables":
+        return IconBiggerFixedSize(FontAwesomeIcons.pepperHot);
+      case "Pet":
+        return IconBiggerFixedSize(FontAwesomeIcons.dog);
+      case "Fish":
+        return IconBiggerFixedSize(FontAwesomeIcons.fish);
+      case "Fruits":
+        return IconBiggerFixedSize(FontAwesomeIcons.solidLemon);
+      case "Water":
+        return IconBiggerFixedSize(FontAwesomeIcons.wineBottle);
+      case "Default":
+      default:
+        return IconBiggerFixedSize(FontAwesomeIcons.shoppingCart);
+    }
+  }
+
   static DropdownMenuItem<String> _buildDropDown(String value, Icon icon) {
     return DropdownMenuItem<String>(
       value: value,
@@ -40,4 +66,11 @@ class IconFixedSize extends Icon {
   final double size = 18;
 
   IconFixedSize(IconData icon) : super(icon);
+}
+
+class IconBiggerFixedSize extends Icon {
+  @override
+  final double size = 35;
+
+  IconBiggerFixedSize(IconData icon) : super(icon);
 }

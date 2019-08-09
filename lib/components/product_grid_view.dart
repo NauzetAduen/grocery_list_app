@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_list_app/models/product.dart';
+import 'package:grocery_list_app/utils/icon_selector_helper.dart';
 
 class ProductGridView extends StatelessWidget {
   final DocumentSnapshot document;
@@ -14,11 +15,15 @@ class ProductGridView extends StatelessWidget {
       onTap: () => _showDialog(context, product),
       child: Card(
         color: Colors.red,
-        child: Center(
-          child: Text(
-            product.name,
-            style: TextStyle(fontSize: 22),
-          ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            IconSelectorHelper.getIcon(product.category),
+            Text(
+              product.name,
+              style: TextStyle(fontSize: 22),
+            ),
+          ],
         ),
       ),
     );
@@ -33,6 +38,7 @@ class ProductGridView extends StatelessWidget {
         builder: (BuildContext context) {
           return AlertDialog(
             title: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(
                   product.name,
