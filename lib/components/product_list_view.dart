@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/user_row.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
@@ -38,11 +40,36 @@ class _ProductListViewState extends State<ProductListView> {
           textAlign: TextAlign.center,
         ),
         UserRow(widget.myList.users),
-        CupertinoButton(
-          onPressed: () {
-            _goToProductListView();
-          },
-          child: Text("ADD"),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: <Widget>[
+            GradientButton(
+              increaseWidthBy: 60,
+              callback: () {
+                _goToProductListView();
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text("Add a product"),
+                  Icon(FontAwesomeIcons.plus),
+                ],
+              ),
+            ),
+            GradientButton(
+              increaseWidthBy: 60,
+              callback: () {
+                _finishList();
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Text("Finish"),
+                  Icon(FontAwesomeIcons.check),
+                ],
+              ),
+            ),
+          ],
         ),
         ListView.builder(
           physics: ScrollPhysics(),
@@ -134,6 +161,17 @@ class _ProductListViewState extends State<ProductListView> {
             ],
           );
         });
+  }
+
+  _finishList() {
+    Firestore.instance.runTransaction((Transaction transaction) async {
+      DocumentSnapshot snapshot = await transaction.get(reference);
+      // List<Map<String, dynamic>> newList = widget.myList.productList;
+      // newList.removeWhere((prodc) => prodc.containsValue(product));
+      // newList.add(
+      //     {'productName': '$product', 'productMagnitude': '$newMagnitude'});
+      await transaction.update(snapshot.reference, {"active": false});
+    });
   }
 
   _showDeleteDialog(String product) {
