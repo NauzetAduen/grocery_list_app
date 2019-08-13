@@ -50,37 +50,56 @@ class _ProfileScreenState extends State<ProfileScreen> {
     showDialog(
         context: context,
         builder: (context) {
-          return StatefulBuilder(
-            builder: (context, setState) {
-              print(_currentStep);
-              if (_currentStep == 0)
-                return (AlertDialog(
-                  actions: <Widget>[
-                    RaisedButton(
-                      child: Text(
-                        "Cancel",
-                        style: TextStyle(color: Colors.white),
+          return StatefulBuilder(builder: (context, setState) {
+            return AlertDialog(
+              title: Text("New Group"),
+              actions: _currentStep == 0
+                  ? <Widget>[
+                      RaisedButton(
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(color: Colors.white),
+                        ),
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
                       ),
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                    RaisedButton(
-                      child:
-                          Text("Next", style: TextStyle(color: Colors.white)),
-                      onPressed: () {
-                        if (_formKey.currentState.validate()) {
-                          _formKey.currentState.save();
+                      RaisedButton(
+                        child:
+                            Text("Next", style: TextStyle(color: Colors.white)),
+                        onPressed: () {
+                          if (_formKey.currentState.validate()) {
+                            _formKey.currentState.save();
+                            setState(() {
+                              groupName = _controller.text;
+                              _currentStep = 1;
+                            });
+                          }
+                        },
+                      )
+                    ]
+                  : <Widget>[
+                      RaisedButton(
+                        child:
+                            Text("Back", style: TextStyle(color: Colors.white)),
+                        onPressed: () {
                           setState(() {
-                            groupName = _controller.text;
-                            _currentStep = 1;
+                            _currentStep = 0;
                           });
-                        }
-                      },
-                    )
-                  ],
-                  title: Text("Add a name"),
-                  content: Form(
+                        },
+                      ),
+                      RaisedButton(
+                        child: Text("Finish",
+                            style: TextStyle(color: Colors.white)),
+                        onPressed: () {
+                          setState(() {
+                            // _currentStep = 0;
+                          });
+                        },
+                      ),
+                    ],
+              content: _currentStep == 0
+                  ? Form(
                       key: _formKey,
                       child: Column(
                         mainAxisSize: MainAxisSize.min,
@@ -93,49 +112,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             },
                           ),
                         ],
-                      )),
-                ));
-              else
-                return AlertDialog(
-                  actions: <Widget>[
-                    RaisedButton(
-                      child:
-                          Text("Back", style: TextStyle(color: Colors.white)),
-                      onPressed: () {
-                        setState(() {
-                          _currentStep = 0;
-                        });
-                      },
+                      ))
+                  : Container(
+                      width: double.maxFinite,
+                      height: 300,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: 20,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text("$index"),
+                            onTap: () {
+                              print("$index pressed");
+                            },
+                          );
+                        },
+                      ),
                     ),
-                    RaisedButton(
-                      child:
-                          Text("Finish", style: TextStyle(color: Colors.white)),
-                      onPressed: () {
-                        setState(() {
-                          // _currentStep = 0;
-                        });
-                      },
-                    ),
-                  ],
-                  content: Container(
-                    width: double.maxFinite,
-                    height: 300,
-                    child: ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: 20,
-                      itemBuilder: (context, index) {
-                        return ListTile(
-                          title: Text("$index"),
-                          onTap: () {
-                            print("$index pressed");
-                          },
-                        );
-                      },
-                    ),
-                  ),
-                );
-            },
-          );
+            );
+          });
         });
   }
 }
