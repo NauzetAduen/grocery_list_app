@@ -8,7 +8,16 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  List<bool> actives = [];
   int _currentStep = 0;
+  @override
+  void initState() {
+    super.initState();
+    for (int i = 0; i < 20; i++) {
+      actives.add(false);
+    }
+    print(actives.length);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final _formKey = GlobalKey<FormState>();
     List<String> users = [];
     String groupName = "";
+
     TextEditingController _controller = TextEditingController();
 
     showDialog(
@@ -120,11 +130,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         shrinkWrap: true,
                         itemCount: 20,
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text("$index"),
-                            onTap: () {
-                              print("$index pressed");
-                            },
+                          return Container(
+                            color: actives[index] ? Colors.green : Colors.white,
+                            child: CheckboxListTile(
+                              value: actives[index],
+                              title: Text("AAA"),
+                              onChanged: (value) {
+                                setState(() {
+                                  actives[index] = value;
+                                });
+                              },
+                            ),
                           );
                         },
                       ),
