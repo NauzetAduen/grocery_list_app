@@ -11,14 +11,13 @@ class MyApp extends StatelessWidget {
   final String appName = "Grocery List App";
   @override
   Widget build(BuildContext context) {
-    return StreamProvider<QuerySnapshot>.value(
-      child: MaterialApp(
+    // return StreamProvider<QuerySnapshot>.value(
+      return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: appName,
         theme: ThemeData(primaryColor: Style.green),
         home: GroceryListApp(),
-      ),
-      value: Firestore.instance.collection("products").snapshots(),
-    );
+      );
+      // value: Firestore.instance.collection("products").snapshots(),
   }
 }
