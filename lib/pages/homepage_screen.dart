@@ -1,11 +1,13 @@
 import 'dart:convert';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_list_app/components/custom_appbar.dart';
 import 'package:grocery_list_app/components/product_list_view.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
+import 'package:provider/provider.dart';
 
 class HomePageScreen extends StatefulWidget {
   @override
@@ -13,6 +15,7 @@ class HomePageScreen extends StatefulWidget {
 }
 
 class _HomePageScreenState extends State<HomePageScreen> {
+  String userID;
   final _currentPageNotifier = ValueNotifier<int>(0);
   @override
   void initState() {
@@ -21,6 +24,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
 
   @override
   Widget build(BuildContext context) {
+    userID = Provider.of<FirebaseUser>(context).uid;
     String uid = "Nauzet";
     return StreamBuilder<Object>(
         stream: Firestore.instance
@@ -40,7 +44,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
           PageController pageController = PageController();
           return Scaffold(
             appBar: CustomAppbar(
-              Text("HomePage"),
+              Text("$userID"),
             ),
             body: Stack(children: <Widget>[
               PageView.builder(
