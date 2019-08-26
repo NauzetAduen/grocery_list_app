@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_list_app/app.dart';
 import 'package:grocery_list_app/pages/login_screen.dart';
@@ -19,7 +20,7 @@ class GroceryListApp extends StatelessWidget {
         title: 'GroceryListApp',
         debugShowCheckedModeBanner: false,
         home: StreamBuilder(
-          // stream: FirebaseAuth.instance.onAuthStateChanged,
+          stream: FirebaseAuth.instance.onAuthStateChanged,
           builder: (BuildContext context, snapshot) {
             // if (snapshot.connectionState == ConnectionState.waiting)
             // return DefaultPage();
