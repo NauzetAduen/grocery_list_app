@@ -9,9 +9,9 @@ class GroceryListApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        // StreamProvider<FirebaseUser>.value(
-        //   stream: FirebaseAuth.instance.onAuthStateChanged,
-        // ),
+        StreamProvider<FirebaseUser>.value(
+          value: FirebaseAuth.instance.onAuthStateChanged,
+        ),
         // StreamProvider<QuerySnapshot>.value(
         //   stream: Firestore.instance.collection("trails").snapshots(),
         // ),
@@ -22,6 +22,7 @@ class GroceryListApp extends StatelessWidget {
         home: StreamBuilder(
           stream: FirebaseAuth.instance.onAuthStateChanged,
           builder: (BuildContext context, snapshot) {
+            print("snapshot.data ==> ${snapshot.data}");
             // if (snapshot.connectionState == ConnectionState.waiting)
             // return DefaultPage();
             if (snapshot.hasData) return App();
