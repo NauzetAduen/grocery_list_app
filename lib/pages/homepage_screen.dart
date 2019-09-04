@@ -31,8 +31,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
             .collection("lists")
             .where("users", arrayContains: uid)
             .where("active", isEqualTo: true)
-            //!require an index
-            // .orderBy("initDate", descending: true)
             .snapshots(),
         builder: (context, snapshot) {
           if (!snapshot.hasData)
@@ -42,6 +40,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
           QuerySnapshot data = snapshot.data;
           List<DocumentSnapshot> documents = data.documents;
           PageController pageController = PageController();
+          print(documents.length);
           return Scaffold(
             appBar: CustomAppbar(
               Text("$userID"),
