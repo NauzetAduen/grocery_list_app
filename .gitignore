@@ -75,3 +75,4 @@
 # GoogleService.json
 /android/app/google-services.json
 
+ios/Flutter/flutter_export_environment.sh
