@@ -25,11 +25,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     userID = Provider.of<FirebaseUser>(context).uid;
-    String uid = "Nauzet";
     return StreamBuilder<Object>(
         stream: Firestore.instance
             .collection("lists")
-            .where("users", arrayContains: uid)
+            .where("users", arrayContains: userID)
             .where("active", isEqualTo: true)
             .snapshots(),
         builder: (context, snapshot) {
