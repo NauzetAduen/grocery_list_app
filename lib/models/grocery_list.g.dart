@@ -9,9 +9,9 @@ part of 'grocery_list.dart';
 GroceryList _$GroceryListFromJson(Map<String, dynamic> json) {
   return GroceryList(
     (json['users'] as List)?.map((e) => e as String)?.toList(),
-    json['initDate'] == null
+    json['finishDate'] == null
         ? null
-        : DateTime.parse(json['initDate'] as String),
+        : DateTime.parse(json['finishDate'] as String),
     (json['productList'] as List)
         ?.map((e) => e as Map<String, dynamic>)
         ?.toList(),
@@ -23,7 +23,7 @@ Map<String, dynamic> _$GroceryListToJson(GroceryList instance) =>
     <String, dynamic>{
       'title': instance.title,
       'users': instance.users,
-      'initDate': instance.initDate?.toIso8601String(),
+      'finishDate': instance.finishDate?.toIso8601String(),
       'productList': instance.productList,
       'active': instance.active,
     };
