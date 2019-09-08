@@ -13,7 +13,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: appName,
       theme: ThemeData(primaryColor: Style.green),
-      home: GroceryListApp(),
+      home: const GroceryListApp(),
     );
   }
 }

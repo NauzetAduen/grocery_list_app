@@ -3,7 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class UserRow extends StatelessWidget {
   final List<String> users;
-  UserRow(this.users);
+  const UserRow(this.users);
 
   @override
   Widget build(BuildContext context) {
