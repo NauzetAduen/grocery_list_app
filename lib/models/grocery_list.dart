@@ -1,4 +1,5 @@
 import 'package:json_annotation/json_annotation.dart';
+import 'dart:convert';
 
 part 'grocery_list.g.dart';
 
@@ -14,4 +15,8 @@ class GroceryList {
   factory GroceryList.fromJson(Map<String, dynamic> json) =>
       _$GroceryListFromJson(json);
   Map<String, dynamic> toJson() => _$GroceryListToJson(this);
+
+  factory GroceryList.fromJsonFull(Map<String, dynamic> object) {
+    return GroceryList.fromJson(json.decode(json.encode(object)));
+  }
 }
