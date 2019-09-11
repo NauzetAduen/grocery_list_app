@@ -59,7 +59,7 @@ class _ProductListViewState extends State<ProductListView> {
             GradientButton(
               increaseWidthBy: 60,
               callback: () {
-                _finishList();
+                _finishListAndCreateNew();
               },
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -163,7 +163,7 @@ class _ProductListViewState extends State<ProductListView> {
         });
   }
 
-  _finishList() {
+  _finishListAndCreateNew() {
     Firestore.instance.runTransaction((Transaction transaction) async {
       DocumentSnapshot snapshot = await transaction.get(reference);
       // List<Map<String, dynamic>> newList = widget.myList.productList;
