@@ -7,8 +7,20 @@ class UserRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: <Widget>[
+        CircleAvatar(
+          child: IconButton(
+            icon: const Icon(
+              FontAwesomeIcons.plus,
+              size: 20,
+            ),
+            onPressed: () {
+              print("ADD NEW TO FUCKING GRUP");
+            },
+          ),
+        ),
         Container(
             height: 75,
             child: ListView.builder(
@@ -24,22 +36,6 @@ class UserRow extends StatelessWidget {
                     ),
                   );
                 })),
-        Positioned(
-          top: 5.0,
-          bottom: 5.0,
-          right: 5.0,
-          child: CircleAvatar(
-            child: IconButton(
-              icon: Icon(
-                FontAwesomeIcons.plus,
-                size: 20,
-              ),
-              onPressed: () {
-                print("ADD NEW TO FUCKING GRUP");
-              },
-            ),
-          ),
-        )
       ],
     );
   }
