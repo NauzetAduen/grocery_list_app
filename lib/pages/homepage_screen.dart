@@ -25,6 +25,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   @override
   Widget build(BuildContext context) {
     userID = Provider.of<FirebaseUser>(context).uid;
+
     return StreamBuilder<Object>(
         stream: Firestore.instance
             .collection("lists")
@@ -42,7 +43,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
           print(documents.length);
           return Scaffold(
             appBar: CustomAppbar(
-              Text("$userID"),
+              Text("Home"),
             ),
             body: Stack(children: <Widget>[
               PageView.builder(
