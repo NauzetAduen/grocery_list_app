@@ -64,11 +64,18 @@ class _HomePageScreenState extends State<HomePageScreen> {
             appBar: CustomAppbar(
               Text("Home"),
             ),
-            body: Column(
+            body: ListView(
+              shrinkWrap: true,
               children: <Widget>[
-                Text("active"),
+                Align(
+                  child: Text("active"),
+                  alignment: Alignment.center,
+                ),
                 GroceryListStreamBuilder(userID: userID, active: true),
-                Text("Innactive"),
+                Align(
+                  child: Text("Innactive"),
+                  alignment: Alignment.center,
+                ),
                 GroceryListStreamBuilder(userID: userID, active: false),
               ],
             ),
