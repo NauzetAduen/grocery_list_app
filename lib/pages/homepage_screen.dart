@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/custom_appbar.dart';
 import 'package:grocery_list_app/components/grocery_listTile.dart';
+import 'package:grocery_list_app/components/grocery_list_streambuilder.dart';
 import 'package:grocery_list_app/components/product_list_view.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
 import 'package:page_view_indicators/circle_page_indicator.dart';
@@ -38,8 +39,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
             return Center(
               child: CircularProgressIndicator(),
             );
-          QuerySnapshot data = snapshot.data;
-          List<DocumentSnapshot> documents = data.documents;
+          // QuerySnapshot data = snapshot.data;
+          // List<DocumentSnapshot> documents = data.documents;
           return Scaffold(
             drawer: Drawer(
               child: ListView(
@@ -63,13 +64,13 @@ class _HomePageScreenState extends State<HomePageScreen> {
             appBar: CustomAppbar(
               Text("Home"),
             ),
-            body: ListView.builder(
-              itemCount: documents.length,
-              itemBuilder: (BuildContext context, int index) {
-                GroceryList gl =
-                    GroceryList.fromJsonFull(documents[index].data);
-                return GroceryListTile(gl: gl);
-              },
+            body: Column(
+              children: <Widget>[
+                Text("active"),
+                GroceryListStreamBuilder(userID: userID, active: true),
+                Text("Innactive"),
+                GroceryListStreamBuilder(userID: userID, active: false),
+              ],
             ),
           );
         });
