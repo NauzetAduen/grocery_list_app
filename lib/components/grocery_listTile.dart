@@ -1,12 +1,15 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
+import 'package:grocery_list_app/pages/grocery_list_screen.dart';
 import 'package:grocery_list_app/utils/date_helper.dart';
 
 class GroceryListTile extends StatelessWidget {
   final GroceryList gl;
+  final String documentID;
 
-  const GroceryListTile({Key key, this.gl}) : super(key: key);
+  const GroceryListTile({Key key, this.gl, this.documentID}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +29,10 @@ class GroceryListTile extends StatelessWidget {
               : Text(DateHelper.getStringFromDate(gl.finishDate)),
           onTap: () {
             print(gl.title);
+            Navigator.push(
+                context,
+                CupertinoPageRoute(
+                    builder: (context) => GroceryListScreen(documentID)));
           },
         ),
       ),
