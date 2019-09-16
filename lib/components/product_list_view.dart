@@ -40,7 +40,7 @@ class _ProductListViewState extends State<ProductListView> {
         physics: ScrollPhysics(),
         shrinkWrap: true,
         children: <Widget>[
-          // UserRow(widget.myList.users),
+          UserRow(widget.myList.users),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
