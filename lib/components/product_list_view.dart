@@ -120,10 +120,6 @@ class _ProductListViewState extends State<ProductListView> {
     );
   }
 
-  String _getStringFromDate(DateTime date) {
-    return "${date.day} - ${date.month} - ${date.year}";
-  }
-
   _editMagnitude(String product, String magnitude) {
     _showEditingDialog(product, magnitude);
   }
