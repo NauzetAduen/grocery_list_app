@@ -1,15 +1,9 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/custom_appbar.dart';
-import 'package:grocery_list_app/components/grocery_listTile.dart';
 import 'package:grocery_list_app/components/grocery_list_streambuilder.dart';
-import 'package:grocery_list_app/components/product_list_view.dart';
-import 'package:grocery_list_app/models/grocery_list.dart';
-import 'package:page_view_indicators/circle_page_indicator.dart';
 import 'package:provider/provider.dart';
 
 class HomePageScreen extends StatefulWidget {
