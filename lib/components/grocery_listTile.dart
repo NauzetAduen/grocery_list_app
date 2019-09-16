@@ -32,7 +32,7 @@ class GroceryListTile extends StatelessWidget {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
-                    builder: (context) => ProductListView(gl, documentID)));
+                    builder: (context) => ProductListView(documentID)));
           },
         ),
       ),
