@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/custom_appbar.dart';
 import 'package:grocery_list_app/components/grocery_list_streambuilder.dart';
@@ -73,6 +74,16 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 GroceryListStreamBuilder(userID: userID, active: false),
               ],
             ),
+            floatingActionButton: FloatingActionButton(
+                onPressed: () {
+                  print("Pressed");
+                },
+                backgroundColor: Style.green,
+                child: Center(
+                    child: Text(
+                  "New group",
+                  textAlign: TextAlign.center,
+                ))),
           );
         });
   }
