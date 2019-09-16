@@ -33,62 +33,104 @@ class _ProductListViewState extends State<ProductListView> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: LeadingAppbar(Text(
-          "test",
-          style: Style.listTitleTextStyle,
-          textAlign: TextAlign.center,
-        )),
-        body: StreamBuilder(
-          stream: Firestore.instance
-              .collection("lists")
-              .document(widget.documentID)
-              .snapshots(),
-          builder: (context, snapshot) {
-            DocumentSnapshot dc = snapshot.data;
-            print(dc.data);
-            // print(gl.title);
-            return ListView(
-              physics: ScrollPhysics(),
-              shrinkWrap: true,
-              children: <Widget>[
-                UserRow(["1", "32"]),
-                ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: 3,
-                  itemBuilder: (context, index) {
-                    return Text("$index");
-                  },
-                )
-              ],
-            );
-          },
-        ),
-        floatingActionButton: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            FloatingActionButton(
-              child: Text(
-                "Add product",
-                textAlign: TextAlign.center,
-                textScaleFactor: 0.8,
-              ),
-              onPressed: () {
-                // _goToProductListView();
-              },
-            ),
-            SizedBox(
-              width: 10,
-            ),
-            FloatingActionButton(
-              heroTag: "",
-              child: Text("Finish"),
-              onPressed: () {
-                _finishListAndCreateNew();
-              },
-            ),
-          ],
-        ));
+    return StreamBuilder(
+      stream: Firestore.instance
+          .collection("lists")
+          .document(widget.documentID)
+          .snapshots(),
+      builder: (context, snapshot) {
+        GroceryList gl;
+        switch (snapshot.connectionState) {
+          case ConnectionState.none:
+          case ConnectionState.waiting:
+          case ConnectionState.done:
+            return SizedBox();
+          case ConnectionState.active:
+            gl = GroceryList.fromJsonFull(snapshot.data.data);
+        }
+        print(gl.title);
+        return Scaffold(
+          appBar: LeadingAppbar(Text("${gl.title}")),
+          body: ListView(
+            physics: ScrollPhysics(),
+            shrinkWrap: true,
+            children: <Widget>[
+              UserRow(gl.users),
+              ListView.builder(
+                physics: ScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: gl.productList.length,
+                itemBuilder: (context, index) {
+                  var item = gl.productList[index];
+                  String pro = item['productName'];
+                  String mag = item['productMagnitude'];
+                  return Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 12, vertical: 8),
+                      child: Material(
+                          borderRadius: BorderRadius.circular(15),
+                          color: Colors.yellow,
+                          elevation: 10,
+                          child: Container(
+                              decoration: BoxDecoration(
+                                  // gradient: Styles.tileGradient,
+                                  borderRadius: BorderRadius.circular(15)),
+                              child: Builder(
+                                  builder: (context) => ListTile(
+                                        title: Text("$pro : $mag"),
+                                        trailing: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: <Widget>[
+                                            IconButton(
+                                              icon: Icon(Icons.edit),
+                                              onPressed: () {
+                                                _editMagnitude(pro, mag);
+                                              },
+                                            ),
+                                            IconButton(
+                                              icon: Icon(Icons.delete),
+                                              onPressed: () {
+                                                _showDeleteDialog(pro);
+                                                // _deleteProductFromList(pro);
+                                              },
+                                            ),
+                                          ],
+                                        ),
+                                      )))));
+                },
+              )
+            ],
+          ),
+        );
+      },
+    );
+    // floatingActionButton: Row(
+    //   mainAxisSize: MainAxisSize.min,
+    //   children: <Widget>[
+    //     FloatingActionButton(
+    //       child: Text(
+    //         "Add product",
+    //         textAlign: TextAlign.center,
+    //         textScaleFactor: 0.8,
+    //       ),
+    //       onPressed: () {
+    //         // _goToProductListView();
+    //       },
+    //     ),
+    //     SizedBox(
+    //       width: 10,
+    //     ),
+    //     FloatingActionButton(
+    //       heroTag: "",
+    //       child: Text("Finish"),
+    //       onPressed: () {
+    //         _finishListAndCreateNew();
+    //       },
+    //     ),
+    //   ],
+    // ));
   }
 
   _editMagnitude(String product, String magnitude) {
@@ -185,14 +227,14 @@ class _ProductListViewState extends State<ProductListView> {
   //   });
   // }
 
-  // _goToProductListView() {
-  //   Navigator.push(
-  //       context,
-  //       CupertinoPageRoute(
-  //           builder: (context) =>
-  //               ProductSelector(widget.documentID, widget.myList.productList)));
-  // }
-}
+//   _goToProductListView() {
+//     Navigator.push(
+//         context,
+//         CupertinoPageRoute(
+//             builder: (context) =>
+//                 ProductSelector(widget.documentID, widget.myList.productList)));
+//   }
+// }
 
 /* WTF
 
@@ -217,7 +259,7 @@ ListView.builder(
                                     borderRadius: BorderRadius.circular(15)),
                                 child: Builder(
                                     builder: (context) => ListTile(
-                                          // title: Text("$pro : $mag"),
+                                          title: Text("$pro : $mag"),
                                           title: Text("test"),
                                           trailing: Row(
                                             mainAxisSize: MainAxisSize.min,
@@ -227,14 +269,14 @@ ListView.builder(
                                               IconButton(
                                                 icon: Icon(Icons.edit),
                                                 onPressed: () {
-                                                  // _editMagnitude(pro, mag);
+                                                  _editMagnitude(pro, mag);
                                                 },
                                               ),
                                               IconButton(
                                                 icon: Icon(Icons.delete),
                                                 onPressed: () {
-                                                  // _showDeleteDialog(pro);
-                                                  // _deleteProductFromList(pro);
+                                                  _showDeleteDialog(pro);
+                                                  _deleteProductFromList(pro);
                                                 },
                                               ),
                                             ],
@@ -246,3 +288,4 @@ ListView.builder(
 
 
 */
+}
