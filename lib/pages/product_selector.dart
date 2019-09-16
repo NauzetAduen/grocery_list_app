@@ -46,16 +46,16 @@ class _ProductSelectorState extends State<ProductSelector> {
           return Scaffold(
               appBar: LeadingAppbar(
                 Text("Add products"),
-                actions: <Widget>[
-                  Builder(
-                    builder: (BuildContext context) {
-                      return IconButton(
-                        onPressed: () => _onPress(context),
-                        icon: Icon(FontAwesomeIcons.plus),
-                      );
-                    },
-                  ),
-                ],
+              ),
+              floatingActionButton: FloatingActionButton(
+                child: Text(
+                  "New product",
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 0.8,
+                ),
+                onPressed: () {
+                  _onPress(context);
+                },
               ),
               body: GridView.builder(
                 itemCount: snap.documents.length,
