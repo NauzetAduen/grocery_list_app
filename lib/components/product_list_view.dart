@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:grocery_list_app/Style/style.dart';
+import 'package:grocery_list_app/components/leading_appbar.dart';
 import 'package:grocery_list_app/components/user_row.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
 import 'package:grocery_list_app/pages/product_selector.dart';
@@ -29,94 +30,95 @@ class _ProductListViewState extends State<ProductListView> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      physics: ScrollPhysics(),
-      shrinkWrap: true,
-      children: <Widget>[
-        Text(
-          // _getStringFromDate(widget.myList.initDate),
-          widget.myList.title,
-          style: Style.listTitleTextStyle,
-          textAlign: TextAlign.center,
-        ),
-        UserRow(widget.myList.users),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            GradientButton(
-              increaseWidthBy: 60,
-              callback: () {
-                _goToProductListView();
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text("Add a product"),
-                  Icon(FontAwesomeIcons.plus),
-                ],
+    return Scaffold(
+      appBar: LeadingAppbar(Text(
+        widget.myList.title,
+        style: Style.listTitleTextStyle,
+        textAlign: TextAlign.center,
+      )),
+      body: ListView(
+        physics: ScrollPhysics(),
+        shrinkWrap: true,
+        children: <Widget>[
+          // UserRow(widget.myList.users),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              GradientButton(
+                increaseWidthBy: 60,
+                callback: () {
+                  _goToProductListView();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text("Add a product"),
+                    Icon(FontAwesomeIcons.plus),
+                  ],
+                ),
               ),
-            ),
-            GradientButton(
-              increaseWidthBy: 60,
-              callback: () {
-                _finishListAndCreateNew();
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Text("Finish"),
-                  Icon(FontAwesomeIcons.check),
-                ],
+              GradientButton(
+                increaseWidthBy: 60,
+                callback: () {
+                  _finishListAndCreateNew();
+                },
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    Text("Finish"),
+                    Icon(FontAwesomeIcons.check),
+                  ],
+                ),
               ),
-            ),
-          ],
-        ),
-        ListView.builder(
-          physics: ScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: widget.myList.productList.length,
-          itemBuilder: (context, index) {
-            var item = widget.myList.productList[index];
-            String pro = item['productName'];
-            String mag = item['productMagnitude'];
-            return Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                child: Material(
-                    borderRadius: BorderRadius.circular(15),
-                    color: Style.green,
-                    elevation: 10,
-                    child: Container(
-                        decoration: BoxDecoration(
-                            // gradient: Styles.tileGradient,
-                            borderRadius: BorderRadius.circular(15)),
-                        child: Builder(
-                            builder: (context) => ListTile(
-                                  title: Text("$pro : $mag"),
-                                  trailing: Row(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceEvenly,
-                                    children: <Widget>[
-                                      IconButton(
-                                        icon: Icon(Icons.edit),
-                                        onPressed: () {
-                                          _editMagnitude(pro, mag);
-                                        },
-                                      ),
-                                      IconButton(
-                                        icon: Icon(Icons.delete),
-                                        onPressed: () {
-                                          _showDeleteDialog(pro);
-                                          _deleteProductFromList(pro);
-                                        },
-                                      ),
-                                    ],
-                                  ),
-                                )))));
-          },
-        ),
-      ],
+            ],
+          ),
+          ListView.builder(
+            physics: ScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: widget.myList.productList.length,
+            itemBuilder: (context, index) {
+              var item = widget.myList.productList[index];
+              String pro = item['productName'];
+              String mag = item['productMagnitude'];
+              return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                  child: Material(
+                      borderRadius: BorderRadius.circular(15),
+                      color: Style.green,
+                      elevation: 10,
+                      child: Container(
+                          decoration: BoxDecoration(
+                              // gradient: Styles.tileGradient,
+                              borderRadius: BorderRadius.circular(15)),
+                          child: Builder(
+                              builder: (context) => ListTile(
+                                    title: Text("$pro : $mag"),
+                                    trailing: Row(
+                                      mainAxisSize: MainAxisSize.min,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: <Widget>[
+                                        IconButton(
+                                          icon: Icon(Icons.edit),
+                                          onPressed: () {
+                                            _editMagnitude(pro, mag);
+                                          },
+                                        ),
+                                        IconButton(
+                                          icon: Icon(Icons.delete),
+                                          onPressed: () {
+                                            _showDeleteDialog(pro);
+                                            _deleteProductFromList(pro);
+                                          },
+                                        ),
+                                      ],
+                                    ),
+                                  )))));
+            },
+          ),
+        ],
+      ),
     );
   }
 

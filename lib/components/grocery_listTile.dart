@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:grocery_list_app/components/product_list_view.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
-import 'package:grocery_list_app/pages/grocery_list_screen.dart';
 import 'package:grocery_list_app/utils/date_helper.dart';
 
 class GroceryListTile extends StatelessWidget {
@@ -32,7 +32,7 @@ class GroceryListTile extends StatelessWidget {
             Navigator.push(
                 context,
                 CupertinoPageRoute(
-                    builder: (context) => GroceryListScreen(documentID)));
+                    builder: (context) => ProductListView(gl, documentID)));
           },
         ),
       ),
