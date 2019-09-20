@@ -46,7 +46,23 @@ class _ProductListViewState extends State<ProductListView> {
         }
         print(gl.title);
         return Scaffold(
-          appBar: LeadingAppbar(Text("${gl.title}")),
+          appBar: LeadingAppbar(
+            Text("${gl.title}"),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(FontAwesomeIcons.plus),
+                onPressed: () {
+                  _goToProductListView(gl.productList);
+                },
+              ),
+              IconButton(
+                icon: Icon(FontAwesomeIcons.check),
+                onPressed: () {
+                  print("AA");
+                },
+              )
+            ],
+          ),
           body: ListView(
             physics: ScrollPhysics(),
             shrinkWrap: true,
@@ -223,65 +239,11 @@ class _ProductListViewState extends State<ProductListView> {
   //   });
   // }
 
-//   _goToProductListView() {
-//     Navigator.push(
-//         context,
-//         CupertinoPageRoute(
-//             builder: (context) =>
-//                 ProductSelector(widget.documentID, widget.myList.productList)));
-//   }
-// }
-
-/* WTF
-
-ListView.builder(
-                  physics: ScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 2,
-                  itemBuilder: (context, index) {
-                    // var item = widget.myList.productList[index];
-                    // String pro = item['productName'];
-                    // String mag = item['productMagnitude'];
-                    return Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 8),
-                        child: Material(
-                            borderRadius: BorderRadius.circular(15),
-                            color: Colors.yellow,
-                            elevation: 10,
-                            child: Container(
-                                decoration: BoxDecoration(
-                                    // gradient: Styles.tileGradient,
-                                    borderRadius: BorderRadius.circular(15)),
-                                child: Builder(
-                                    builder: (context) => ListTile(
-                                          title: Text("$pro : $mag"),
-                                          title: Text("test"),
-                                          trailing: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
-                                              IconButton(
-                                                icon: Icon(Icons.edit),
-                                                onPressed: () {
-                                                  _editMagnitude(pro, mag);
-                                                },
-                                              ),
-                                              IconButton(
-                                                icon: Icon(Icons.delete),
-                                                onPressed: () {
-                                                  _showDeleteDialog(pro);
-                                                  _deleteProductFromList(pro);
-                                                },
-                                              ),
-                                            ],
-                                          ),
-                                        )))));
-                  },
-                ),
-
-
-
-*/
+  _goToProductListView(List<Map<String, dynamic>> productList) {
+    Navigator.push(
+        context,
+        CupertinoPageRoute(
+            builder: (context) =>
+                ProductSelector(widget.documentID, productList)));
+  }
 }
