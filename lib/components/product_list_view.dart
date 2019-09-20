@@ -11,10 +11,6 @@ import 'package:grocery_list_app/pages/product_selector.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
 
 class ProductListView extends StatefulWidget {
-  //! no puedo pasarle la lsita
-  //TODO pasarle el id y hacerlo streambuidler
-
-  // final GroceryList myList;
   final String documentID;
   ProductListView(this.documentID);
   @override
