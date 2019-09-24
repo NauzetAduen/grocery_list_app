@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocery_list_app/components/custom_appbar.dart';
 
 class LeadingAppbar extends CustomAppbar {
@@ -15,6 +16,7 @@ class LeadingAppbar extends CustomAppbar {
   @override
   final Widget leading = Builder(builder: (BuildContext context) {
     return IconButton(
-        icon: Icon(Icons.arrow_left), onPressed: () => Navigator.pop(context));
+        icon: Icon(FontAwesomeIcons.angleDoubleLeft),
+        onPressed: () => Navigator.pop(context));
   });
 }
