@@ -21,6 +21,8 @@ class GroceryListStreamBuilder extends StatelessWidget {
           if (snapshot.hasData) {
             data = snapshot.data;
             documents = data.documents;
+          } else {
+            return SizedBox();
           }
           return ListView.builder(
             shrinkWrap: true,
