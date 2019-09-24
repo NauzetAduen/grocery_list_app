@@ -243,7 +243,6 @@ class _ProductListViewState extends State<ProductListView> {
     Navigator.push(
         context,
         CupertinoPageRoute(
-            builder: (context) =>
-                ProductSelector(widget.documentID, productList)));
+            builder: (context) => ProductSelector(widget.documentID)));
   }
 }
