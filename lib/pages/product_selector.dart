@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_list_app/components/grid_product_stream.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
 import 'package:grocery_list_app/models/product.dart';
 import 'package:grocery_list_app/pages/new_product.dart';
@@ -28,63 +29,69 @@ class _ProductSelectorState extends State<ProductSelector> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Object>(
-        stream: Firestore.instance
-            .collection("products")
-            .orderBy("used", descending: true)
-            .snapshots(),
-        builder: (context, snapshot) {
-          if (!snapshot.hasData)
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-
-          QuerySnapshot snap = snapshot.data;
-
-          return Scaffold(
-              appBar: LeadingAppbar(
-                Text("Add products"),
-              ),
-              floatingActionButton: FloatingActionButton(
-                child: Text(
-                  "New product",
-                  textAlign: TextAlign.center,
-                  textScaleFactor: 0.8,
-                ),
-                onPressed: () {
-                  _onPress(context);
-                },
-              ),
-              body: GridView.builder(
-                itemCount: snap.documents.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 3),
-                itemBuilder: (BuildContext context, int index) {
-                  Product product =
-                      Product.fromJson(snap.documents[index].data);
-                  // isAdded = _isAdded(widget.productList, product.name);
-                  return GestureDetector(
-                    onTap: () {
-                      _showMagnitudeDialog(product.name);
-                    },
-                    child: Card(
-                      color: isAdded ? Colors.grey : Colors.red,
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: <Widget>[
-                          IconSelectorHelper.getIcon(product.category),
-                          Text(
-                            product.name,
-                            style: TextStyle(fontSize: 22),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ));
-        });
+    return Scaffold(
+        appBar: LeadingAppbar(
+          Text("Add products"),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Text(
+            "New product",
+            textAlign: TextAlign.center,
+            textScaleFactor: 0.8,
+          ),
+          onPressed: () {
+            _onPress(context);
+          },
+        ),
+        body: ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            Text(
+              "Products added by me",
+              textAlign: TextAlign.center,
+            ),
+            GridProductViewStreamBuilder(
+              isMine: true,
+              documentID: widget.documentID,
+            ),
+            TextField()
+            // Text("Other's Products"),
+            // GridProductViewStreamBuilder(
+            //   isMine: false,
+            //   documentID: widget.documentID,
+            // ),
+          ],
+        )
+        // body: GridView.builder(
+        //   itemCount: snap.documents.length,
+        //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        //       crossAxisCount: 3),
+        //   itemBuilder: (BuildContext context, int index) {
+        //     Product product =
+        //         Product.fromJson(snap.documents[index].data);
+        //     // isAdded = _isAdded(widget.productList, product.name);
+        //     return GestureDetector(
+        //       onTap: () {
+        //         _showMagnitudeDialog(product.name);
+        //       },
+        //       child: Card(
+        //         color: isAdded ? Colors.grey : Colors.red,
+        //         child: Column(
+        //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        //           children: <Widget>[
+        //             IconSelectorHelper.getIcon(product.category),
+        //             Text(
+        //               product.name,
+        //               style: TextStyle(fontSize: 22),
+        //               overflow: TextOverflow.ellipsis,
+        //             ),
+        //           ],
+        //         ),
+        //       ),
+        //     );
+        //   },
+        // )
+        );
   }
 
   _onPress(BuildContext context) async {
