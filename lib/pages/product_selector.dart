@@ -4,7 +4,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
 import 'package:grocery_list_app/components/product_grid_view.dart';
+import 'package:grocery_list_app/models/grocery_list.dart';
+import 'package:grocery_list_app/models/product.dart';
 import 'package:grocery_list_app/pages/new_product.dart';
+import 'package:grocery_list_app/utils/icon_selector_helper.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
 import 'package:provider/provider.dart';
 
@@ -57,6 +60,7 @@ class _ProductSelectorState extends State<ProductSelector> {
                     .where("addedBy", isEqualTo: userID)
                     .snapshots(),
                 builder: (context, snapshot) {
+                  if (!snapshot.hasData) return SizedBox();
                   QuerySnapshot data = snapshot.data;
                   List<DocumentSnapshot> documents = data.documents;
                   return GridView.builder(
@@ -65,9 +69,33 @@ class _ProductSelectorState extends State<ProductSelector> {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4),
                       itemBuilder: (BuildContext context, int index) {
-                        return ProductGridView(document: documents[index]);
+                        Product product =
+                            Product.fromJson(documents[index].data);
+                        return GestureDetector(
+                          onTap: () => _showMagnitudeDialog(product.name),
+                          child: Card(
+                            color: Colors.red,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              children: <Widget>[
+                                IconSelectorHelper.getIcon(product.category),
+                                Text(
+                                  product.name,
+                                  style: TextStyle(
+                                    fontSize: 19,
+                                  ),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
                       });
                 }),
+            Text(
+              "Search other products",
+              textAlign: TextAlign.center,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
               child: TextField(),
@@ -78,37 +106,7 @@ class _ProductSelectorState extends State<ProductSelector> {
             //   documentID: widget.documentID,
             // ),
           ],
-        )
-        // body: GridView.builder(
-        //   itemCount: snap.documents.length,
-        //   gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-        //       crossAxisCount: 3),
-        //   itemBuilder: (BuildContext context, int index) {
-        //     Product product =
-        //         Product.fromJson(snap.documents[index].data);
-        //     // isAdded = _isAdded(widget.productList, product.name);
-        //     return GestureDetector(
-        //       onTap: () {
-        //         _showMagnitudeDialog(product.name);
-        //       },
-        //       child: Card(
-        //         color: isAdded ? Colors.grey : Colors.red,
-        //         child: Column(
-        //           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        //           children: <Widget>[
-        //             IconSelectorHelper.getIcon(product.category),
-        //             Text(
-        //               product.name,
-        //               style: TextStyle(fontSize: 22),
-        //               overflow: TextOverflow.ellipsis,
-        //             ),
-        //           ],
-        //         ),
-        //       ),
-        //     );
-        //   },
-        // )
-        );
+        ));
   }
 
   _onPress(BuildContext context) async {
@@ -149,57 +147,55 @@ class _ProductSelectorState extends State<ProductSelector> {
   }
 
   _showMagnitudeDialog(String product) {
-    bool found = false;
-    // widget.productList.forEach((doc) {
-    //   if (doc['productName'].toString().toLowerCase() ==
-    //       product.toLowerCase()) {
-    //     found = true;
-    //     return;
-    //   }
-    // });
-    if (!found) {
-      TextEditingController _controller = TextEditingController();
-      final _formKey = GlobalKey<FormState>();
-      showDialog(
-          context: context,
-          builder: (BuildContext context) {
-            return AlertDialog(
-              title: Text("Add a magnitude for $product"),
-              content: Form(
-                key: _formKey,
-                child: TextFormField(
-                  controller: _controller,
-                  validator: ValidatorHelper.editingMagnitudeValidator,
-                ),
+    TextEditingController _controller = TextEditingController();
+    final _formKey = GlobalKey<FormState>();
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Add a magnitude for $product"),
+            content: Form(
+              key: _formKey,
+              child: TextFormField(
+                controller: _controller,
+                validator: ValidatorHelper.editingMagnitudeValidator,
               ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text("Cancel"),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                FlatButton(
-                  child: Text("OK"),
-                  onPressed: () {
-                    if (_formKey.currentState.validate()) {
-                      _formKey.currentState.save();
-                      // _addProductToList(product, _controller.text);
-                      Navigator.pop(context);
-                    }
-                  },
-                ),
-              ],
-            );
-          });
-    }
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Cancel"),
+                onPressed: () => Navigator.pop(context),
+              ),
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () {
+                  if (_formKey.currentState.validate()) {
+                    _formKey.currentState.save();
+                    _addProductToList(product, _controller.text);
+
+                    Navigator.pop(context);
+                  }
+                },
+              ),
+            ],
+          );
+        });
   }
 
-  // Future _addProductToList(String newProduct, String newMagnitude) async {
-  //   List<Map<String, dynamic>> newList = widget.productList;
-  //   Firestore.instance.runTransaction((Transaction transaction) async {
-  //     DocumentSnapshot snapshot = await transaction.get(reference);
-  //     newList.add(
-  //         {'productName': '$newProduct', 'productMagnitude': '$newMagnitude'});
-  //     await transaction.update(snapshot.reference, {"productList": newList});
-  //   });
-  // }
+  Future _addProductToList(String newProduct, String newMagnitude) async {
+    reference.get().then((onValue) {
+      GroceryList gl = GroceryList.fromJsonFull(onValue.data);
+      print(gl.productList);
+
+      List<Map<String, dynamic>> newList = gl.productList;
+      Firestore.instance.runTransaction((Transaction transaction) async {
+        DocumentSnapshot snapshot = await transaction.get(reference);
+        newList.add({
+          'productName': '$newProduct',
+          'productMagnitude': '$newMagnitude'
+        });
+        await transaction.update(snapshot.reference, {"productList": newList});
+      });
+    });
+  }
 }
