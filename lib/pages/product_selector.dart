@@ -1,12 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:grocery_list_app/components/grid_product_stream.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
-import 'package:grocery_list_app/models/product.dart';
+import 'package:grocery_list_app/components/product_grid_view.dart';
 import 'package:grocery_list_app/pages/new_product.dart';
-import 'package:grocery_list_app/utils/icon_selector_helper.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
+import 'package:provider/provider.dart';
 
 class ProductSelector extends StatefulWidget {
   final String documentID;
@@ -29,6 +29,7 @@ class _ProductSelectorState extends State<ProductSelector> {
 
   @override
   Widget build(BuildContext context) {
+    String userID = Provider.of<FirebaseUser>(context).uid;
     return Scaffold(
         appBar: LeadingAppbar(
           Text("Add products"),
@@ -50,11 +51,27 @@ class _ProductSelectorState extends State<ProductSelector> {
               "Products added by me",
               textAlign: TextAlign.center,
             ),
-            GridProductViewStreamBuilder(
-              isMine: true,
-              documentID: widget.documentID,
-            ),
-            TextField()
+            StreamBuilder<Object>(
+                stream: Firestore.instance
+                    .collection("products")
+                    .where("addedBy", isEqualTo: userID)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  QuerySnapshot data = snapshot.data;
+                  List<DocumentSnapshot> documents = data.documents;
+                  return GridView.builder(
+                      shrinkWrap: true,
+                      itemCount: documents.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 4),
+                      itemBuilder: (BuildContext context, int index) {
+                        return ProductGridView(document: documents[index]);
+                      });
+                }),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              child: TextField(),
+            )
             // Text("Other's Products"),
             // GridProductViewStreamBuilder(
             //   isMine: false,
