@@ -33,6 +33,7 @@ class _ProductSelectorState extends State<ProductSelector> {
   @override
   Widget build(BuildContext context) {
     String userID = Provider.of<FirebaseUser>(context).uid;
+
     return Scaffold(
         appBar: LeadingAppbar(
           Text("Add products"),
@@ -63,24 +64,24 @@ class _ProductSelectorState extends State<ProductSelector> {
                   if (!snapshot.hasData) return SizedBox();
                   QuerySnapshot data = snapshot.data;
                   List<DocumentSnapshot> documents = data.documents;
+
                   return GridView.builder(
                       shrinkWrap: true,
                       itemCount: documents.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 4),
                       itemBuilder: (BuildContext context, int index) {
-                        Product product =
-                            Product.fromJson(documents[index].data);
+                        Product p = Product.fromJson(documents[index].data);
                         return GestureDetector(
-                          onTap: () => _showMagnitudeDialog(product.name),
+                          onTap: () => _showMagnitudeDialog(p.name),
                           child: Card(
                             color: Colors.red,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
-                                IconSelectorHelper.getIcon(product.category),
+                                IconSelectorHelper.getIcon(p.category),
                                 Text(
-                                  product.name,
+                                  p.name,
                                   style: TextStyle(
                                     fontSize: 19,
                                   ),
@@ -97,14 +98,30 @@ class _ProductSelectorState extends State<ProductSelector> {
               textAlign: TextAlign.center,
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: TextField(),
-            )
-            // Text("Other's Products"),
-            // GridProductViewStreamBuilder(
-            //   isMine: false,
-            //   documentID: widget.documentID,
-            // ),
+            ),
+            StreamBuilder<Object>(
+                stream: Firestore.instance
+                    .collection("products")
+                    // .where("addedBy", isLessThan: userID)
+                    .snapshots(),
+                builder: (context, snapshot) {
+                  List<Product> productOthersList = [];
+                  QuerySnapshot q = snapshot.data;
+                  q.documents.forEach((doc) {
+                    Product p = Product.fromJson(doc.data);
+                    if (p.addedBy != userID) productOthersList.add(p);
+                  });
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: productOthersList.length,
+                    itemBuilder: (context, index) {
+                      return Text("${productOthersList[index].addedBy}");
+                    },
+                  );
+                }),
+
           ],
         ));
   }
@@ -185,7 +202,6 @@ class _ProductSelectorState extends State<ProductSelector> {
   Future _addProductToList(String newProduct, String newMagnitude) async {
     reference.get().then((onValue) {
       GroceryList gl = GroceryList.fromJsonFull(onValue.data);
-      print(gl.productList);
 
       List<Map<String, dynamic>> newList = gl.productList;
       Firestore.instance.runTransaction((Transaction transaction) async {
