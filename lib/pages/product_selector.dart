@@ -22,6 +22,7 @@ class ProductSelector extends StatefulWidget {
 class _ProductSelectorState extends State<ProductSelector> {
   bool isAdded = false;
   DocumentReference reference;
+  String searchText = "";
 
   @override
   void initState() {
@@ -33,6 +34,8 @@ class _ProductSelectorState extends State<ProductSelector> {
   @override
   Widget build(BuildContext context) {
     String userID = Provider.of<FirebaseUser>(context).uid;
+
+    TextEditingController controller = TextEditingController();
 
     return Scaffold(
         appBar: LeadingAppbar(
@@ -99,7 +102,14 @@ class _ProductSelectorState extends State<ProductSelector> {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
-              child: TextField(),
+              child: TextField(
+                controller: controller,
+                onSubmitted: (value) {
+                  setState(() {
+                    searchText = value;
+                  });
+                },
+              ),
             ),
             StreamBuilder<Object>(
                 stream: Firestore.instance
@@ -113,15 +123,30 @@ class _ProductSelectorState extends State<ProductSelector> {
                     Product p = Product.fromJson(doc.data);
                     if (p.addedBy != userID) productOthersList.add(p);
                   });
-                  return ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: productOthersList.length,
-                    itemBuilder: (context, index) {
-                      return Text("${productOthersList[index].addedBy}");
-                    },
-                  );
+                  print("SEACHTEXT = $searchText");
+                  if (searchText.isEmpty)
+                    return SizedBox();
+                  else
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: productOthersList.length,
+                      itemBuilder: (context, index) {
+                        if (productOthersList[index]
+                                .category
+                                .toLowerCase()
+                                .contains(searchText.toLowerCase()) ||
+                            productOthersList[index]
+                                .name
+                                .toLowerCase()
+                                .contains(searchText.toLowerCase())) {
+                          return ListTile(
+                            title: Text("${productOthersList[index].name}"),
+                          );
+                        }
+                        return SizedBox();
+                      },
+                    );
                 }),
-
           ],
         ));
   }
