@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
 import 'package:grocery_list_app/components/product_grid_view.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
@@ -105,6 +106,15 @@ class _ProductSelectorState extends State<ProductSelector> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: TextField(
+                decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () {
+                    setState(() {
+                      searchText = "";
+                    });
+                  },
+                )),
                 controller: controller,
                 onSubmitted: (value) {
                   setState(() {
