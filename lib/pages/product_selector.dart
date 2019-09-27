@@ -41,16 +41,18 @@ class _ProductSelectorState extends State<ProductSelector> {
         appBar: LeadingAppbar(
           Text("Add products"),
         ),
-        floatingActionButton: FloatingActionButton(
-          child: Text(
-            "New product",
-            textAlign: TextAlign.center,
-            textScaleFactor: 0.8,
-          ),
-          onPressed: () {
-            _onPress(context);
-          },
-        ),
+        floatingActionButton: MediaQuery.of(context).viewInsets.bottom == 0.0
+            ? FloatingActionButton(
+                child: Text(
+                  "New product",
+                  textAlign: TextAlign.center,
+                  textScaleFactor: 0.8,
+                ),
+                onPressed: () {
+                  _onPress(context);
+                },
+              )
+            : null,
         body: ListView(
           shrinkWrap: true,
           children: <Widget>[
@@ -107,6 +109,7 @@ class _ProductSelectorState extends State<ProductSelector> {
                 onSubmitted: (value) {
                   setState(() {
                     searchText = value;
+                    print(searchText.toString());
                   });
                 },
               ),
@@ -121,31 +124,45 @@ class _ProductSelectorState extends State<ProductSelector> {
                   QuerySnapshot q = snapshot.data;
                   q.documents.forEach((doc) {
                     Product p = Product.fromJson(doc.data);
-                    if (p.addedBy != userID) productOthersList.add(p);
+                    if (p.addedBy != userID &&
+                            p.category
+                                .toLowerCase()
+                                .contains(searchText.toLowerCase()) ||
+                        p.name.toLowerCase().contains(searchText.toLowerCase()))
+                      productOthersList.add(p);
                   });
-                  print("SEACHTEXT = $searchText");
                   if (searchText.isEmpty)
                     return SizedBox();
                   else
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      itemCount: productOthersList.length,
-                      itemBuilder: (context, index) {
-                        if (productOthersList[index]
-                                .category
-                                .toLowerCase()
-                                .contains(searchText.toLowerCase()) ||
-                            productOthersList[index]
-                                .name
-                                .toLowerCase()
-                                .contains(searchText.toLowerCase())) {
-                          return ListTile(
-                            title: Text("${productOthersList[index].name}"),
+                    return GridView.builder(
+                        shrinkWrap: true,
+                        itemCount: productOthersList.length,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 4),
+                        itemBuilder: (BuildContext context, int index) {
+                          Product p = productOthersList[index];
+
+                          return GestureDetector(
+                            onTap: () => _showMagnitudeDialog(p.name),
+                            child: Card(
+                              color: Colors.blue,
+                              child: Column(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: <Widget>[
+                                  IconSelectorHelper.getIcon(p.category),
+                                  Text(
+                                    p.name,
+                                    style: TextStyle(
+                                      fontSize: 19,
+                                    ),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                ],
+                              ),
+                            ),
                           );
-                        }
-                        return SizedBox();
-                      },
-                    );
+                        });
                 }),
           ],
         ));
