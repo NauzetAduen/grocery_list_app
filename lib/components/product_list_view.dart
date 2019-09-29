@@ -57,7 +57,7 @@ class _ProductListViewState extends State<ProductListView> {
               IconButton(
                 icon: Icon(FontAwesomeIcons.check),
                 onPressed: () {
-                  print("AA");
+                  _showFinishDialog(gl);
                 },
               )
             ],
@@ -117,35 +117,35 @@ class _ProductListViewState extends State<ProductListView> {
         );
       },
     );
-    // floatingActionButton: Row(
-    //   mainAxisSize: MainAxisSize.min,
-    //   children: <Widget>[
-    //     FloatingActionButton(
-    //       child: Text(
-    //         "Add product",
-    //         textAlign: TextAlign.center,
-    //         textScaleFactor: 0.8,
-    //       ),
-    //       onPressed: () {
-    //         // _goToProductListView();
-    //       },
-    //     ),
-    //     SizedBox(
-    //       width: 10,
-    //     ),
-    //     FloatingActionButton(
-    //       heroTag: "",
-    //       child: Text("Finish"),
-    //       onPressed: () {
-    //         _finishListAndCreateNew();
-    //       },
-    //     ),
-    //   ],
-    // ));
   }
 
   _editMagnitude(String product, String magnitude) {
     _showEditingDialog(product, magnitude);
+  }
+
+  _showFinishDialog(GroceryList gl) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Finishing ${gl.title}"),
+            content: Text(
+                "Do you want to finish ${gl.title}?\nA new list will be created"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("No"),
+                onPressed: () => Navigator.pop(context),
+              ),
+              FlatButton(
+                  child: Text("Yes"),
+                  onPressed: () {
+                    _finishList();
+                    _createNewList(gl);
+                    Navigator.popUntil(context, (route) => route.isFirst);
+                  }),
+            ],
+          );
+        });
   }
 
   _showEditingDialog(String product, String magnitude) {
@@ -183,16 +183,23 @@ class _ProductListViewState extends State<ProductListView> {
         });
   }
 
-  _finishListAndCreateNew() {
+  _finishList() {
     Firestore.instance.runTransaction((Transaction transaction) async {
       DocumentSnapshot snapshot = await transaction.get(reference);
-      // List<Map<String, dynamic>> newList = widget.myList.productList;
-      // newList.removeWhere((prodc) => prodc.containsValue(product));
-      // newList.add(
-      //     {'productName': '$product', 'productMagnitude': '$newMagnitude'});
-      await transaction.update(snapshot.reference, {"active": false});
+      await transaction.update(snapshot.reference,
+          {"active": false, "finishDate": DateTime.now().toIso8601String()});
     });
   }
+
+  _createNewList(GroceryList oldGroceryList) {
+    GroceryList newGroceryList = GroceryList.fromOther(oldGroceryList);
+    Firestore.instance.collection("lists").add(newGroceryList.toJson());
+  }
+  // String title;
+  // List<String> users;
+  // DateTime finishDate;
+  // List<Map<String, dynamic>> productList;
+  // bool active;
 
   _showDeleteDialog(String product) {
     showDialog(
