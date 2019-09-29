@@ -11,7 +11,8 @@ class GroceryList {
   List<Map<String, dynamic>> productList;
   bool active;
 
-  GroceryList(this.users, this.finishDate, this.productList, this.active);
+  GroceryList(
+      {this.title, this.users, this.finishDate, this.productList, this.active});
   factory GroceryList.fromJson(Map<String, dynamic> json) =>
       _$GroceryListFromJson(json);
   Map<String, dynamic> toJson() => _$GroceryListToJson(this);
