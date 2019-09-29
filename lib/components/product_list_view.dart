@@ -84,7 +84,6 @@ class _ProductListViewState extends State<ProductListView> {
                           elevation: 10,
                           child: Container(
                               decoration: BoxDecoration(
-                                  // gradient: Styles.tileGradient,
                                   borderRadius: BorderRadius.circular(15)),
                               child: Builder(
                                   builder: (context) => ListTile(
@@ -104,7 +103,6 @@ class _ProductListViewState extends State<ProductListView> {
                                               icon: Icon(Icons.delete),
                                               onPressed: () {
                                                 _showDeleteDialog(pro);
-                                                // _deleteProductFromList(pro);
                                               },
                                             ),
                                           ],
@@ -196,11 +194,6 @@ class _ProductListViewState extends State<ProductListView> {
     Firestore.instance.collection("lists").add(newGroceryList.toJson());
     Navigator.popUntil(context, (route) => route.isFirst);
   }
-  // String title;
-  // List<String> users;
-  // DateTime finishDate;
-  // List<Map<String, dynamic>> productList;
-  // bool active;
 
   _showDeleteDialog(String product) {
     showDialog(

@@ -123,10 +123,7 @@ class _ProductSelectorState extends State<ProductSelector> {
               ),
             ),
             StreamBuilder<Object>(
-                stream: Firestore.instance
-                    .collection("products")
-                    // .where("addedBy", isLessThan: userID)
-                    .snapshots(),
+                stream: Firestore.instance.collection("products").snapshots(),
                 builder: (context, snapshot) {
                   if (!snapshot.hasData) return SizedBox();
                   List<Product> productOthersList = [];

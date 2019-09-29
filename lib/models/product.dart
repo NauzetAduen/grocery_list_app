@@ -9,7 +9,6 @@ class Product {
   String addedBy;
   int used;
   String category;
-  //String photoURL;
 
   factory Product.fromJson(Map<String, dynamic> json) =>
       _$ProductFromJson(json);

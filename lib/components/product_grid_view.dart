@@ -10,7 +10,6 @@ class ProductGridView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Product product = Product.fromJson(document.data);
-    // String name = document['name'];
     return GestureDetector(
       onTap: () => _showDialog(context, product),
       child: Card(
