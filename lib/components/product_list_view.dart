@@ -173,7 +173,7 @@ class _ProductListViewState extends State<ProductListView> {
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     _formKey.currentState.save();
-                    // _updateMagnitude(product, magnitude, _controller.text);
+                    _updateMagnitude(product, magnitude, _controller.text);
                     Navigator.pop(context);
                   }
                 },
@@ -218,16 +218,16 @@ class _ProductListViewState extends State<ProductListView> {
         });
   }
 
-  // _updateMagnitude(String product, String magnitude, String newMagnitude) {
-  //   Firestore.instance.runTransaction((Transaction transaction) async {
-  //     DocumentSnapshot snapshot = await transaction.get(reference);
-  //     List<Map<String, dynamic>> newList = widget.myList.productList;
-  //     newList.removeWhere((prodc) => prodc.containsValue(product));
-  //     newList.add(
-  //         {'productName': '$product', 'productMagnitude': '$newMagnitude'});
-  //     await transaction.update(snapshot.reference, {"productList": newList});
-  //   });
-  // }
+  _updateMagnitude(String product, String magnitude, String newMagnitude) {
+    Firestore.instance.runTransaction((Transaction transaction) async {
+      DocumentSnapshot snapshot = await transaction.get(reference);
+      List<Map<String, dynamic>> newList = productList;
+      newList.removeWhere((prodc) => prodc.containsValue(product));
+      newList.add(
+          {'productName': '$product', 'productMagnitude': '$newMagnitude'});
+      await transaction.update(snapshot.reference, {"productList": newList});
+    });
+  }
 
   _deleteProductFromList(String product) {
     Firestore.instance.runTransaction((Transaction transaction) async {
