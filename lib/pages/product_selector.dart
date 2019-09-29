@@ -130,6 +130,7 @@ class _ProductSelectorState extends State<ProductSelector> {
                     // .where("addedBy", isLessThan: userID)
                     .snapshots(),
                 builder: (context, snapshot) {
+                  if (!snapshot.hasData) return SizedBox();
                   List<Product> productOthersList = [];
                   QuerySnapshot q = snapshot.data;
                   q.documents.forEach((doc) {
