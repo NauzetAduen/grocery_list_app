@@ -17,6 +17,7 @@ class ProductListView extends StatefulWidget {
 
 class _ProductListViewState extends State<ProductListView> {
   DocumentReference reference;
+  List<Map<String, dynamic>> productList = [];
 
   @override
   void initState() {
@@ -42,7 +43,7 @@ class _ProductListViewState extends State<ProductListView> {
           case ConnectionState.active:
             gl = GroceryList.fromJsonFull(snapshot.data.data);
         }
-        print(gl.title);
+        productList = gl.productList;
         return Scaffold(
           appBar: LeadingAppbar(
             Text("${gl.title}"),
@@ -208,7 +209,7 @@ class _ProductListViewState extends State<ProductListView> {
               FlatButton(
                 child: Text("OK"),
                 onPressed: () {
-                  // _deleteProductFromList(product);
+                  _deleteProductFromList(product);
                   Navigator.pop(context);
                 },
               ),
@@ -228,14 +229,14 @@ class _ProductListViewState extends State<ProductListView> {
   //   });
   // }
 
-  // _deleteProductFromList(String product) {
-  //   Firestore.instance.runTransaction((Transaction transaction) async {
-  //     DocumentSnapshot snapshot = await transaction.get(reference);
-  //     List<Map<String, dynamic>> newList = widget.myList.productList;
-  //     newList.removeWhere((prodc) => prodc.containsValue(product));
-  //     await transaction.update(snapshot.reference, {"productList": newList});
-  //   });
-  // }
+  _deleteProductFromList(String product) {
+    Firestore.instance.runTransaction((Transaction transaction) async {
+      DocumentSnapshot snapshot = await transaction.get(reference);
+      List<Map<String, dynamic>> newList = productList;
+      newList.removeWhere((prodc) => prodc.containsValue(product));
+      await transaction.update(snapshot.reference, {"productList": newList});
+    });
+  }
 
   _goToProductListView(List<Map<String, dynamic>> productList) {
     Navigator.push(
