@@ -49,12 +49,6 @@ class _ProductListViewState extends State<ProductListView> {
             Text("${gl.title}"),
             actions: <Widget>[
               IconButton(
-                icon: Icon(FontAwesomeIcons.plus),
-                onPressed: () {
-                  _goToProductListView(gl.productList);
-                },
-              ),
-              IconButton(
                 icon: Icon(FontAwesomeIcons.check),
                 onPressed: () {
                   _showFinishDialog(gl);
@@ -67,6 +61,12 @@ class _ProductListViewState extends State<ProductListView> {
             shrinkWrap: true,
             children: <Widget>[
               UserRow(gl.users),
+              FlatButton(
+                child: Text("+ Add new product"),
+                onPressed: () {
+                  _goToProductListView();
+                },
+              ),
               ListView.builder(
                 physics: ScrollPhysics(),
                 shrinkWrap: true,
@@ -246,7 +246,7 @@ class _ProductListViewState extends State<ProductListView> {
     });
   }
 
-  _goToProductListView(List<Map<String, dynamic>> productList) {
+  _goToProductListView() {
     Navigator.push(
         context,
         CupertinoPageRoute(
