@@ -141,7 +141,7 @@ class _ProductListViewState extends State<ProductListView> {
                   onPressed: () {
                     _finishList();
                     _createNewList(gl);
-                    Navigator.popUntil(context, (route) => route.isFirst);
+                    Navigator.pop(context);
                   }),
             ],
           );
@@ -194,6 +194,7 @@ class _ProductListViewState extends State<ProductListView> {
   _createNewList(GroceryList oldGroceryList) {
     GroceryList newGroceryList = GroceryList.fromOther(oldGroceryList);
     Firestore.instance.collection("lists").add(newGroceryList.toJson());
+    Navigator.popUntil(context, (route) => route.isFirst);
   }
   // String title;
   // List<String> users;
