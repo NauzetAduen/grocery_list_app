@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/custom_appbar.dart';
 import 'package:grocery_list_app/components/grocery_list_streambuilder.dart';
@@ -63,6 +61,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
+            //TODO add new group functionality
             print("Pressed");
           },
           backgroundColor: Style.green,

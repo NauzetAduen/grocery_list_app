@@ -2,9 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
-import 'package:grocery_list_app/components/product_grid_view.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
 import 'package:grocery_list_app/models/product.dart';
 import 'package:grocery_list_app/pages/new_product.dart';
@@ -189,31 +187,6 @@ class _ProductSelectorState extends State<ProductSelector> {
         duration: Duration(milliseconds: 4000),
       ));
     }
-  }
-
-  Color _getColor(List<Map<String, dynamic>> list, String productName) {
-    bool found = false;
-    list.forEach((doc) {
-      if (doc['productName'].toString().toLowerCase() ==
-          productName.toLowerCase()) {
-        found = true;
-        return;
-      }
-    });
-    if (found) return Colors.grey;
-    return Colors.red;
-  }
-
-  bool _isAdded(List<Map<String, dynamic>> list, String productName) {
-    bool found = false;
-    list.forEach((doc) {
-      if (doc['productName'].toString().toLowerCase() ==
-          productName.toLowerCase()) {
-        found = true;
-        return;
-      }
-    });
-    return found;
   }
 
   _showMagnitudeDialog(String product) {
