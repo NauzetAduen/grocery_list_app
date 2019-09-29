@@ -52,8 +52,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     print("Creating new group");
     _currentStep = 0;
     final _formKey = GlobalKey<FormState>();
-    List<String> users = [];
-    String groupName = "";
+    // List<String> users = [];
+    // String groupName = "";
 
     TextEditingController _controller = TextEditingController();
 
@@ -81,7 +81,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           if (_formKey.currentState.validate()) {
                             _formKey.currentState.save();
                             setState(() {
-                              groupName = _controller.text;
+                              // groupName = _controller.text;
                               _currentStep = 1;
                             });
                           }
