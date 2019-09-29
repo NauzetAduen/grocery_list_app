@@ -20,4 +20,12 @@ class GroceryList {
   factory GroceryList.fromJsonFull(Map<String, dynamic> object) {
     return GroceryList.fromJson(json.decode(json.encode(object)));
   }
+  factory GroceryList.fromOther(GroceryList old) {
+    return GroceryList(
+        title: old.title,
+        users: old.users,
+        finishDate: DateTime.now(),
+        productList: [],
+        active: true);
+  }
 }
