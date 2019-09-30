@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/custom_appbar.dart';
 import 'package:grocery_list_app/components/grocery_list_streambuilder.dart';
+import 'package:grocery_list_app/pages/new_group.dart';
 import 'package:provider/provider.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -61,8 +62,8 @@ class _HomePageScreenState extends State<HomePageScreen> {
       ),
       floatingActionButton: FloatingActionButton(
           onPressed: () {
-            //TODO add new group functionality
-            print("Pressed");
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => NewGroupScreen()));
           },
           backgroundColor: Style.green,
           child: Center(
