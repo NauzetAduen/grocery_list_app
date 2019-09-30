@@ -66,7 +66,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
       for (DocumentSnapshot document in doc.documents) {
         User user = User.fromJson(document.data);
         print("${user.username} : $value");
-        if (user.username == value) {
+        if (user.username == value || user.phoneNumber == value) {
           setState(() {
             users.add(user);
             userFound = true;
@@ -83,7 +83,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
 
   bool isAlreadyOnList(String value) {
     for (User user in users) {
-      if (user.username == value) return true;
+      if (user.username == value || user.phoneNumber == value) return true;
     }
     return false;
   }
