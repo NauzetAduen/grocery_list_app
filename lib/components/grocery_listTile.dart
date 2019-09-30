@@ -28,7 +28,6 @@ class GroceryListTile extends StatelessWidget {
               ? null
               : Text(DateHelper.getStringFromDate(gl.finishDate)),
           onTap: () {
-            print(gl.title);
             Navigator.push(
                 context,
                 CupertinoPageRoute(
