@@ -7,8 +7,9 @@ class User {
   String id;
   String photoURL;
   String username;
+  String phoneNumber;
 
-  User({this.id, this.photoURL, this.username});
+  User({this.id, this.photoURL, this.username, this.phoneNumber});
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
   Map<String, dynamic> toJson() => _$UserToJson(this);
 }
