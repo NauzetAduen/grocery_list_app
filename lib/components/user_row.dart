@@ -43,15 +43,3 @@ class UserRow extends StatelessWidget {
             }));
   }
 }
-
-//  CircleAvatar(
-//           child: IconButton(
-//             icon: const Icon(
-//               FontAwesomeIcons.plus,
-//               size: 20,
-//             ),
-//             onPressed: () {
-//               print("ADD NEW TO FUCKING GRUP");
-//             },
-//           ),
-//         ),
