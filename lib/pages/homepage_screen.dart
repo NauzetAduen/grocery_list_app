@@ -31,13 +31,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
               decoration: BoxDecoration(color: Style.green),
             ),
             ListTile(
-              title: Text("Item 1"),
+              title: Text("Logout"),
             ),
             ListTile(
-              title: Text("Item 2"),
-            ),
-            ListTile(
-              title: Text("Item 3"),
+              title: Text("check product list"),
             ),
           ],
         ),
