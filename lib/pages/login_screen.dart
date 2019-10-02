@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
 import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/custom_appbar.dart';
+import 'package:grocery_list_app/utils/validator_helper.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -71,6 +72,7 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   _showDialog() {
+    final _formKey = GlobalKey<FormState>();
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -81,25 +83,44 @@ class _LoginScreenState extends State<LoginScreen> {
               style: Style.welcomeStyle,
               textAlign: TextAlign.center,
             ),
-            content: TextField(
-              decoration: InputDecoration(
-                icon: Icon(Icons.phone),
-                errorText: _controller.text.isEmpty ? "Please" : null,
+            content: Form(
+              key: _formKey,
+              child: TextFormField(
+                style: Style.addPhoneTextFieldStyle,
+                cursorColor: Style.whiteYellow,
+                validator: ValidatorHelper.genericEmptyValidator,
+                decoration: InputDecoration(
+                  prefixIcon: Icon(
+                    Icons.phone,
+                    color: Style.whiteYellow,
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Style.whiteYellow)),
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Style.lightYellow)),
+                  fillColor: Colors.yellow,
+                  focusColor: Colors.blue,
+                  hoverColor: Colors.white,
+                ),
+                controller: _controller,
+                keyboardType: TextInputType.phone,
               ),
-              controller: _controller,
-              keyboardType: TextInputType.phone,
             ),
             actions: <Widget>[
               RaisedButton(
+                color: Style.darkYellow,
                 onPressed: () {
-                  setState(() {
-                    phoneNo = _controller.text;
-                    verifyPhone();
-                  });
+                  if (_formKey.currentState.validate()) {
+                    _formKey.currentState.save();
+                    setState(() {
+                      phoneNo = _controller.text;
+                      verifyPhone();
+                    });
+                  }
                 },
-                child: Text(
-                  "Try",
-                  style: TextStyle(color: Colors.white),
+                child: Icon(
+                  FontAwesomeIcons.check,
+                  color: Style.whiteYellow,
                 ),
               )
             ],
