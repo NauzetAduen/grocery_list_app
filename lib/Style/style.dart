@@ -29,4 +29,6 @@ class Style {
   );
   static final TextStyle appbarStyle =
       TextStyle(fontWeight: FontWeight.bold, fontSize: 30);
+  static final TextStyle addPhoneTextFieldStyle =
+      TextStyle(fontSize: 22, color: whiteYellow);
 }
