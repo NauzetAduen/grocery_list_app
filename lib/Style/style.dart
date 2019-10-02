@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class Style {
   // Colors
+  //https://coolors.co/003049-d62828-f77f00-fcbf49-eae2b7
   static final Color green = Color(0xff84E0A1);
   static final Color darkBlue = Color(0xFF003049);
   static final Color darkRed = Color(0xFFd62828);
