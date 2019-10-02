@@ -26,7 +26,6 @@ class _NewProductState extends State<NewProduct> {
 
   @override
   Widget build(BuildContext context) {
-    print(_category);
     return Scaffold(
         key: _scaffoldKey,
         appBar: LeadingAppbar(Text("New product")),
