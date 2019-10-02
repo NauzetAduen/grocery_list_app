@@ -31,4 +31,10 @@ class Style {
       TextStyle(fontWeight: FontWeight.bold, fontSize: 30);
   static final TextStyle addPhoneTextFieldStyle =
       TextStyle(fontSize: 22, color: whiteYellow);
+  static final TextStyle hintLoginNumberTextStyle = TextStyle(
+    fontSize: 16,
+    color: Colors.blueGrey,
+  );
+  static final TextStyle dialogActionsTextStyle =
+      TextStyle(color: whiteYellow, fontSize: 15);
 }
