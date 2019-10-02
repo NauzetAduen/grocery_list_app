@@ -10,7 +10,7 @@ class CustomAppbar extends AppBar {
   final bool centerTitle = true;
 
   @override
-  final Color backgroundColor = Style.green;
+  final Color backgroundColor = Style.lightYellow;
 
   @override
   final List<Widget> actions;
