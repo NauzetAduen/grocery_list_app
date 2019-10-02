@@ -16,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String smsOTP;
   String verificationId;
   String errorMessage = '';
+  final _formKey = GlobalKey<FormState>();
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   TextEditingController _controller = TextEditingController();
@@ -38,6 +39,32 @@ class _LoginScreenState extends State<LoginScreen> {
                   ], style: Style.welcomeStyle),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 60),
+                child: Form(
+                  key: _formKey,
+                  child: TextFormField(
+                    textAlign: TextAlign.center,
+                    style: Style.addPhoneTextFieldStyle,
+                    cursorColor: Style.whiteYellow,
+                    validator: ValidatorHelper.genericEmptyValidator,
+                    decoration: InputDecoration(
+                      hintText: "Enter your phone number",
+                      hintStyle: Style.hintLoginNumberTextStyle,
+                      prefixIcon: Icon(
+                        Icons.phone,
+                        color: Style.whiteYellow,
+                      ),
+                      enabledBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Style.whiteYellow)),
+                      focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Style.lightYellow)),
+                    ),
+                    controller: _controller,
+                    keyboardType: TextInputType.phone,
+                  ),
+                ),
+              ),
               RaisedButton(
                 elevation: 22,
                 shape: RoundedRectangleBorder(
@@ -45,70 +72,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 padding: EdgeInsets.all(15),
                 color: Style.whiteYellow,
-                onPressed: () {
-                  _showDialog();
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Icon(
-                      Icons.phonelink_setup,
-                      size: 24,
-                      color: Style.darkRed,
-                    ),
-                    SizedBox(
-                      width: 10,
-                    ),
-                    Text(
-                      "Phone number",
-                      style: Style.addphoneButtonTextStyle,
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ));
-  }
-
-  _showDialog() {
-    final _formKey = GlobalKey<FormState>();
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Style.darkBlue,
-            title: Text(
-              "Add your number",
-              style: Style.welcomeStyle,
-              textAlign: TextAlign.center,
-            ),
-            content: Form(
-              key: _formKey,
-              child: TextFormField(
-                style: Style.addPhoneTextFieldStyle,
-                cursorColor: Style.whiteYellow,
-                validator: ValidatorHelper.genericEmptyValidator,
-                decoration: InputDecoration(
-                  prefixIcon: Icon(
-                    Icons.phone,
-                    color: Style.whiteYellow,
-                  ),
-                  enabledBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Style.whiteYellow)),
-                  focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Style.lightYellow)),
-                  fillColor: Colors.yellow,
-                  focusColor: Colors.blue,
-                  hoverColor: Colors.white,
-                ),
-                controller: _controller,
-                keyboardType: TextInputType.phone,
-              ),
-            ),
-            actions: <Widget>[
-              RaisedButton(
-                color: Style.darkYellow,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     _formKey.currentState.save();
@@ -118,14 +81,27 @@ class _LoginScreenState extends State<LoginScreen> {
                     });
                   }
                 },
-                child: Icon(
-                  FontAwesomeIcons.check,
-                  color: Style.whiteYellow,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(
+                      FontAwesomeIcons.check,
+                      size: 24,
+                      color: Style.darkRed,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Sign Up",
+                      style: Style.addphoneButtonTextStyle,
+                    ),
+                  ],
                 ),
-              )
+              ),
             ],
-          );
-        });
+          ),
+        ));
   }
 
   Future<void> verifyPhone() async {
@@ -163,11 +139,27 @@ class _LoginScreenState extends State<LoginScreen> {
         barrierDismissible: false,
         builder: (BuildContext context) {
           return new AlertDialog(
-            title: Text('Enter SMS Code'),
+            backgroundColor: Style.darkBlue,
+            title: Text(
+              'Enter SMS Code',
+              style: Style.addPhoneTextFieldStyle,
+            ),
             content: Container(
               height: 85,
               child: Column(children: [
                 TextField(
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(
+                      Icons.confirmation_number,
+                      color: Style.whiteYellow,
+                    ),
+                    hintText: "Enter the code that you received",
+                    hintStyle: Style.hintLoginNumberTextStyle,
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Style.whiteYellow)),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Style.lightYellow)),
+                  ),
                   onChanged: (value) {
                     this.smsOTP = value;
                   },
@@ -183,7 +175,18 @@ class _LoginScreenState extends State<LoginScreen> {
             contentPadding: EdgeInsets.all(10),
             actions: <Widget>[
               FlatButton(
-                child: Text('Done'),
+                color: Style.darkRed,
+                child: Text(
+                  "Cancel",
+                  style: Style.dialogActionsTextStyle,
+                ),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+              FlatButton(
+                color: Style.darkYellow,
+                child: Text('Done', style: Style.dialogActionsTextStyle),
                 onPressed: () {
                   _auth.currentUser().then((user) {
                     if (user != null) {
