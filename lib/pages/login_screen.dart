@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:gradient_widgets/gradient_widgets.dart';
+import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/custom_appbar.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -16,88 +18,93 @@ class _LoginScreenState extends State<LoginScreen> {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   TextEditingController _controller = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: CustomAppbar(Text("Login")),
-        body: SingleChildScrollView(
+        backgroundColor: Style.darkBlue,
+        body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              GradientButton(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text("Log In"),
-                    Icon(Icons.person),
-                  ],
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 60),
+                child: RichText(
+                  textAlign: TextAlign.center,
+                  text: TextSpan(children: <TextSpan>[
+                    TextSpan(text: "Wellcome to "),
+                    TextSpan(
+                        text: "GroceryListApp", style: Style.welcomeBiggerStyle)
+                  ], style: Style.welcomeStyle),
                 ),
-                callback: () {
-                  print("Log IN Pressed");
-                },
               ),
-              GradientButton(
+              RaisedButton(
+                elevation: 22,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(35),
+                ),
+                padding: EdgeInsets.all(15),
+                color: Style.whiteYellow,
+                onPressed: () {
+                  _showDialog();
+                },
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  mainAxisSize: MainAxisSize.min,
                   children: <Widget>[
-                    Text("Sign In"),
-                    Icon(Icons.account_box),
+                    Icon(
+                      Icons.phonelink_setup,
+                      size: 24,
+                      color: Style.darkRed,
+                    ),
+                    SizedBox(
+                      width: 10,
+                    ),
+                    Text(
+                      "Phone number",
+                      style: Style.addphoneButtonTextStyle,
+                    ),
                   ],
                 ),
-                callback: () {
-                  print("Sign Pressed");
-                },
-              ),
-              GradientButton(
-                elevation: 10,
-                increaseWidthBy: 50,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Text("Add your phone"),
-                    Icon(Icons.phone),
-                  ],
-                ),
-                callback: () {
-                  showDialog(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return AlertDialog(
-                          title: Text(
-                            "test2",
-                            textAlign: TextAlign.center,
-                          ),
-                          content: ListTile(
-                            leading: Icon(Icons.phone),
-                            title: TextField(
-                              controller: _controller,
-                              keyboardType: TextInputType.phone,
-                            ),
-                          ),
-                          actions: <Widget>[
-                            RaisedButton(
-                              onPressed: () {
-                                setState(() {
-                                  // phoneNumber = "+34" + _controller.text;
-                                  phoneNo = _controller.text;
-                                  print("Phone --> $phoneNo");
-                                  verifyPhone();
-                                });
-                              },
-                              child: Text(
-                                "Try",
-                                style: TextStyle(color: Colors.white),
-                              ),
-                            )
-                          ],
-                        );
-                      });
-                },
               ),
             ],
           ),
         ));
+  }
+
+  _showDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.darkBlue,
+            title: Text(
+              "Add your number",
+              style: Style.welcomeStyle,
+              textAlign: TextAlign.center,
+            ),
+            content: TextField(
+              decoration: InputDecoration(
+                icon: Icon(Icons.phone),
+                errorText: _controller.text.isEmpty ? "Please" : null,
+              ),
+              controller: _controller,
+              keyboardType: TextInputType.phone,
+            ),
+            actions: <Widget>[
+              RaisedButton(
+                onPressed: () {
+                  setState(() {
+                    phoneNo = _controller.text;
+                    verifyPhone();
+                  });
+                },
+                child: Text(
+                  "Try",
+                  style: TextStyle(color: Colors.white),
+                ),
+              )
+            ],
+          );
+        });
   }
 
   Future<void> verifyPhone() async {
