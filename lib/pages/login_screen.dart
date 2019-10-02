@@ -32,7 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: RichText(
                   textAlign: TextAlign.center,
                   text: TextSpan(children: <TextSpan>[
-                    TextSpan(text: "Wellcome to "),
+                    TextSpan(text: "Welcome to "),
                     TextSpan(
                         text: "GroceryListApp", style: Style.welcomeBiggerStyle)
                   ], style: Style.welcomeStyle),
