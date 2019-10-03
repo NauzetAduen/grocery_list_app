@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/product_list_view.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
@@ -32,7 +31,7 @@ class GroceryListTile extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: <Widget>[
                       Icon(
-                        FontAwesomeIcons.user,
+                        Icons.group,
                         color: Style.darkRed,
                         size: 12,
                       ),
