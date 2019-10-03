@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
 import 'package:grocery_list_app/components/user_row.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
@@ -45,11 +46,17 @@ class _ProductListViewState extends State<ProductListView> {
         }
         productList = gl.productList;
         return Scaffold(
+          backgroundColor: Style.darkBlue,
           appBar: LeadingAppbar(
-            Text("${gl.title}"),
+            Text(
+              "${gl.title}",
+              style: Style.appbarStyle,
+            ),
             actions: <Widget>[
               IconButton(
-                icon: Icon(FontAwesomeIcons.check),
+                icon: Icon(
+                  FontAwesomeIcons.check,
+                ),
                 onPressed: () {
                   _showFinishDialog(gl);
                 },
@@ -60,7 +67,10 @@ class _ProductListViewState extends State<ProductListView> {
             physics: ScrollPhysics(),
             shrinkWrap: true,
             children: <Widget>[
-              UserRow(gl.users),
+              Padding(
+                padding: const EdgeInsets.only(top: 15, left: 15),
+                child: UserRow(gl.users),
+              ),
               FlatButton(
                 child: Text("+ Add new product"),
                 onPressed: () {
