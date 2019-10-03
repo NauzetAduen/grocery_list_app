@@ -92,4 +92,7 @@ class Style {
     fontFamily: nunito,
     fontSize: 20,
   );
+
+  static final TextStyle fabTextStyle =
+      TextStyle(fontFamily: nunito, fontSize: 13, fontWeight: FontWeight.bold);
 }

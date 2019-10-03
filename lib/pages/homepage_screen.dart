@@ -83,6 +83,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
           child: Center(
               child: Text(
             "New group",
+            style: Style.fabTextStyle,
             textAlign: TextAlign.center,
           ))),
     );
