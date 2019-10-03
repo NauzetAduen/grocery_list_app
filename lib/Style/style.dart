@@ -61,15 +61,14 @@ class Style {
   );
 
   static final TextStyle groceryListTileTextStyle = TextStyle(
-      fontFamily: nunito,
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
-      fontSize: 25,
-      letterSpacing: 3);
+    fontFamily: nunito,
+    color: Colors.black,
+    fontWeight: FontWeight.bold,
+    fontSize: 25,
+  );
   static final TextStyle groceryListTileInactiveTextStyle = TextStyle(
     color: Colors.black,
     fontSize: 20,
-    letterSpacing: 3,
     fontFamily: nunito,
   );
   static final TextStyle grocerylistTitleTextStyle = TextStyle(
