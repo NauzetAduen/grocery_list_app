@@ -73,12 +73,13 @@ class _HomePageScreenState extends State<HomePageScreen> {
           GroceryListStreamBuilder(userID: userID, active: false),
         ],
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: FloatingActionButton(
           onPressed: () {
             Navigator.push(context,
                 MaterialPageRoute(builder: (context) => NewGroupScreen()));
           },
-          backgroundColor: Style.green,
+          backgroundColor: Style.darkYellow,
           child: Center(
               child: Text(
             "New group",
