@@ -14,6 +14,7 @@ class Style {
   static final String nunito = "Nunito";
 
   static final TextStyle listTitleTextStyle = TextStyle(
+    color: darkYellow,
     fontWeight: FontWeight.bold,
     fontSize: 24,
     fontFamily: nunito,
