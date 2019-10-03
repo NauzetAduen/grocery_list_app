@@ -65,7 +65,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
           GroceryListStreamBuilder(userID: userID, active: true),
           Align(
             child: Text(
-              "Innactive",
+              "Inactive",
               style: Style.grocerylistTitleTextStyle,
             ),
             alignment: Alignment.center,

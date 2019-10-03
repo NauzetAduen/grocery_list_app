@@ -43,7 +43,7 @@ class Style {
       fontWeight: FontWeight.bold,
       fontSize: 25,
       letterSpacing: 7);
-  static final TextStyle groceryListTileInnactiveTextStyle =
+  static final TextStyle groceryListTileInactiveTextStyle =
       TextStyle(color: Colors.black, fontSize: 20, letterSpacing: 7);
   static final TextStyle grocerylistTitleTextStyle = TextStyle(
     color: darkYellow,
@@ -58,5 +58,8 @@ class Style {
   static final TextStyle shopingCardTextStyle = TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
+  );
+  static final TextStyle shopingCardInactiveTextStyle = TextStyle(
+    fontSize: 20,
   );
 }

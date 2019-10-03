@@ -51,7 +51,7 @@ class GroceryListTile extends StatelessWidget {
             gl.title,
             style: gl.active
                 ? Style.groceryListTileTextStyle
-                : Style.groceryListTileInnactiveTextStyle,
+                : Style.groceryListTileInactiveTextStyle,
           ),
           trailing: Row(
             mainAxisSize: MainAxisSize.min,
@@ -60,9 +60,14 @@ class GroceryListTile extends StatelessWidget {
                 Icons.shopping_cart,
                 color: Style.darkYellow,
               ),
+              SizedBox(
+                width: 5,
+              ),
               Text(
                 gl.productList.length.toString(),
-                style: Style.shopingCardTextStyle,
+                style: gl.active
+                    ? Style.shopingCardTextStyle
+                    : Style.shopingCardInactiveTextStyle,
               )
             ],
           ),
