@@ -23,12 +23,13 @@ class _HomePageScreenState extends State<HomePageScreen> {
     userID = Provider.of<FirebaseUser>(context).uid;
 
     return Scaffold(
+      backgroundColor: Style.darkBlue,
       drawer: Drawer(
         child: ListView(
           children: <Widget>[
             DrawerHeader(
               child: Text("Options"),
-              decoration: BoxDecoration(color: Style.green),
+              decoration: BoxDecoration(color: Style.lightYellow),
             ),
             ListTile(
               title: Text("Logout"),
@@ -43,18 +44,30 @@ class _HomePageScreenState extends State<HomePageScreen> {
         ),
       ),
       appBar: CustomAppbar(
-        Text("Home"),
+        Text(
+          "Home",
+          style: Style.appbarStyle,
+        ),
       ),
       body: ListView(
         shrinkWrap: true,
         children: <Widget>[
-          Align(
-            child: Text("active"),
-            alignment: Alignment.center,
+          Padding(
+            padding: const EdgeInsets.only(top: 15),
+            child: Align(
+              child: Text(
+                "Active",
+                style: Style.grocerylistTitleTextStyle,
+              ),
+              alignment: Alignment.center,
+            ),
           ),
           GroceryListStreamBuilder(userID: userID, active: true),
           Align(
-            child: Text("Innactive"),
+            child: Text(
+              "Innactive",
+              style: Style.grocerylistTitleTextStyle,
+            ),
             alignment: Alignment.center,
           ),
           GroceryListStreamBuilder(userID: userID, active: false),

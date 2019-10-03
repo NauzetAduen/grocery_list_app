@@ -37,4 +37,26 @@ class Style {
   );
   static final TextStyle dialogActionsTextStyle =
       TextStyle(color: whiteYellow, fontSize: 15);
+
+  static final TextStyle groceryListTileTextStyle = TextStyle(
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+      fontSize: 25,
+      letterSpacing: 7);
+  static final TextStyle groceryListTileInnactiveTextStyle =
+      TextStyle(color: Colors.black, fontSize: 20, letterSpacing: 7);
+  static final TextStyle grocerylistTitleTextStyle = TextStyle(
+    color: darkYellow,
+    fontWeight: FontWeight.bold,
+    fontSize: 30,
+  );
+
+  static final TextStyle groceryListTyleUserCountTextStyle = TextStyle(
+    fontSize: 15,
+  );
+
+  static final TextStyle shopingCardTextStyle = TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  );
 }
