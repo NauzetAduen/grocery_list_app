@@ -33,7 +33,7 @@ class GroceryListTile extends StatelessWidget {
                       Icon(
                         Icons.group,
                         color: Style.darkRed,
-                        size: 12,
+                        size: 16,
                       ),
                       SizedBox(
                         width: 5,
