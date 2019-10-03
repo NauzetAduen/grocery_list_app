@@ -25,22 +25,25 @@ class _HomePageScreenState extends State<HomePageScreen> {
     return Scaffold(
       backgroundColor: Style.darkBlue,
       drawer: Drawer(
-        child: ListView(
-          children: <Widget>[
-            DrawerHeader(
-              child: Text("Options"),
-              decoration: BoxDecoration(color: Style.lightYellow),
-            ),
-            ListTile(
-              title: Text("Logout"),
-            ),
-            ListTile(
-              title: Text("check product list"),
-            ),
-            ListTile(
-              title: Text("Change username"),
-            ),
-          ],
+        child: Container(
+          color: Style.darkBlue,
+          child: ListView(
+            children: <Widget>[
+              DrawerHeader(
+                child: Text("Options"),
+                decoration: BoxDecoration(color: Style.lightYellow),
+              ),
+              ListTile(
+                title: Text("Logout"),
+              ),
+              ListTile(
+                title: Text("check product list"),
+              ),
+              ListTile(
+                title: Text("Change username"),
+              ),
+            ],
+          ),
         ),
       ),
       appBar: CustomAppbar(
