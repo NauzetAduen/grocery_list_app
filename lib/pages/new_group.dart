@@ -6,6 +6,7 @@ import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
 import 'package:grocery_list_app/models/user.dart';
+import 'package:grocery_list_app/utils/validator_helper.dart';
 import 'package:provider/provider.dart';
 
 class NewGroupScreen extends StatefulWidget {
@@ -22,26 +23,44 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Style.darkBlue,
       key: _scaffoldKey,
-      appBar: LeadingAppbar(Text("New group")),
-      body: Column(
+      appBar: LeadingAppbar(Text(
+        "New group",
+        style: Style.appbarStyle,
+      )),
+      body: ListView(
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.all(15.0),
-            child: TextField(
-              onSubmitted: (value) {
+            padding: const EdgeInsets.all(25.0),
+            child: TextFormField(
+              validator: ValidatorHelper.genericEmptyValidator,
+              cursorColor: Style.whiteYellow,
+              style: Style.addPhoneTextFieldStyle,
+              onFieldSubmitted: (value) {
                 setState(() {
                   groupName = value;
                 });
               },
               decoration: InputDecoration(
-                  hintText: "Add a group name",
-                  errorText: groupName.isNotEmpty ? null : "Cant be empty"),
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Style.whiteYellow)),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Style.lightYellow)),
+                prefixIcon: Icon(
+                  Icons.text_fields,
+                  color: Style.whiteYellow,
+                ),
+                hintStyle: Style.hintLoginNumberTextStyle,
+                hintText: "Add a group name",
+              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.all(15.0),
+            padding: const EdgeInsets.all(25.0),
             child: TextField(
+              style: Style.addPhoneTextFieldStyle,
+              cursorColor: Style.whiteYellow,
               onSubmitted: (value) {
                 _isValid = value.isEmpty ? false : true;
                 if (_isValid) {
@@ -49,32 +68,51 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
                 }
               },
               decoration: InputDecoration(
-                  hintText: "Write a number or an username",
-                  errorText: _isValid ? null : "Can't be empty"),
+                prefixIcon: Icon(
+                  FontAwesomeIcons.user,
+                  color: Style.whiteYellow,
+                ),
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Style.whiteYellow)),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Style.lightYellow)),
+                hintStyle: Style.hintLoginNumberTextStyle,
+                hintText: "Enter a number or an username",
+              ),
             ),
           ),
           Text(
             "Current users",
             style: Style.listTitleTextStyle,
+            textAlign: TextAlign.center,
           ),
           ListView.builder(
             shrinkWrap: true,
             itemCount: users.length,
             itemBuilder: (context, index) {
-              return ListTile(
-                leading: CircleAvatar(
-                  backgroundImage: NetworkImage(
-                    "${users[index].photoURL}",
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ListTile(
+                  leading: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      "${users[index].photoURL}",
+                    ),
                   ),
-                ),
-                title: Text("${users[index].username}"),
-                trailing: IconButton(
-                  icon: Icon(Icons.delete),
-                  onPressed: () {
-                    setState(() {
-                      users.removeAt(index);
-                    });
-                  },
+                  title: Text(
+                    "${users[index].username}",
+                    style: Style.addPhoneTextFieldStyle,
+                  ),
+                  trailing: IconButton(
+                    icon: Icon(
+                      Icons.remove,
+                      color: Style.darkRed,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        users.removeAt(index);
+                      });
+                    },
+                  ),
                 ),
               );
             },
@@ -83,6 +121,7 @@ class _NewGroupScreenState extends State<NewGroupScreen> {
       ),
       floatingActionButton: showFAB()
           ? FloatingActionButton(
+              backgroundColor: Style.darkYellow,
               child: Icon(FontAwesomeIcons.check),
               onPressed: () {
                 if (groupName.isNotEmpty && users.isNotEmpty) {
