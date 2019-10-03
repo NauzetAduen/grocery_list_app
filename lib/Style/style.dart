@@ -10,56 +10,87 @@ class Style {
   static final Color lightYellow = Color(0xFFfcbf49);
   static final Color whiteYellow = Color(0xFFeae2b7);
 
-  static final TextStyle listTitleTextStyle =
-      TextStyle(fontWeight: FontWeight.bold, fontSize: 24);
+  //fonts
+  static final String nunito = "Nunito";
 
-  static final TextStyle currentUsersListTitle =
-      TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.blue);
+  static final TextStyle listTitleTextStyle = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 24,
+    fontFamily: nunito,
+  );
+
+  static final TextStyle currentUsersListTitle = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 25,
+    color: Colors.blue,
+    fontFamily: nunito,
+  );
   static final TextStyle addphoneButtonTextStyle =
       TextStyle(fontWeight: FontWeight.bold, fontSize: 25, color: Colors.black);
   static final TextStyle welcomeStyle = TextStyle(
+    fontFamily: nunito,
     fontWeight: FontWeight.bold,
     fontSize: 25,
     color: whiteYellow,
   );
   static final TextStyle welcomeBiggerStyle = TextStyle(
+    fontFamily: nunito,
     fontWeight: FontWeight.bold,
     fontSize: 30,
     color: whiteYellow,
   );
-  static final TextStyle appbarStyle =
-      TextStyle(fontWeight: FontWeight.bold, fontSize: 30);
-  static final TextStyle addPhoneTextFieldStyle =
-      TextStyle(fontSize: 22, color: whiteYellow);
+  static final TextStyle appbarStyle = TextStyle(
+    fontWeight: FontWeight.bold,
+    fontSize: 30,
+    fontFamily: nunito,
+  );
+  static final TextStyle addPhoneTextFieldStyle = TextStyle(
+    fontSize: 22,
+    color: whiteYellow,
+    fontFamily: nunito,
+  );
   static final TextStyle hintLoginNumberTextStyle = TextStyle(
+    fontFamily: nunito,
     fontSize: 16,
     color: Colors.blueGrey,
   );
-  static final TextStyle dialogActionsTextStyle =
-      TextStyle(color: whiteYellow, fontSize: 15);
+  static final TextStyle dialogActionsTextStyle = TextStyle(
+    color: whiteYellow,
+    fontSize: 15,
+    fontFamily: nunito,
+  );
 
   static final TextStyle groceryListTileTextStyle = TextStyle(
+      fontFamily: nunito,
       color: Colors.black,
       fontWeight: FontWeight.bold,
       fontSize: 25,
-      letterSpacing: 7);
-  static final TextStyle groceryListTileInactiveTextStyle =
-      TextStyle(color: Colors.black, fontSize: 20, letterSpacing: 7);
+      letterSpacing: 3);
+  static final TextStyle groceryListTileInactiveTextStyle = TextStyle(
+    color: Colors.black,
+    fontSize: 20,
+    letterSpacing: 3,
+    fontFamily: nunito,
+  );
   static final TextStyle grocerylistTitleTextStyle = TextStyle(
+    fontFamily: nunito,
     color: darkYellow,
     fontWeight: FontWeight.bold,
     fontSize: 30,
   );
 
   static final TextStyle groceryListTyleUserCountTextStyle = TextStyle(
+    fontFamily: nunito,
     fontSize: 15,
   );
 
   static final TextStyle shopingCardTextStyle = TextStyle(
+    fontFamily: nunito,
     fontSize: 20,
     fontWeight: FontWeight.bold,
   );
   static final TextStyle shopingCardInactiveTextStyle = TextStyle(
+    fontFamily: nunito,
     fontSize: 20,
   );
 }
