@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,6 +9,7 @@ import 'package:grocery_list_app/components/user_row.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
 import 'package:grocery_list_app/pages/product_selector.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
+import 'package:provider/provider.dart';
 
 class ProductListView extends StatefulWidget {
   final String documentID;
@@ -60,7 +62,38 @@ class _ProductListViewState extends State<ProductListView> {
                 onPressed: () {
                   _showFinishDialog(gl);
                 },
-              )
+              ),
+              Theme(
+                  data: Theme.of(context).copyWith(
+                      cardColor: Style.lightYellow,
+                      iconTheme: IconThemeData(color: Colors.white)),
+                  child: PopupMenuButton<String>(
+                    itemBuilder: (BuildContext contest) {
+                      return <PopupMenuItem<String>>[
+                        PopupMenuItem(
+                          child: ListTile(
+                            onTap: () {
+                              print("ADD TO GROUP");
+                            },
+                            leading: Icon(Icons.group_add),
+                            title: Text('Add user to group',
+                                style: Style.popupItemTextStyle),
+                          ),
+                        ),
+                        PopupMenuItem(
+                          child: ListTile(
+                            onTap: () {
+                              Navigator.pop(context);
+                              _showDialogLeaveGroup(gl);
+                            },
+                            leading: Icon(Icons.remove_circle_outline),
+                            title: Text('Leave the group',
+                                style: Style.popupItemTextStyle),
+                          ),
+                        ),
+                      ];
+                    },
+                  )),
             ],
           ),
           body: ListView(
@@ -149,7 +182,6 @@ class _ProductListViewState extends State<ProductListView> {
                   onPressed: () {
                     _finishList();
                     _createNewList(gl);
-                    Navigator.pop(context);
                   }),
             ],
           );
@@ -249,10 +281,45 @@ class _ProductListViewState extends State<ProductListView> {
     });
   }
 
+  _leaveGroup(List<String> users) {
+    Firestore.instance.runTransaction((Transaction transaction) async {
+      DocumentSnapshot snapshot = await transaction.get(reference);
+      List<String> newUserList = users;
+      newUserList.removeWhere(
+          (item) => item == Provider.of<FirebaseUser>(context).uid);
+      await transaction.update(snapshot.reference, {"users": newUserList});
+      Navigator.popUntil(context, (route) => route.isFirst);
+    });
+  }
+
   _goToProductListView() {
     Navigator.push(
         context,
         CupertinoPageRoute(
             builder: (context) => ProductSelector(widget.documentID)));
+  }
+
+  _showDialogLeaveGroup(GroceryList groceryList) {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            content: Text("Are you sure you want to leave this group?"),
+            title: Text("Leaving ${groceryList.title} ..."),
+            actions: <Widget>[
+              FlatButton(
+                onPressed: () => Navigator.pop(context),
+                child: Text("No"),
+              ),
+              FlatButton(
+                onPressed: () {
+                  _leaveGroup(groceryList.users);
+                  Navigator.pop(context);
+                },
+                child: Text("Yes"),
+              ),
+            ],
+          );
+        });
   }
 }
