@@ -106,4 +106,9 @@ class Style {
 
   static final TextStyle dialogTextStyle =
       TextStyle(fontFamily: nunito, fontSize: 16, color: whiteYellow);
+  static final TextStyle subtitleProductTextStyle = TextStyle(
+      fontFamily: nunito,
+      fontSize: 14,
+      color: Colors.black,
+      fontStyle: FontStyle.italic);
 }
