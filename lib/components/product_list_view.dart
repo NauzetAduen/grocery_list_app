@@ -73,7 +73,7 @@ class _ProductListViewState extends State<ProductListView> {
                         PopupMenuItem(
                           child: ListTile(
                             onTap: () {
-                              print("ADD TO GROUP");
+                              _showUserDialog();
                             },
                             leading: Icon(Icons.group_add),
                             title: Text('Add user to group',
@@ -123,30 +123,40 @@ class _ProductListViewState extends State<ProductListView> {
                   String mag = item['productMagnitude'];
                   return Padding(
                       padding: const EdgeInsets.symmetric(
-                          horizontal: 12, vertical: 8),
+                          horizontal: 15, vertical: 8),
                       child: Material(
-                          borderRadius: BorderRadius.circular(15),
-                          color: Colors.yellow,
+                          borderRadius: BorderRadius.circular(30),
+                          color: Style.whiteYellow,
                           elevation: 10,
                           child: Container(
                               decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(15)),
                               child: Builder(
                                   builder: (context) => ListTile(
-                                        title: Text("$pro : $mag"),
+                                        title: Text(
+                                          "$pro",
+                                          style: Style.groceryListTileTextStyle,
+                                        ),
+                                        subtitle: Text("$mag",
+                                            style:
+                                                Style.subtitleProductTextStyle),
                                         trailing: Row(
                                           mainAxisSize: MainAxisSize.min,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
                                           children: <Widget>[
                                             IconButton(
-                                              icon: Icon(Icons.edit),
+                                              icon: Icon(
+                                                Icons.edit,
+                                                color: Style.darkYellow,
+                                              ),
                                               onPressed: () {
                                                 _editMagnitude(pro, mag);
                                               },
                                             ),
                                             IconButton(
-                                              icon: Icon(Icons.delete),
+                                              icon: Icon(
+                                                Icons.delete,
+                                                color: Style.darkRed,
+                                              ),
                                               onPressed: () {
                                                 _showDeleteDialog(pro);
                                               },
@@ -200,6 +210,27 @@ class _ProductListViewState extends State<ProductListView> {
         });
   }
 
+  _showUserDialog() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.darkBlue,
+            title: Text(
+              "Hola",
+              style: Style.addPhoneTextFieldStyle,
+            ),
+            content: Text("Adios"),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("Cancel", style: Style.dialogTextStyle),
+                onPressed: () => Navigator.pop(context),
+              ),
+            ],
+          );
+        });
+  }
+
   _showEditingDialog(String product, String magnitude) {
     TextEditingController _controller = TextEditingController();
     final _formKey = GlobalKey<FormState>();
@@ -207,21 +238,41 @@ class _ProductListViewState extends State<ProductListView> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Editing $product $magnitude"),
+            backgroundColor: Style.darkBlue,
+            title: Text(
+              "Editing $product $magnitude",
+              style: Style.addPhoneTextFieldStyle,
+            ),
             content: Form(
               key: _formKey,
               child: TextFormField(
+                decoration: InputDecoration(
+                  hintText: "Enter new magnitude",
+                  hintStyle: Style.hintLoginNumberTextStyle,
+                  prefixIcon: Icon(
+                    Icons.swap_horiz,
+                    color: Style.whiteYellow,
+                  ),
+                  enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Style.whiteYellow)),
+                  focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Style.lightYellow)),
+                ),
+                style: Style.addPhoneTextFieldStyle,
+                cursorColor: Style.whiteYellow,
                 controller: _controller,
                 validator: ValidatorHelper.editingMagnitudeValidator,
               ),
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text("Cancel"),
+                color: Style.darkRed,
+                child: Text("Cancel", style: Style.dialogTextStyle),
                 onPressed: () => Navigator.pop(context),
               ),
               FlatButton(
-                child: Text("OK"),
+                color: Style.darkYellow,
+                child: Text("OK", style: Style.dialogTextStyle),
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     _formKey.currentState.save();
@@ -254,16 +305,22 @@ class _ProductListViewState extends State<ProductListView> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
+            backgroundColor: Style.darkBlue,
             content: Text("Do you want to remove $product from this list?",
                 style: Style.dialogTextStyle),
-            title: Text("Removing $product"),
+            title: Text(
+              "Removing $product",
+              style: Style.addPhoneTextFieldStyle,
+            ),
             actions: <Widget>[
               FlatButton(
-                child: Text("Cancel"),
+                color: Style.darkRed,
+                child: Text("Cancel", style: Style.dialogTextStyle),
                 onPressed: () => Navigator.pop(context),
               ),
               FlatButton(
-                child: Text("OK"),
+                color: Style.darkYellow,
+                child: Text("OK", style: Style.dialogTextStyle),
                 onPressed: () {
                   _deleteProductFromList(product);
                   Navigator.pop(context);
