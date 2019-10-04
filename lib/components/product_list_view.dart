@@ -105,7 +105,10 @@ class _ProductListViewState extends State<ProductListView> {
                 child: UserRow(gl.users),
               ),
               FlatButton(
-                child: Text("+ Add new product"),
+                child: Text(
+                  "+ Add new product",
+                  style: Style.grocerylistTitleTextStyle,
+                ),
                 onPressed: () {
                   _goToProductListView();
                 },
