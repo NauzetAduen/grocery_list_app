@@ -7,6 +7,7 @@ import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
 import 'package:grocery_list_app/components/user_row.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
+import 'package:grocery_list_app/models/user.dart';
 import 'package:grocery_list_app/pages/product_selector.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
 import 'package:provider/provider.dart';
@@ -21,6 +22,8 @@ class ProductListView extends StatefulWidget {
 class _ProductListViewState extends State<ProductListView> {
   DocumentReference reference;
   List<Map<String, dynamic>> productList = [];
+  String errorMessage = "";
+  List<User> users = [];
 
   @override
   void initState() {
@@ -48,6 +51,17 @@ class _ProductListViewState extends State<ProductListView> {
         }
         productList = gl.productList;
         return Scaffold(
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerFloat,
+          floatingActionButton: FloatingActionButton(
+            backgroundColor: Style.darkYellow,
+            onPressed: () {
+              _goToProductListView();
+            },
+            child: Icon(
+              FontAwesomeIcons.plus,
+            ),
+          ),
           backgroundColor: Style.darkBlue,
           appBar: LeadingAppbar(
             Text(
@@ -63,37 +77,37 @@ class _ProductListViewState extends State<ProductListView> {
                   _showFinishDialog(gl);
                 },
               ),
-              Theme(
-                  data: Theme.of(context).copyWith(
-                      cardColor: Style.lightYellow,
-                      iconTheme: IconThemeData(color: Colors.white)),
-                  child: PopupMenuButton<String>(
-                    itemBuilder: (BuildContext contest) {
-                      return <PopupMenuItem<String>>[
-                        PopupMenuItem(
-                          child: ListTile(
-                            onTap: () {
-                              _showUserDialog();
-                            },
-                            leading: Icon(Icons.group_add),
-                            title: Text('Add user to group',
-                                style: Style.popupItemTextStyle),
-                          ),
-                        ),
-                        PopupMenuItem(
-                          child: ListTile(
-                            onTap: () {
-                              Navigator.pop(context);
-                              _showDialogLeaveGroup(gl);
-                            },
-                            leading: Icon(Icons.remove_circle_outline),
-                            title: Text('Leave the group',
-                                style: Style.popupItemTextStyle),
-                          ),
-                        ),
-                      ];
-                    },
-                  )),
+              // Theme(
+              //     data: Theme.of(context).copyWith(
+              //         cardColor: Style.lightYellow,
+              //         iconTheme: IconThemeData(color: Colors.white)),
+              //     child: PopupMenuButton<String>(
+              //       itemBuilder: (BuildContext contest) {
+              //         return <PopupMenuItem<String>>[
+              //           PopupMenuItem(
+              //             child: ListTile(
+              //               onTap: () {
+              //                 _showUserDialog(gl);
+              //               },
+              //               leading: Icon(Icons.group_add),
+              //               title: Text('Add user to group',
+              //                   style: Style.popupItemTextStyle),
+              //             ),
+              //           ),
+              //           PopupMenuItem(
+              //             child: ListTile(
+              //               onTap: () {
+              //                 Navigator.pop(context);
+              //                 _showDialogLeaveGroup(gl);
+              //               },
+              //               leading: Icon(Icons.remove_circle_outline),
+              //               title: Text('Leave the group',
+              //                   style: Style.popupItemTextStyle),
+              //             ),
+              //           ),
+              //         ];
+              //       },
+              //     )),
             ],
           ),
           body: ListView(
@@ -103,15 +117,6 @@ class _ProductListViewState extends State<ProductListView> {
               Padding(
                 padding: const EdgeInsets.only(top: 15, left: 15),
                 child: UserRow(gl.users),
-              ),
-              FlatButton(
-                child: Text(
-                  "+ Add new product",
-                  style: Style.grocerylistTitleTextStyle,
-                ),
-                onPressed: () {
-                  _goToProductListView();
-                },
               ),
               ListView.builder(
                 physics: ScrollPhysics(),
@@ -210,25 +215,83 @@ class _ProductListViewState extends State<ProductListView> {
         });
   }
 
-  _showUserDialog() {
+  _showUserDialog(GroceryList groceryList) {
+    TextEditingController _controller = TextEditingController();
+    Navigator.pop(context);
     showDialog(
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
             backgroundColor: Style.darkBlue,
             title: Text(
-              "Hola",
+              "New user",
               style: Style.addPhoneTextFieldStyle,
             ),
-            content: Text("Adios"),
+            content: Form(
+                child: TextFormField(
+              controller: _controller,
+              style: Style.addPhoneTextFieldStyle,
+              cursorColor: Style.whiteYellow,
+              decoration: InputDecoration(
+                hintText: "Enter a number or an username",
+                hintStyle: Style.hintLoginNumberTextStyle,
+                prefixIcon: Icon(
+                  FontAwesomeIcons.userPlus,
+                  color: Style.whiteYellow,
+                ),
+                enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Style.whiteYellow)),
+                focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Style.lightYellow)),
+              ),
+            )),
             actions: <Widget>[
               FlatButton(
-                child: Text("Cancel", style: Style.dialogTextStyle),
+                color: Style.darkRed,
+                child: Text("Leave", style: Style.dialogTextStyle),
                 onPressed: () => Navigator.pop(context),
+              ),
+              FlatButton(
+                color: Style.darkYellow,
+                child: Text("Add", style: Style.dialogTextStyle),
+                onPressed: () {
+                  // _validate();
+                },
               ),
             ],
           );
         });
+  }
+
+  _validate(String value) {
+    bool userFound = false;
+    if (value == Provider.of<FirebaseUser>(context).uid) {
+      errorMessage = "You cant add yourself";
+      return;
+    }
+    if (isAlreadyOnList(value)) {}
+
+    Firestore.instance.collection('users').getDocuments().then((doc) {
+      for (DocumentSnapshot document in doc.documents) {
+        User user = User.fromJson(document.data);
+        print("${user.username} : $value");
+        if (user.username == value || user.phoneNumber == value) {
+          setState(() {
+            users.add(user);
+            userFound = true;
+          });
+          print(userFound);
+          break;
+        }
+      }
+    });
+  }
+
+  bool isAlreadyOnList(String value) {
+    for (User user in users) {
+      if (user.username == value || user.phoneNumber == value) return true;
+    }
+    return false;
   }
 
   _showEditingDialog(String product, String magnitude) {
