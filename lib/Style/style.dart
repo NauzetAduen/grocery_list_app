@@ -96,4 +96,14 @@ class Style {
 
   static final TextStyle fabTextStyle =
       TextStyle(fontFamily: nunito, fontSize: 13, fontWeight: FontWeight.bold);
+
+  static final TextStyle popupItemTextStyle = TextStyle(
+    fontFamily: nunito,
+    fontSize: 15,
+  );
+  static final TextStyle dialogFlatButtonTextStyle =
+      TextStyle(fontFamily: nunito, fontSize: 18, color: Colors.white);
+
+  static final TextStyle dialogTextStyle =
+      TextStyle(fontFamily: nunito, fontSize: 16, color: whiteYellow);
 }

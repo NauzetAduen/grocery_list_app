@@ -169,16 +169,25 @@ class _ProductListViewState extends State<ProductListView> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Finishing ${gl.title}"),
+            backgroundColor: Style.darkBlue,
+            title: Text("Finishing ${gl.title}",
+                style: Style.addPhoneTextFieldStyle),
             content: Text(
-                "Do you want to finish ${gl.title}?\nA new list will be created"),
+              "Do you want to finish ${gl.title}?\nA new list will be created",
+              style: Style.dialogTextStyle,
+            ),
             actions: <Widget>[
               FlatButton(
-                child: Text("No"),
+                color: Style.darkRed,
+                child: Text("No", style: Style.dialogFlatButtonTextStyle),
                 onPressed: () => Navigator.pop(context),
               ),
               FlatButton(
-                  child: Text("Yes"),
+                  color: Style.darkYellow,
+                  child: Text(
+                    "Yes",
+                    style: Style.dialogFlatButtonTextStyle,
+                  ),
                   onPressed: () {
                     _finishList();
                     _createNewList(gl);
@@ -242,7 +251,8 @@ class _ProductListViewState extends State<ProductListView> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text("Do you want to remove $product from this list?"),
+            content: Text("Do you want to remove $product from this list?",
+                style: Style.dialogTextStyle),
             title: Text("Removing $product"),
             actions: <Widget>[
               FlatButton(
@@ -304,19 +314,29 @@ class _ProductListViewState extends State<ProductListView> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            content: Text("Are you sure you want to leave this group?"),
-            title: Text("Leaving ${groceryList.title} ..."),
+            backgroundColor: Style.darkBlue,
+            content: Text("Are you sure you want to leave this group?",
+                style: Style.dialogTextStyle),
+            title: Text(
+              "Leaving ${groceryList.title} ...",
+              style: Style.addPhoneTextFieldStyle,
+            ),
             actions: <Widget>[
               FlatButton(
+                color: Style.lightYellow,
                 onPressed: () => Navigator.pop(context),
-                child: Text("No"),
+                child: Text("No", style: Style.dialogFlatButtonTextStyle),
               ),
               FlatButton(
+                color: Style.darkRed,
                 onPressed: () {
                   _leaveGroup(groceryList.users);
                   Navigator.pop(context);
                 },
-                child: Text("Yes"),
+                child: Text(
+                  "Yes",
+                  style: Style.dialogFlatButtonTextStyle,
+                ),
               ),
             ],
           );
