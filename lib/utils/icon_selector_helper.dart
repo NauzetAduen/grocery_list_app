@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -72,5 +74,38 @@ class IconBiggerFixedSize extends Icon {
   @override
   final double size = 35;
 
-  IconBiggerFixedSize(IconData icon) : super(icon);
+  IconBiggerFixedSize(IconData icon) : super(icon, color: getRandomColor());
+}
+
+getRandomColor() {
+  Random random = Random();
+  int value = random.nextInt(12);
+  switch (value) {
+    case 0:
+      return Colors.red;
+    case 1:
+      return Colors.green;
+    case 2:
+      return Colors.grey;
+    case 3:
+      return Colors.indigo;
+    case 4:
+      return Colors.lightBlue;
+    case 5:
+      return Colors.orange;
+    case 6:
+      return Colors.pinkAccent;
+    case 7:
+      return Colors.purple;
+    case 8:
+      return Colors.amber;
+    case 9:
+      return Colors.brown;
+    case 10:
+      return Colors.cyan;
+    case 11:
+      return Colors.tealAccent;
+    default:
+      return Colors.black;
+  }
 }
