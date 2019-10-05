@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:gradient_widgets/gradient_widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
 import 'package:grocery_list_app/models/product.dart';
@@ -27,47 +27,65 @@ class _NewProductState extends State<NewProduct> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Style.darkBlue,
         key: _scaffoldKey,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: FloatingActionButton(
+          backgroundColor: Style.darkYellow,
+          onPressed: _validateNewProduct,
+          child: Icon(FontAwesomeIcons.check),
+        ),
         appBar: LeadingAppbar(Text("New product")),
         body: Container(
           child: Form(
             key: _formKey,
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: <Widget>[
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: TextFormField(
-                    controller: _controller,
-                    validator: ValidatorHelper.newProductValidator,
-                    decoration: InputDecoration(
-                        hintText: "Write a product name",
-                        prefixIcon: Icon(Icons.search),
-                        suffixIcon: IconButton(
-                          icon: Icon(Icons.cancel),
-                          onPressed: () {
-                            _controller.clear();
-                          },
-                        )),
-                  ),
-                ),
+                    padding: const EdgeInsets.symmetric(horizontal: 50),
+                    child: TextFormField(
+                      cursorColor: Style.whiteYellow,
+                      controller: _controller,
+                      validator: ValidatorHelper.editingMagnitudeValidator,
+                      style: Style.addPhoneTextFieldStyle,
+                      decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Style.whiteYellow)),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Style.lightYellow)),
+                          hintText: "Enter a product name",
+                          hintStyle: Style.hintLoginNumberTextStyle,
+                          prefixIcon: Icon(
+                            FontAwesomeIcons.productHunt,
+                            color: Style.whiteYellow,
+                          ),
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              Icons.cancel,
+                              color: Style.whiteYellow,
+                            ),
+                            onPressed: () {
+                              _controller.clear();
+                            },
+                          )),
+                    )),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: DropdownButtonFormField<String>(
-                      value: _category,
-                      onChanged: (newValue) {
-                        setState(() {
-                          _category = newValue;
-                        });
-                      },
-                      items: IconSelectorHelper.list),
+                  child: Theme(
+                    data: Theme.of(context).copyWith(
+                        cardColor: Style.whiteYellow,
+                        iconTheme: IconThemeData(color: Style.darkYellow)),
+                    child: DropdownButtonFormField<String>(
+                        value: _category,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _category = newValue;
+                          });
+                        },
+                        items: IconSelectorHelper.list),
+                  ),
                 ),
-                GradientButton(
-                    child: Icon(Icons.check),
-                    callback: () => _validateNewProduct(),
-                    gradient: LinearGradient(
-                      colors: [Colors.green, Style.green],
-                    )),
               ],
             ),
           ),
