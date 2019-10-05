@@ -122,4 +122,9 @@ class Style {
       fontSize: 19,
       color: whiteYellow,
       fontWeight: FontWeight.bold);
+  static final TextStyle drawerUsername = TextStyle(
+      fontFamily: nunito,
+      fontSize: 25,
+      color: darkRed,
+      fontWeight: FontWeight.bold);
 }
