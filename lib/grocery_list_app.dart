@@ -5,7 +5,9 @@ import 'package:grocery_list_app/pages/login_screen.dart';
 import 'package:provider/provider.dart';
 
 class GroceryListApp extends StatelessWidget {
-  const GroceryListApp();
+    
+  final String appName = "Grocery List App";
+  
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
@@ -15,8 +17,9 @@ class GroceryListApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        title: 'GroceryListApp',
+        title: appName,
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(primaryColor: Style.green),
         home: StreamBuilder(
           stream: FirebaseAuth.instance.onAuthStateChanged,
           builder: (BuildContext context, snapshot) {
