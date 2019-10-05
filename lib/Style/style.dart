@@ -114,4 +114,7 @@ class Style {
 
   static final TextStyle gridTextStyle =
       TextStyle(fontFamily: nunito, fontSize: 15);
+
+  static final TextStyle dropDownNewProductTextStyle = TextStyle(
+                  fontFamily: "Nunito", fontSize: 19, color: Colors.black);
 }
