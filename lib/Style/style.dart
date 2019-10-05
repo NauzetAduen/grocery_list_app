@@ -111,4 +111,7 @@ class Style {
       fontSize: 14,
       color: Colors.black,
       fontStyle: FontStyle.italic);
+
+  static final TextStyle gridTextStyle =
+      TextStyle(fontFamily: nunito, fontSize: 15);
 }
