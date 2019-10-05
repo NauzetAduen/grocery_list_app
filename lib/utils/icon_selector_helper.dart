@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:grocery_list_app/Style/style.dart';
 
 class IconSelectorHelper {
   static List<DropdownMenuItem<String>> list = <DropdownMenuItem<String>>[
@@ -50,12 +51,15 @@ class IconSelectorHelper {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.only(left: 25),
+            padding: const EdgeInsets.only(left: 25, right: 25),
             child: icon,
           ),
           Padding(
             padding: const EdgeInsets.only(right: 25),
-            child: Text(value),
+            child: Text(
+              value,
+              style: Style.dropDownNewProductTextStyle,
+            ),
           ),
         ],
       ),
@@ -67,7 +71,7 @@ class IconFixedSize extends Icon {
   @override
   final double size = 18;
 
-  IconFixedSize(IconData icon) : super(icon);
+  IconFixedSize(IconData icon) : super(icon, color: Colors.green);
 }
 
 class IconBiggerFixedSize extends Icon {
