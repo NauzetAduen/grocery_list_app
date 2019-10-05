@@ -274,7 +274,6 @@ class _ProductListViewState extends State<ProductListView> {
     Firestore.instance.collection('users').getDocuments().then((doc) {
       for (DocumentSnapshot document in doc.documents) {
         User user = User.fromJson(document.data);
-        print("${user.username} : $value");
         if (user.username == value || user.phoneNumber == value) {
           setState(() {
             users.add(user);
