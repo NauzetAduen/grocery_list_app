@@ -2,6 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
 import 'package:grocery_list_app/models/grocery_list.dart';
 import 'package:grocery_list_app/models/product.dart';
@@ -33,20 +35,21 @@ class _ProductSelectorState extends State<ProductSelector> {
   @override
   Widget build(BuildContext context) {
     String userID = Provider.of<FirebaseUser>(context).uid;
-
     TextEditingController controller = TextEditingController();
 
     return Scaffold(
+        backgroundColor: Style.darkBlue,
         appBar: LeadingAppbar(
-          Text("Add products"),
+          Text(
+            "Add products",
+            style: Style.appbarStyle,
+          ),
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
         floatingActionButton: MediaQuery.of(context).viewInsets.bottom == 0.0
             ? FloatingActionButton(
-                child: Text(
-                  "New product",
-                  textAlign: TextAlign.center,
-                  textScaleFactor: 0.8,
-                ),
+                backgroundColor: Style.darkYellow,
+                child: Icon(FontAwesomeIcons.plus),
                 onPressed: () {
                   _onPress(context);
                 },
@@ -55,9 +58,13 @@ class _ProductSelectorState extends State<ProductSelector> {
         body: ListView(
           shrinkWrap: true,
           children: <Widget>[
-            Text(
-              "Products added by me",
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Text(
+                "Products added by me",
+                textAlign: TextAlign.center,
+                style: Style.grocerylistTitleTextStyle,
+              ),
             ),
             StreamBuilder<Object>(
                 stream: Firestore.instance
@@ -73,22 +80,20 @@ class _ProductSelectorState extends State<ProductSelector> {
                       shrinkWrap: true,
                       itemCount: documents.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 4),
+                          crossAxisCount: 5),
                       itemBuilder: (BuildContext context, int index) {
                         Product p = Product.fromJson(documents[index].data);
                         return GestureDetector(
                           onTap: () => _showMagnitudeDialog(p.name),
                           child: Card(
-                            color: Colors.red,
+                            color: Style.whiteYellow,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: <Widget>[
                                 IconSelectorHelper.getIcon(p.category),
                                 Text(
                                   p.name,
-                                  style: TextStyle(
-                                    fontSize: 19,
-                                  ),
+                                  style: Style.gridTextStyle,
                                   overflow: TextOverflow.ellipsis,
                                 ),
                               ],
@@ -97,22 +102,41 @@ class _ProductSelectorState extends State<ProductSelector> {
                         );
                       });
                 }),
-            Text(
-              "Search other products",
-              textAlign: TextAlign.center,
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Text(
+                "Search other products",
+                textAlign: TextAlign.center,
+                style: Style.grocerylistTitleTextStyle,
+              ),
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 10),
               child: TextField(
+                cursorColor: Style.whiteYellow,
+                style: Style.addPhoneTextFieldStyle,
                 decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Style.whiteYellow)),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Style.lightYellow)),
+                    hintText: "Enter a product",
+                    hintStyle: Style.hintLoginNumberTextStyle,
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.shoppingBag,
+                      color: Style.whiteYellow,
+                    ),
                     suffixIcon: IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () {
-                    setState(() {
-                      searchText = "";
-                    });
-                  },
-                )),
+                      icon: Icon(
+                        Icons.clear,
+                        color: Style.whiteYellow,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          searchText = "";
+                        });
+                      },
+                    )),
                 controller: controller,
                 onSubmitted: (value) {
                   setState(() {
@@ -144,14 +168,14 @@ class _ProductSelectorState extends State<ProductSelector> {
                         shrinkWrap: true,
                         itemCount: productOthersList.length,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 4),
+                            crossAxisCount: 5),
                         itemBuilder: (BuildContext context, int index) {
                           Product p = productOthersList[index];
 
                           return GestureDetector(
                             onTap: () => _showMagnitudeDialog(p.name),
                             child: Card(
-                              color: Colors.blue,
+                              color: Style.whiteYellow,
                               child: Column(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceEvenly,
@@ -159,9 +183,7 @@ class _ProductSelectorState extends State<ProductSelector> {
                                   IconSelectorHelper.getIcon(p.category),
                                   Text(
                                     p.name,
-                                    style: TextStyle(
-                                      fontSize: 19,
-                                    ),
+                                    style: Style.gridTextStyle,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
@@ -193,21 +215,38 @@ class _ProductSelectorState extends State<ProductSelector> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text("Add a magnitude for $product"),
+            backgroundColor: Style.darkBlue,
+            title: Text("Add a magnitude for $product",
+                style: Style.addPhoneTextFieldStyle),
             content: Form(
-              key: _formKey,
-              child: TextFormField(
-                controller: _controller,
-                validator: ValidatorHelper.editingMagnitudeValidator,
-              ),
-            ),
+                key: _formKey,
+                child: TextFormField(
+                  cursorColor: Style.whiteYellow,
+                  controller: _controller,
+                  validator: ValidatorHelper.editingMagnitudeValidator,
+                  style: Style.addPhoneTextFieldStyle,
+                  decoration: InputDecoration(
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Style.whiteYellow)),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Style.lightYellow)),
+                    hintText: "Enter a magnitude",
+                    hintStyle: Style.hintLoginNumberTextStyle,
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.shoppingBag,
+                      color: Style.whiteYellow,
+                    ),
+                  ),
+                )),
             actions: <Widget>[
               FlatButton(
-                child: Text("Cancel"),
+                color: Style.darkRed,
+                child: Text("Cancel", style: Style.dialogActionsTextStyle),
                 onPressed: () => Navigator.pop(context),
               ),
               FlatButton(
-                child: Text("OK"),
+                color: Style.darkYellow,
+                child: Text("OK", style: Style.dialogActionsTextStyle),
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     _formKey.currentState.save();
