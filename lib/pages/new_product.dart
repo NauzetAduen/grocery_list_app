@@ -73,18 +73,28 @@ class _NewProductState extends State<NewProduct> {
                             },
                           )),
                     )),
-                Theme(
-                  data: ThemeData(
-                      canvasColor: Style.darkBlue, accentColor: Colors.red),
-                  child: DropdownButton<String>(
-                    
-                      value: _category,
-                      onChanged: (newValue) {
-                        setState(() {
-                          _category = newValue;
-                        });
-                      },
-                      items: IconSelectorHelper.list),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 50),
+                  child: Theme(
+                    data: ThemeData(
+                      canvasColor: Style.darkBlue,
+                    ),
+                    child: DropdownButtonFormField<String>(
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Style.whiteYellow)),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Style.lightYellow)),
+                          hintStyle: Style.hintLoginNumberTextStyle,
+                        ),
+                        value: _category,
+                        onChanged: (newValue) {
+                          setState(() {
+                            _category = newValue;
+                          });
+                        },
+                        items: IconSelectorHelper.list),
+                  ),
                 ),
               ],
             ),
