@@ -50,7 +50,7 @@ class _NewProductState extends State<NewProduct> {
                     child: TextFormField(
                       cursorColor: Style.whiteYellow,
                       controller: _controller,
-                      validator: ValidatorHelper.editingMagnitudeValidator,
+                      validator: ValidatorHelper.genericEmptyValidator,
                       style: Style.addPhoneTextFieldStyle,
                       decoration: InputDecoration(
                           enabledBorder: UnderlineInputBorder(
