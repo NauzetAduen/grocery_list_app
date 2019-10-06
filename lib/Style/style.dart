@@ -116,7 +116,7 @@ class Style {
       TextStyle(fontFamily: nunito, fontSize: 15);
 
   static final TextStyle dropDownNewProductTextStyle =
-      TextStyle(fontFamily: nunito, fontSize: 19, color: Colors.black);
+      TextStyle(fontFamily: nunito, fontSize: 19, color: whiteYellow);
   static final TextStyle drawerListTileTextStyle = TextStyle(
       fontFamily: nunito,
       fontSize: 19,

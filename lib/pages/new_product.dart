@@ -35,7 +35,10 @@ class _NewProductState extends State<NewProduct> {
           onPressed: _validateNewProduct,
           child: Icon(FontAwesomeIcons.check),
         ),
-        appBar: LeadingAppbar(Text("New product")),
+        appBar: LeadingAppbar(Text(
+          "New product",
+          style: Style.appbarStyle,
+        )),
         body: Container(
           child: Form(
             key: _formKey,
@@ -70,21 +73,18 @@ class _NewProductState extends State<NewProduct> {
                             },
                           )),
                     )),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 50),
-                  child: Theme(
-                    data: Theme.of(context).copyWith(
-                        cardColor: Style.whiteYellow,
-                        iconTheme: IconThemeData(color: Style.darkYellow)),
-                    child: DropdownButtonFormField<String>(
-                        value: _category,
-                        onChanged: (newValue) {
-                          setState(() {
-                            _category = newValue;
-                          });
-                        },
-                        items: IconSelectorHelper.list),
-                  ),
+                Theme(
+                  data: ThemeData(
+                      canvasColor: Style.darkBlue, accentColor: Colors.red),
+                  child: DropdownButton<String>(
+                    
+                      value: _category,
+                      onChanged: (newValue) {
+                        setState(() {
+                          _category = newValue;
+                        });
+                      },
+                      items: IconSelectorHelper.list),
                 ),
               ],
             ),
