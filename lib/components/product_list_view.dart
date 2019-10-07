@@ -26,6 +26,7 @@ class _ProductListViewState extends State<ProductListView> {
   String errorMessage = "";
   List<User> users = [];
   double labelFontSize = 16;
+  final _newUserFormKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -100,7 +101,7 @@ class _ProductListViewState extends State<ProductListView> {
                   heroTag: "adduser",
                   backgroundColor: Style.darkBlue,
                   onPressed: () {
-                    _showUserDialog(gl);
+                    _showAddUserDialog(gl);
                   },
                   child: Icon(
                     FontAwesomeIcons.userPlus,
@@ -277,7 +278,7 @@ class _ProductListViewState extends State<ProductListView> {
         });
   }
 
-  _showUserDialog(GroceryList groceryList) {
+  _showAddUserDialog(GroceryList groceryList) {
     TextEditingController _controller = TextEditingController();
     showDialog(
         context: context,
@@ -289,23 +290,25 @@ class _ProductListViewState extends State<ProductListView> {
               style: Style.addPhoneTextFieldStyle,
             ),
             content: Form(
+                key: _newUserFormKey,
                 child: TextFormField(
-              controller: _controller,
-              style: Style.addPhoneTextFieldStyle,
-              cursorColor: Style.whiteYellow,
-              decoration: InputDecoration(
-                hintText: "Enter a number or an username",
-                hintStyle: Style.hintLoginNumberTextStyle,
-                prefixIcon: Icon(
-                  FontAwesomeIcons.userPlus,
-                  color: Style.whiteYellow,
-                ),
-                enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Style.whiteYellow)),
-                focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Style.lightYellow)),
-              ),
-            )),
+                  controller: _controller,
+                  style: Style.addPhoneTextFieldStyle,
+                  cursorColor: Style.whiteYellow,
+                  validator: ValidatorHelper.genericEmptyValidator,
+                  decoration: InputDecoration(
+                    hintText: "Enter a number or an username",
+                    hintStyle: Style.hintLoginNumberTextStyle,
+                    prefixIcon: Icon(
+                      FontAwesomeIcons.userPlus,
+                      color: Style.whiteYellow,
+                    ),
+                    enabledBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Style.whiteYellow)),
+                    focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: Style.lightYellow)),
+                  ),
+                )),
             actions: <Widget>[
               FlatButton(
                 color: Style.darkRed,
@@ -316,7 +319,7 @@ class _ProductListViewState extends State<ProductListView> {
                 color: Style.darkYellow,
                 child: Text("Add", style: Style.dialogTextStyle),
                 onPressed: () {
-                  // _validate();
+                  _validate(_controller.text, groceryList);
                 },
               ),
             ],
@@ -324,27 +327,33 @@ class _ProductListViewState extends State<ProductListView> {
         });
   }
 
-  _validate(String value) {
-    bool userFound = false;
-    if (value == Provider.of<FirebaseUser>(context).uid) {
-      errorMessage = "You cant add yourself";
-      return;
-    }
-    if (isAlreadyOnList(value)) {}
+  _validate(String value, GroceryList gl) {
+    bool userExist = false;
+    User userFound;
+    if (_newUserFormKey.currentState.validate()) {
+      if (value == Provider.of<FirebaseUser>(context).uid &&
+          isAlreadyOnList(value)) return;
 
-    Firestore.instance.collection('users').getDocuments().then((doc) {
-      for (DocumentSnapshot document in doc.documents) {
-        User user = User.fromJson(document.data);
-        if (user.username == value || user.phoneNumber == value) {
-          setState(() {
-            users.add(user);
-            userFound = true;
-          });
-          print(userFound);
-          break;
+      Firestore.instance.collection('users').getDocuments().then((doc) {
+        print(doc.documents.length);
+        for (DocumentSnapshot document in doc.documents) {
+          User user = User.fromJson(document.data);
+          if (user.username == value || user.phoneNumber == value) {
+            userExist = true;
+            userFound = user;
+          }
         }
-      }
-    });
+        if (userExist) {
+          List<String> newList = gl.users;
+          newList.add(userFound.id);
+          Firestore.instance.runTransaction((Transaction transaction) async {
+            DocumentSnapshot snapshot = await transaction.get(reference);
+            await transaction.update(snapshot.reference, {"users": newList});
+          });
+          Navigator.pop(context);
+        }
+      });
+    }
   }
 
   bool isAlreadyOnList(String value) {
@@ -524,5 +533,14 @@ class _ProductListViewState extends State<ProductListView> {
             ],
           );
         });
+  }
+
+  List<String> userListToString(List<User> users) {
+    List<String> usersStrings = [];
+    users.forEach((user) {
+      usersStrings.add(user.id);
+    });
+    usersStrings.add(Provider.of<FirebaseUser>(context).uid);
+    return usersStrings;
   }
 }
