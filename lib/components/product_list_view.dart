@@ -58,7 +58,7 @@ class _ProductListViewState extends State<ProductListView> {
           floatingActionButton: UnicornDialer(
             backgroundColor: Colors.transparent,
             parentButtonBackground: Style.darkYellow,
-            animationDuration: 500,
+            animationDuration: 200,
             orientation: UnicornOrientation.VERTICAL,
             parentButton: Icon(Icons.menu),
             childButtons: [
