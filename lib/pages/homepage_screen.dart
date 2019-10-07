@@ -75,6 +75,12 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 },
               ),
               ListTile(
+                title: Text("Logout for testing"),
+                onTap: () {
+                  FirebaseAuth.instance.signOut();
+                },
+              ),
+              ListTile(
                 title: Text(
                   "Change your @Username",
                   style: Style.drawerListTileTextStyle,
