@@ -25,6 +25,7 @@ class _ProductListViewState extends State<ProductListView> {
   List<Map<String, dynamic>> productList = [];
   String errorMessage = "";
   List<User> users = [];
+  double labelFontSize = 16;
 
   @override
   void initState() {
@@ -57,11 +58,13 @@ class _ProductListViewState extends State<ProductListView> {
           floatingActionButton: UnicornDialer(
             backgroundColor: Colors.transparent,
             parentButtonBackground: Style.darkYellow,
+            animationDuration: 500,
             orientation: UnicornOrientation.VERTICAL,
             parentButton: Icon(Icons.menu),
             childButtons: [
               UnicornButton(
                 hasLabel: true,
+                labelFontSize: labelFontSize,
                 labelText: "Add product to list",
                 currentButton: FloatingActionButton(
                   heroTag: "Addproduct",
@@ -77,6 +80,7 @@ class _ProductListViewState extends State<ProductListView> {
               UnicornButton(
                 hasLabel: true,
                 labelText: "Leave group",
+                labelFontSize: labelFontSize,
                 currentButton: FloatingActionButton(
                   heroTag: "Leavegroup",
                   backgroundColor: Style.darkRed,
@@ -90,6 +94,7 @@ class _ProductListViewState extends State<ProductListView> {
               ),
               UnicornButton(
                 hasLabel: true,
+                labelFontSize: labelFontSize,
                 labelText: "Add an user to group",
                 currentButton: FloatingActionButton(
                   heroTag: "adduser",
@@ -103,6 +108,7 @@ class _ProductListViewState extends State<ProductListView> {
                 ),
               ),
               UnicornButton(
+                labelFontSize: labelFontSize,
                 hasLabel: true,
                 labelText: "Finish list",
                 currentButton: FloatingActionButton(
