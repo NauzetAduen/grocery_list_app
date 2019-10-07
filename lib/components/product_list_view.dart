@@ -11,6 +11,7 @@ import 'package:grocery_list_app/models/user.dart';
 import 'package:grocery_list_app/pages/product_selector.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
 import 'package:provider/provider.dart';
+import 'package:unicorndial/unicorndial.dart';
 
 class ProductListView extends StatefulWidget {
   final String documentID;
@@ -53,14 +54,69 @@ class _ProductListViewState extends State<ProductListView> {
         return Scaffold(
           floatingActionButtonLocation:
               FloatingActionButtonLocation.centerFloat,
-          floatingActionButton: FloatingActionButton(
-            backgroundColor: Style.darkYellow,
-            onPressed: () {
-              _goToProductListView();
-            },
-            child: Icon(
-              FontAwesomeIcons.plus,
-            ),
+          floatingActionButton: UnicornDialer(
+            backgroundColor: Colors.transparent,
+            parentButtonBackground: Style.darkYellow,
+            orientation: UnicornOrientation.VERTICAL,
+            parentButton: Icon(Icons.menu),
+            childButtons: [
+              UnicornButton(
+                hasLabel: true,
+                labelText: "Add product to list",
+                currentButton: FloatingActionButton(
+                  heroTag: "Addproduct",
+                  backgroundColor: Style.lightYellow,
+                  onPressed: () {
+                    _goToProductListView();
+                  },
+                  child: Icon(
+                    FontAwesomeIcons.plus,
+                  ),
+                ),
+              ),
+              UnicornButton(
+                hasLabel: true,
+                labelText: "Leave group",
+                currentButton: FloatingActionButton(
+                  heroTag: "Leavegroup",
+                  backgroundColor: Style.darkRed,
+                  onPressed: () {
+                    _showDialogLeaveGroup(gl);
+                  },
+                  child: Icon(
+                    FontAwesomeIcons.userMinus,
+                  ),
+                ),
+              ),
+              UnicornButton(
+                hasLabel: true,
+                labelText: "Add an user to group",
+                currentButton: FloatingActionButton(
+                  heroTag: "adduser",
+                  backgroundColor: Style.darkBlue,
+                  onPressed: () {
+                    _showUserDialog(gl);
+                  },
+                  child: Icon(
+                    FontAwesomeIcons.userPlus,
+                  ),
+                ),
+              ),
+              UnicornButton(
+                hasLabel: true,
+                labelText: "Finish list",
+                currentButton: FloatingActionButton(
+                  heroTag: "finishlist",
+                  backgroundColor: Colors.green,
+                  onPressed: () {
+                    _showFinishDialog(gl);
+                  },
+                  child: Icon(
+                    FontAwesomeIcons.check,
+                  ),
+                ),
+              ),
+            ],
           ),
           backgroundColor: Style.darkBlue,
           appBar: LeadingAppbar(
@@ -68,47 +124,47 @@ class _ProductListViewState extends State<ProductListView> {
               "${gl.title}",
               style: Style.appbarStyle,
             ),
-            actions: <Widget>[
-              IconButton(
-                icon: Icon(
-                  FontAwesomeIcons.check,
-                ),
-                onPressed: () {
-                  _showFinishDialog(gl);
-                },
-              ),
-              // Theme(
-              //     data: Theme.of(context).copyWith(
-              //         cardColor: Style.lightYellow,
-              //         iconTheme: IconThemeData(color: Colors.white)),
-              //     child: PopupMenuButton<String>(
-              //       itemBuilder: (BuildContext contest) {
-              //         return <PopupMenuItem<String>>[
-              //           PopupMenuItem(
-              //             child: ListTile(
-              //               onTap: () {
-              //                 _showUserDialog(gl);
-              //               },
-              //               leading: Icon(Icons.group_add),
-              //               title: Text('Add user to group',
-              //                   style: Style.popupItemTextStyle),
-              //             ),
-              //           ),
-              //           PopupMenuItem(
-              //             child: ListTile(
-              //               onTap: () {
-              //                 Navigator.pop(context);
-              //                 _showDialogLeaveGroup(gl);
-              //               },
-              //               leading: Icon(Icons.remove_circle_outline),
-              //               title: Text('Leave the group',
-              //                   style: Style.popupItemTextStyle),
-              //             ),
-              //           ),
-              //         ];
-              //       },
-              //     )),
-            ],
+            // actions: <Widget>[
+            //   IconButton(
+            //     icon: Icon(
+            //       FontAwesomeIcons.check,
+            //     ),
+            //     onPressed: () {
+            //       _showFinishDialog(gl);
+            //     },
+            //   ),
+            //   // Theme(
+            //   //     data: Theme.of(context).copyWith(
+            //   //         cardColor: Style.lightYellow,
+            //   //         iconTheme: IconThemeData(color: Colors.white)),
+            //   //     child: PopupMenuButton<String>(
+            //   //       itemBuilder: (BuildContext contest) {
+            //   //         return <PopupMenuItem<String>>[
+            //   //           PopupMenuItem(
+            //   //             child: ListTile(
+            //   //               onTap: () {
+            //   //                 _showUserDialog(gl);
+            //   //               },
+            //   //               leading: Icon(Icons.group_add),
+            //   //               title: Text('Add user to group',
+            //   //                   style: Style.popupItemTextStyle),
+            //   //             ),
+            //   //           ),
+            //   //           PopupMenuItem(
+            //   //             child: ListTile(
+            //   //               onTap: () {
+            //   //                 Navigator.pop(context);
+            //   //                 _showDialogLeaveGroup(gl);
+            //   //               },
+            //   //               leading: Icon(Icons.remove_circle_outline),
+            //   //               title: Text('Leave the group',
+            //   //                   style: Style.popupItemTextStyle),
+            //   //             ),
+            //   //           ),
+            //   //         ];
+            //   //       },
+            //   //     )),
+            // ],
           ),
           body: ListView(
             physics: ScrollPhysics(),
@@ -217,7 +273,6 @@ class _ProductListViewState extends State<ProductListView> {
 
   _showUserDialog(GroceryList groceryList) {
     TextEditingController _controller = TextEditingController();
-    Navigator.pop(context);
     showDialog(
         context: context,
         builder: (BuildContext context) {
