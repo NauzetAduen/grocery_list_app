@@ -67,7 +67,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         Align(
                           alignment: Alignment.centerLeft + Alignment(.1, 0),
                           child: Text(
-                            myUser.username,
+                            myUser.username.isNotEmpty
+                                ? myUser.username
+                                : "@username",
                             style: Style.drawerUsername,
                           ),
                         )
@@ -82,12 +84,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
                 onTap: () {
                   FirebaseAuth.instance.signOut();
                 },
-              ),
-              ListTile(
-                title: Text(
-                  "Change your @Username",
-                  style: Style.drawerListTileTextStyle,
-                ),
               ),
               ListTile(
                 title: Text(
