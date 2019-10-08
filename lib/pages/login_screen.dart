@@ -71,7 +71,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   borderRadius: BorderRadius.circular(35),
                 ),
                 padding: EdgeInsets.all(15),
-                color: Style.whiteYellow,
+                color: Style.darkYellow,
                 onPressed: () {
                   if (_formKey.currentState.validate()) {
                     _formKey.currentState.save();
@@ -148,6 +148,7 @@ class _LoginScreenState extends State<LoginScreen> {
               height: 85,
               child: Column(children: [
                 TextField(
+                  style: Style.addPhoneTextFieldStyle,
                   decoration: InputDecoration(
                     prefixIcon: Icon(
                       Icons.confirmation_number,
@@ -193,6 +194,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Navigator.of(context).pop();
                     } else {
                       signIn();
+                      Navigator.of(context).pop();
                     }
                   });
                 },
