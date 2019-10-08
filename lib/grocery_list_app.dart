@@ -23,26 +23,8 @@ class GroceryListApp extends StatelessWidget {
         home: StreamBuilder(
           stream: FirebaseAuth.instance.onAuthStateChanged,
           builder: (BuildContext context, snapshot) {
-            if (snapshot.hasData) {
-              FirebaseUser firebaseUser = snapshot.data;
-              print(firebaseUser.phoneNumber);
-              User dbUser = User(
-                  id: firebaseUser.uid,
-                  phoneNumber: firebaseUser.phoneNumber,
-                  photoURL: firebaseUser.photoUrl ?? "",
-                  username: "");
-              Firestore.instance.collection('users').getDocuments().then((doc) {
-                bool exist = false;
-                doc.documents.forEach((docu) {
-                  User tempUser = User.fromJson(docu.data);
-                  if (tempUser.id == dbUser.id) exist = true;
-                });
-                if (!exist) {
-                  Firestore.instance.collection("users").add(dbUser.toJson());
-                }
-              });
-              return HomePageScreen();
-            }
+            if (snapshot.hasData) return HomePageScreen();
+
             return LoginScreen();
           },
         ),

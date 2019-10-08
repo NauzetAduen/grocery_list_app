@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:grocery_list_app/Style/style.dart';
+import 'package:grocery_list_app/models/user.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -210,6 +212,21 @@ class _LoginScreenState extends State<LoginScreen> {
       final FirebaseUser user = result.user;
       final FirebaseUser currentUser = await _auth.currentUser();
       assert(user.uid == currentUser.uid);
+      User dbUser = User(
+          id: currentUser.uid,
+          phoneNumber: currentUser.phoneNumber,
+          photoURL: currentUser.photoUrl ?? "",
+          username: "");
+      Firestore.instance.collection('users').getDocuments().then((doc) {
+        bool exist = false;
+        doc.documents.forEach((docu) {
+          User tempUser = User.fromJson(docu.data);
+          if (tempUser.id == dbUser.id) exist = true;
+        });
+        if (!exist) {
+          Firestore.instance.collection("users").add(dbUser.toJson());
+        }
+      });
     } catch (e) {
       handleError(e);
     }
