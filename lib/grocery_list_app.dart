@@ -1,7 +1,5 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:grocery_list_app/models/user.dart';
 import 'package:grocery_list_app/pages/homepage_screen.dart';
 import 'package:grocery_list_app/pages/login_screen.dart';
 import 'package:provider/provider.dart';
