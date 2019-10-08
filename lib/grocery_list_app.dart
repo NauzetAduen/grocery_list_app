@@ -1,5 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:grocery_list_app/models/user.dart';
 import 'package:grocery_list_app/pages/homepage_screen.dart';
 import 'package:grocery_list_app/pages/login_screen.dart';
 import 'package:provider/provider.dart';
@@ -21,7 +23,26 @@ class GroceryListApp extends StatelessWidget {
         home: StreamBuilder(
           stream: FirebaseAuth.instance.onAuthStateChanged,
           builder: (BuildContext context, snapshot) {
-            if (snapshot.hasData) return HomePageScreen();
+            if (snapshot.hasData) {
+              FirebaseUser firebaseUser = snapshot.data;
+              print(firebaseUser.phoneNumber);
+              User dbUser = User(
+                  id: firebaseUser.uid,
+                  phoneNumber: firebaseUser.phoneNumber,
+                  photoURL: firebaseUser.photoUrl ?? "",
+                  username: "");
+              Firestore.instance.collection('users').getDocuments().then((doc) {
+                bool exist = false;
+                doc.documents.forEach((docu) {
+                  User tempUser = User.fromJson(docu.data);
+                  if (tempUser.id == dbUser.id) exist = true;
+                });
+                if (!exist) {
+                  Firestore.instance.collection("users").add(dbUser.toJson());
+                }
+              });
+              return HomePageScreen();
+            }
             return LoginScreen();
           },
         ),
