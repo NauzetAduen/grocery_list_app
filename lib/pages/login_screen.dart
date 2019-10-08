@@ -210,8 +210,6 @@ class _LoginScreenState extends State<LoginScreen> {
       final FirebaseUser user = result.user;
       final FirebaseUser currentUser = await _auth.currentUser();
       assert(user.uid == currentUser.uid);
-      // Navigator.of(context).pop();
-      // Navigator.of(context).pushReplacementNamed('/homepage');
     } catch (e) {
       handleError(e);
     }
