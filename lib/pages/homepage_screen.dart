@@ -57,7 +57,10 @@ class _HomePageScreenState extends State<HomePageScreen> {
                         Align(
                           child: CircleAvatar(
                             radius: 50,
-                            backgroundImage: NetworkImage(myUser.photoURL),
+                            backgroundImage: myUser.photoURL.isEmpty
+                                ? AssetImage(
+                                    "assets/images/defaultprofilepicture.jpg")
+                                : NetworkImage(myUser.photoURL),
                           ),
                           alignment: Alignment.centerRight,
                         ),
