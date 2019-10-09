@@ -191,7 +191,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
   void _showNewUserNameDialog() {
     TextEditingController _controller = TextEditingController();
     final _formKey = GlobalKey<FormState>();
-    print("new username dialog");
     showDialog(
         context: context,
         builder: (BuildContext context) {

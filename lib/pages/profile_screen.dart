@@ -16,7 +16,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
     for (int i = 0; i < 20; i++) {
       actives.add(false);
     }
-    print(actives.length);
   }
 
   @override
@@ -49,7 +48,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void _createNewGroup(BuildContext context) {
-    print("Creating new group");
     _currentStep = 0;
     final _formKey = GlobalKey<FormState>();
     // List<String> users = [];

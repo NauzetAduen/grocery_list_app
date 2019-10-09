@@ -335,7 +335,6 @@ class _ProductListViewState extends State<ProductListView> {
           isAlreadyOnList(value)) return;
 
       Firestore.instance.collection('users').getDocuments().then((doc) {
-        print(doc.documents.length);
         for (DocumentSnapshot document in doc.documents) {
           User user = User.fromJson(document.data);
           if (user.username == value || user.phoneNumber == value) {

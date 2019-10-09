@@ -141,7 +141,6 @@ class _ProductSelectorState extends State<ProductSelector> {
                 onSubmitted: (value) {
                   setState(() {
                     searchText = value;
-                    print(searchText.toString());
                   });
                 },
               ),

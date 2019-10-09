@@ -107,9 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> verifyPhone() async {
     final PhoneCodeSent smsOTPSent = (String verId, [int forceCodeResend]) {
       this.verificationId = verId;
-      smsOTPDialog(context).then((value) {
-        print('sign in');
-      });
+      smsOTPDialog(context).then((value) {});
     };
     try {
       await _auth.verifyPhoneNumber(
@@ -122,12 +120,8 @@ class _LoginScreenState extends State<LoginScreen> {
           codeSent:
               smsOTPSent, // WHEN CODE SENT THEN WE OPEN DIALOG TO ENTER OTP.
           timeout: const Duration(seconds: 20),
-          verificationCompleted: (AuthCredential phoneAuthCredential) {
-            print(phoneAuthCredential);
-          },
-          verificationFailed: (AuthException exceptio) {
-            print('${exceptio.message}');
-          });
+          verificationCompleted: (AuthCredential phoneAuthCredential) {},
+          verificationFailed: (AuthException exceptio) {});
     } catch (e) {
       handleError(e);
     }
@@ -235,7 +229,6 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   handleError(dynamic error) {
-    print(error);
     switch (error.code) {
       case 'ERROR_INVALID_VERIFICATION_CODE':
         FocusScope.of(context).requestFocus(new FocusNode());
@@ -243,9 +236,7 @@ class _LoginScreenState extends State<LoginScreen> {
           errorMessage = 'Invalid Code';
         });
         Navigator.of(context).pop();
-        smsOTPDialog(context).then((value) {
-          print('sign in');
-        });
+        smsOTPDialog(context).then((value) {});
         break;
       default:
         setState(() {
