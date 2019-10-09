@@ -55,46 +55,53 @@ class _HomePageScreenState extends State<HomePageScreen> {
                       break;
                     }
                   }
-                  return DrawerHeader(
-                    child: Stack(
-                      children: <Widget>[
-                        Align(
-                          child: CircleAvatar(
-                            radius: 50,
-                            backgroundImage: myUser.photoURL.isEmpty
-                                ? AssetImage(
-                                    "assets/images/defaultprofilepicture.jpg")
-                                : NetworkImage(myUser.photoURL),
+                  return StreamBuilder<Object>(
+                      stream: Firestore.instance
+                          .collection("users")
+                          .document(documentID)
+                          .snapshots(),
+                      builder: (context, snapshot) {
+                        if (!snapshot.hasData)
+                          return CircularProgressIndicator();
+                        DocumentSnapshot snap = snapshot.data;
+                        User myUser = User.fromJson(snap.data);
+                        return DrawerHeader(
+                          child: Stack(
+                            children: <Widget>[
+                              Align(
+                                child: CircleAvatar(
+                                  radius: 50,
+                                  backgroundImage: myUser.photoURL.isEmpty
+                                      ? AssetImage(
+                                          "assets/images/defaultprofilepicture.jpg")
+                                      : NetworkImage(myUser.photoURL),
+                                ),
+                                alignment: Alignment.centerRight,
+                              ),
+                              Align(
+                                  alignment:
+                                      Alignment.centerLeft + Alignment(.1, 0),
+                                  child: Text(
+                                    myUser.username.isNotEmpty
+                                        ? myUser.username
+                                        : "@username",
+                                    style: Style.drawerUsername,
+                                  ))
+                            ],
                           ),
-                          alignment: Alignment.centerRight,
-                        ),
-                        Align(
-                            alignment: Alignment.centerLeft + Alignment(.1, 0),
-                            child: Text(
-                              myUser.username.isNotEmpty
-                                  ? myUser.username
-                                  : "@username",
-                              style: Style.drawerUsername,
-                            ))
-                      ],
-                    ),
-                    decoration: BoxDecoration(color: Style.lightYellow),
-                  );
-                },
-              ),
-              ListTile(
-                title: Text("Logout for testing"),
-                onTap: () {
-                  FirebaseAuth.instance.signOut();
+                          decoration: BoxDecoration(color: Style.lightYellow),
+                        );
+                      });
                 },
               ),
               ListTile(
                 title: Text(
-                  "New product",
-                  style: Style.drawerListTileTextStyle,
+                  "Logout for testing",
+                  style: TextStyle(color: Colors.white, fontSize: 22),
                 ),
-                onTap: () => Navigator.push(context,
-                    CupertinoPageRoute(builder: (context) => NewProduct())),
+                onTap: () {
+                  FirebaseAuth.instance.signOut();
+                },
               ),
               ListTile(
                 title: Text(
@@ -105,9 +112,24 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   _showNewUserNameDialog();
                 },
               ),
+              ListTile(
+                title: Text(
+                  "Edit @picture",
+                  style: Style.drawerListTileTextStyle,
+                ),
+                onTap: () {},
+              ),
               Divider(
                 color: Style.whiteYellow,
                 thickness: 2,
+              ),
+              ListTile(
+                title: Text(
+                  "New product",
+                  style: Style.drawerListTileTextStyle,
+                ),
+                onTap: () => Navigator.push(context,
+                    CupertinoPageRoute(builder: (context) => NewProduct())),
               ),
               ListTile(
                 onTap: () {
