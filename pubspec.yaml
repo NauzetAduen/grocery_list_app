@@ -25,7 +25,6 @@ dependencies:
   provider:
   font_awesome_flutter:
   json_annotation:
-  page_view_indicators: ^1.2.0
   firebase_auth:
   unicorndial: ^1.1.5
   firebase_storage:
