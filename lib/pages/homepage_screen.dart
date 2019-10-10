@@ -29,7 +29,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     userID = Provider.of<FirebaseUser>(context).uid;
 
-    User myUser;
+    // User myUser;
     return Scaffold(
       backgroundColor: Style.darkBlue,
       drawer: Drawer(
@@ -50,7 +50,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   for (int i = 0; i < list.length; i++) {
                     User user = User.fromJson(list[i].data);
                     if (user.id == userID) {
-                      myUser = user;
+                      // myUser = user;
                       documentID = list[i].documentID;
                       break;
                     }
