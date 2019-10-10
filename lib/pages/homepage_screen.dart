@@ -117,7 +117,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   "Edit @picture",
                   style: Style.drawerListTileTextStyle,
                 ),
-                onTap: () {},
+                onTap: () {
+                  _showEditPictureDialog();
+                },
               ),
               Divider(
                 color: Style.whiteYellow,
@@ -186,6 +188,46 @@ class _HomePageScreenState extends State<HomePageScreen> {
           backgroundColor: Style.darkYellow,
           child: Center(child: Icon(FontAwesomeIcons.plus))),
     );
+  }
+
+  void _showEditPictureDialog() {
+    bool cameraMode = false;
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            backgroundColor: Style.darkBlue,
+            content: Row(
+              children: <Widget>[
+                FlatButton(
+                  color: Style.darkRed,
+                  child: Text("Cancel", style: Style.dialogFlatButtonTextStyle),
+                  onPressed: () => Navigator.pop(context),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: FlatButton(
+                    color: Style.darkYellow,
+                    child:
+                        Text("Camera", style: Style.dialogFlatButtonTextStyle),
+                    onPressed: () {
+                      cameraMode = true;
+                    },
+                  ),
+                ),
+                FlatButton(
+                  color: Style.lightYellow,
+                  child:
+                      Text("Gallery", style: Style.dialogFlatButtonTextStyle),
+                  onPressed: () {
+                    cameraMode = false;
+                  },
+                ),
+              ],
+              mainAxisSize: MainAxisSize.min,
+            ),
+          );
+        });
   }
 
   void _showNewUserNameDialog() {
