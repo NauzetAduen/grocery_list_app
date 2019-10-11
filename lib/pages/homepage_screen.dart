@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,9 +9,11 @@ import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/custom_appbar.dart';
 import 'package:grocery_list_app/components/grocery_list_streambuilder.dart';
 import 'package:grocery_list_app/models/user.dart';
+import 'package:grocery_list_app/pages/image_picker_screen.dart';
 import 'package:grocery_list_app/pages/new_group.dart';
 import 'package:grocery_list_app/pages/new_product.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -20,6 +24,7 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreenState extends State<HomePageScreen> {
   String userID;
   String documentID;
+  File _imageFile;
   @override
   void initState() {
     super.initState();
@@ -118,7 +123,11 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   style: Style.drawerListTileTextStyle,
                 ),
                 onTap: () {
-                  _showEditPictureDialog();
+                  // _showEditPictureDialog();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ImagePickerScreen()));
                 },
               ),
               Divider(
@@ -188,46 +197,6 @@ class _HomePageScreenState extends State<HomePageScreen> {
           backgroundColor: Style.darkYellow,
           child: Center(child: Icon(FontAwesomeIcons.plus))),
     );
-  }
-
-  void _showEditPictureDialog() {
-    bool cameraMode = false;
-    showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            backgroundColor: Style.darkBlue,
-            content: Row(
-              children: <Widget>[
-                FlatButton(
-                  color: Style.darkRed,
-                  child: Text("Cancel", style: Style.dialogFlatButtonTextStyle),
-                  onPressed: () => Navigator.pop(context),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 5),
-                  child: FlatButton(
-                    color: Style.darkYellow,
-                    child:
-                        Text("Camera", style: Style.dialogFlatButtonTextStyle),
-                    onPressed: () {
-                      cameraMode = true;
-                    },
-                  ),
-                ),
-                FlatButton(
-                  color: Style.lightYellow,
-                  child:
-                      Text("Gallery", style: Style.dialogFlatButtonTextStyle),
-                  onPressed: () {
-                    cameraMode = false;
-                  },
-                ),
-              ],
-              mainAxisSize: MainAxisSize.min,
-            ),
-          );
-        });
   }
 
   void _showNewUserNameDialog() {
