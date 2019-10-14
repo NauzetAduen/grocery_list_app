@@ -57,6 +57,7 @@ flutter:
   assets:
     - assets/
     - assets/images/defaultprofilepicture.jpg
+    - assets/images/nophotodefault.jpg
   #  - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
