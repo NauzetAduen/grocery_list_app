@@ -115,10 +115,4 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
       _imageFile = selected;
     });
   }
-
-  void _clear() {
-    setState(() {
-      _imageFile = null;
-    });
-  }
 }
