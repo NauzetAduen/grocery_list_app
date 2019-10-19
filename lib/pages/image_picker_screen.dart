@@ -80,9 +80,33 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
               ),
             ],
           ),
+          _imageFile != null
+              ? SizedBox()
+              : FlatButton(
+                  color: Style.darkRed,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(
+                        Icons.cloud_upload,
+                        size: 40,
+                        color: Style.darkBlue,
+                      ),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Text("Upload", style: Style.cameraButtonsTextStyle),
+                    ],
+                  ),
+                  onPressed: _uploadToFireStore,
+                )
         ],
       ),
     );
+  }
+
+  _uploadToFireStore() {
+    print("PRessed");
   }
 
   Future<void> _pickImage(ImageSource source) async {
