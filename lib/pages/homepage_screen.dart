@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,7 +11,6 @@ import 'package:grocery_list_app/pages/image_picker_screen.dart';
 import 'package:grocery_list_app/pages/new_group.dart';
 import 'package:grocery_list_app/pages/new_product.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
 class HomePageScreen extends StatefulWidget {
@@ -24,7 +21,6 @@ class HomePageScreen extends StatefulWidget {
 class _HomePageScreenState extends State<HomePageScreen> {
   String userID;
   String documentID;
-  File _imageFile;
   @override
   void initState() {
     super.initState();
