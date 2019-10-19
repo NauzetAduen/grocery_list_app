@@ -1,8 +1,10 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/leading_appbar.dart';
+import 'package:grocery_list_app/pages/upload_image_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerScreen extends StatefulWidget {
@@ -82,31 +84,31 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
           ),
           _imageFile != null
               ? SizedBox()
-              : FlatButton(
-                  color: Style.darkRed,
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: <Widget>[
-                      Icon(
-                        Icons.cloud_upload,
-                        size: 40,
-                        color: Style.darkBlue,
-                      ),
-                      SizedBox(
-                        width: 10,
-                      ),
-                      Text("Upload", style: Style.cameraButtonsTextStyle),
-                    ],
+              : Hero(
+                  child: FlatButton(
+                    color: Style.darkRed,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Icon(
+                          Icons.cloud_upload,
+                          size: 40,
+                          color: Style.darkBlue,
+                        ),
+                        Text("Firebase", style: Style.cameraButtonsTextStyle),
+                      ],
+                    ),
+                    onPressed: () => Navigator.push(
+                        context,
+                        CupertinoPageRoute(
+                            builder: (context) =>
+                                UploadImageScreen(_imageFile))),
                   ),
-                  onPressed: _uploadToFireStore,
+                  tag: "uploadTag",
                 )
         ],
       ),
     );
-  }
-
-  _uploadToFireStore() {
-    print("PRessed");
   }
 
   Future<void> _pickImage(ImageSource source) async {
