@@ -29,6 +29,7 @@ dependencies:
   unicorndial: ^1.1.5
   firebase_storage:
   image_picker:
+  sleek_circular_slider: ^1.0.7
 
 
   # The following adds the Cupertino Icons font to your application.
