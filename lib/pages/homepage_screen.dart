@@ -62,8 +62,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           .document(documentID)
                           .snapshots(),
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData)
-                          return CircularProgressIndicator();
+                        if (!snapshot.hasData) return SizedBox();
                         DocumentSnapshot snap = snapshot.data;
                         User myUser = User.fromJson(snap.data);
                         return DrawerHeader(
