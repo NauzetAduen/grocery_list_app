@@ -77,3 +77,4 @@
 
 ios/Flutter/flutter_export_environment.sh
 .vscode/launch.json
+lib/utils/storage_helper.dart
