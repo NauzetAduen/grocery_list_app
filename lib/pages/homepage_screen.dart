@@ -122,7 +122,9 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => ImagePickerScreen()));
+                          builder: (context) => ImagePickerScreen(
+                                documentID: documentID,
+                              )));
                 },
               ),
               Divider(

@@ -8,6 +8,9 @@ import 'package:grocery_list_app/pages/upload_image_screen.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ImagePickerScreen extends StatefulWidget {
+  final String documentID;
+
+  const ImagePickerScreen({Key key, this.documentID}) : super(key: key);
   @override
   _ImagePickerScreenState createState() => _ImagePickerScreenState();
 }
@@ -82,29 +85,26 @@ class _ImagePickerScreenState extends State<ImagePickerScreen> {
               ),
             ],
           ),
-          _imageFile != null
+          _imageFile == null
               ? SizedBox()
-              : Hero(
-                  child: FlatButton(
-                    color: Style.darkRed,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Icon(
-                          Icons.cloud_upload,
-                          size: 40,
-                          color: Style.darkBlue,
-                        ),
-                        Text("Firebase", style: Style.cameraButtonsTextStyle),
-                      ],
-                    ),
-                    onPressed: () => Navigator.push(
-                        context,
-                        CupertinoPageRoute(
-                            builder: (context) =>
-                                UploadImageScreen(_imageFile))),
+              : FlatButton(
+                  color: Style.darkRed,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: <Widget>[
+                      Icon(
+                        Icons.cloud_upload,
+                        size: 40,
+                        color: Style.darkBlue,
+                      ),
+                      Text("Firebase", style: Style.cameraButtonsTextStyle),
+                    ],
                   ),
-                  tag: "uploadTag",
+                  onPressed: () => Navigator.push(
+                      context,
+                      CupertinoPageRoute(
+                          builder: (context) => UploadImageScreen(
+                              _imageFile, widget.documentID))),
                 )
         ],
       ),
