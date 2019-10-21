@@ -127,4 +127,10 @@ class Style {
       fontSize: 25,
       color: darkRed,
       fontWeight: FontWeight.bold);
+
+  static final TextStyle cameraButtonsTextStyle = TextStyle(
+      fontFamily: nunito,
+      fontSize: 25,
+      color: darkBlue,
+      fontWeight: FontWeight.bold);
 }

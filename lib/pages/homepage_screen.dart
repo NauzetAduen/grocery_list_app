@@ -7,6 +7,7 @@ import 'package:grocery_list_app/Style/style.dart';
 import 'package:grocery_list_app/components/custom_appbar.dart';
 import 'package:grocery_list_app/components/grocery_list_streambuilder.dart';
 import 'package:grocery_list_app/models/user.dart';
+import 'package:grocery_list_app/pages/image_picker_screen.dart';
 import 'package:grocery_list_app/pages/new_group.dart';
 import 'package:grocery_list_app/pages/new_product.dart';
 import 'package:grocery_list_app/utils/validator_helper.dart';
@@ -29,7 +30,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
   Widget build(BuildContext context) {
     userID = Provider.of<FirebaseUser>(context).uid;
 
-    User myUser;
+    // User myUser;
     return Scaffold(
       backgroundColor: Style.darkBlue,
       drawer: Drawer(
@@ -50,7 +51,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   for (int i = 0; i < list.length; i++) {
                     User user = User.fromJson(list[i].data);
                     if (user.id == userID) {
-                      myUser = user;
+                      // myUser = user;
                       documentID = list[i].documentID;
                       break;
                     }
@@ -61,8 +62,7 @@ class _HomePageScreenState extends State<HomePageScreen> {
                           .document(documentID)
                           .snapshots(),
                       builder: (context, snapshot) {
-                        if (!snapshot.hasData)
-                          return CircularProgressIndicator();
+                        if (!snapshot.hasData) return SizedBox();
                         DocumentSnapshot snap = snapshot.data;
                         User myUser = User.fromJson(snap.data);
                         return DrawerHeader(
@@ -117,7 +117,15 @@ class _HomePageScreenState extends State<HomePageScreen> {
                   "Edit @picture",
                   style: Style.drawerListTileTextStyle,
                 ),
-                onTap: () {},
+                onTap: () {
+                  // _showEditPictureDialog();
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => ImagePickerScreen(
+                                documentID: documentID,
+                              )));
+                },
               ),
               Divider(
                 color: Style.whiteYellow,
