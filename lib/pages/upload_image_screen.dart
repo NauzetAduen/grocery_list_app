@@ -46,22 +46,22 @@ class _UploadImageScreenState extends State<UploadImageScreen> {
                       double progressValue =
                           event.bytesTransferred / event.totalByteCount;
                       if (_uploadTask.isComplete) {
-                        // Firestore.instance
-                        //     .runTransaction((Transaction transaction) async {
-                        //   DocumentReference reference = Firestore.instance
-                        //       .collection("users")
-                        //       .document(widget.documentID);
-                        //   DocumentSnapshot snapshot =
-                        //       await transaction.get(reference);
-                        //   await _storage.ref().getDownloadURL().then((newURL) {
-                        //     print(newURL);
-                        //     transaction.update(
-                        //         snapshot.reference, {"photoURL": newURL});
-                        //   }
-                        //   );
-                        // }).then((onValue) {
-                        //   Navigator.popUntil(context, (route) => route.isFirst);
-                        // });
+                        Firestore.instance
+                            .runTransaction((Transaction transaction) async {
+                          DocumentReference reference = Firestore.instance
+                              .collection("users")
+                              .document(widget.documentID);
+                          DocumentSnapshot snapshot =
+                              await transaction.get(reference);
+                          await _storage.ref().getDownloadURL().then((newURL) {
+                            print(newURL);
+                            transaction.update(
+                                snapshot.reference, {"photoURL": newURL});
+                          });
+                        }).then((onValue) {
+                          print(onValue);
+                          // Navigator.popUntil(context, (route) => route.isFirst);
+                        });
                       }
 
                       return SleekCircularSlider(
